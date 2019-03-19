@@ -15,7 +15,15 @@ class CreateApplicationsTable extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->text('first_name');
+            $table->text('middle_name');
+            $table->text('last_name');
+            $table->smallInteger('status')->default(0);
+            $table->mediumText('description')->nullable();
+
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 

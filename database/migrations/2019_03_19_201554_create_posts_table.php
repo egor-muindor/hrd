@@ -15,7 +15,12 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->text('name');
+            $table->unsignedBigInteger('departament_id');
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('departament_id')->references('id')->on('departaments');
         });
     }
 
