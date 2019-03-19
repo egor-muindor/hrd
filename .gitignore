@@ -4,6 +4,7 @@
 /storage/*.key
 /vendor
 .env
+.env.example
 .env.*.php
 .env.php
 .phpunit.result.cache
@@ -15,4 +16,4 @@ vendor/
 node_modules/
 npm-debug.log
 _ide_helper.php
-
+.editorconfig
