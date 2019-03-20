@@ -13,7 +13,7 @@ class PostsSeeder extends Seeder
     public function run()
     {
         $data = [];
-        for ($i=0; $i<=40; $i++){
+        for ($i=1; $i<=40; $i++){
             $data[] = [
                 'name' => 'Вакансия #'.$i,
                 'departament_id' => random_int(1,10),

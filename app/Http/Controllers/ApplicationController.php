@@ -14,7 +14,8 @@ class ApplicationController extends Controller
      */
     public function index()
     {
-        //
+        $paginator = Application::orderBy('id', 'desc')-> paginate(15);
+        return view('external.application.index', compact('paginator'));
     }
 
     /**

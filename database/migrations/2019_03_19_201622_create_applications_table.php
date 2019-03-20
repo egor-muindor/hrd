@@ -18,12 +18,20 @@ class CreateApplicationsTable extends Migration
             $table->text('first_name');
             $table->text('middle_name');
             $table->text('last_name');
+            $table->text('email');
+            $table->unsignedBigInteger('post_id');
             $table->smallInteger('status')->default(0);
+            $table->text('passport_id');
+            $table->mediumText('employment_history'); // пока так, нужно будет приделать доп таблицу
+            $table->text('snils');
+            $table->text('inn');
+            $table->binary('test_data')->nullable();
             $table->mediumText('description')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
 
+            $table->foreign('post_id')->references('id')->on('posts');
         });
     }
 

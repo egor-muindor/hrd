@@ -11,10 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'RegistratorController@index')->name('registration.index');
+Route::post('/','RegistratorController@store')->name('registration.store');
+Route::post('/ajax','AjaxController@postsList')->name('ajax.getPostsByDepartament');
+
+Route::get('/application', 'ApplicationController@index')->name('application.index');
