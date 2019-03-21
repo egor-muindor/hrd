@@ -32,6 +32,7 @@ class StoreApplicationRequest extends FormRequest
             'inn' => 'required|min:12|max:12',
             'employment_history' => 'required|min:10',
             'email' => 'required|min:5|max:70',
+            'post_id' => 'required|exists:posts,id'
         ];
     }
 }

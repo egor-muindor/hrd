@@ -48,7 +48,7 @@ class ApplicationController extends Controller
      */
     public function show(Application $application, ApplicationRepository $repository)
     {
-        $application = $repository->getApplicationWithData(1);
+        $application = $repository->getApplicationWithData($application->id);
         dump($application);
         return view('external.application.show', $application);
 

@@ -24,7 +24,7 @@ class RegistratorController extends Controller
         $rawData = $request->input();
         //dd($data);
         if (!$request->has(['last_name', 'first_name', 'middle_name',
-            'passport_id', 'snils', 'inn', 'employment_history', 'email', '_token'])){
+            'passport_id', 'snils', 'inn', 'employment_history', 'email', 'post_id', '_token'])){
             return back()->withErrors(['msg' => 'Ошибка сохранения (#1)'])->withInput();
         }
         if ($request->has('status')){
@@ -41,6 +41,7 @@ class RegistratorController extends Controller
             'inn' => $rawData['inn'],
             'employment_history' => $rawData['employment_history'],
             'email' => $rawData['email'],
+            'post_id' => $rawData['post_id'],
         ];
 
         $item = new Application($data);

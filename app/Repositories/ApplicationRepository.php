@@ -30,6 +30,7 @@ class ApplicationRepository extends CoreRepository
      */
     public function getAllWithPaginate($count)
     {
+        dd('НЕ РАБОТАЕТ getAllWithPaginate');
         $columns = [
             'id',
             'professor_id',
@@ -70,12 +71,13 @@ class ApplicationRepository extends CoreRepository
             'first_name',
             'middle_name',
             'last_name',
+            'post_id',
             'passport_id',
             'snils',
             'inn',
             'employment_history',
             'email',
-            'post_id'
+            
         ];
         $application = $this->startConditions()->select($columns)->where('id', $id)
             ->with(['post'])

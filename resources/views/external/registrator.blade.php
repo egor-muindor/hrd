@@ -49,15 +49,15 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-4">
                                                     <label class="col-form-label" for="last_name">Фамилия</label>
-                                                    <input class="form-control " name="last_name" required placeholder="Фамилию" value="{{ old('first_name') }}">
+                                                    <input class="form-control " name="last_name" minlength="2" required placeholder="Фамилию" value="{{ old('first_name') }}">
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label class="col-form-label" for="first_name" >Имя</label>
-                                                    <input class="form-control " name="first_name" required placeholder="Имя" value="{{ old('first_name') }}">
+                                                    <input class="form-control " name="first_name" minlength="2" required placeholder="Имя" value="{{ old('first_name') }}">
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label class="col-form-label" for="middle_name">Отчество</label>
-                                                    <input class="form-control " name="middle_name" required placeholder="Отчество" value="{{ old('middle_name') }}">
+                                                    <input class="form-control " name="middle_name" minlength="2" required placeholder="Отчество" value="{{ old('middle_name') }}">
                                                 </div>
                                             </div>
 
@@ -65,22 +65,22 @@
                                                 <div class="form-group col-md-4">
                                                     <label class="col-form-label" for="passport_id">Серия и номер паспорта</label>
                                                     <input class="form-control" name="passport_id" required
-                                                           placeholder="Например 1234 123456" value="{{ old('passport_id') }}">
+                                                           placeholder="Например 1234 123456"  minlength="10" value="{{ old('passport_id') }}">
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label class="col-form-label" for="snils">СНИЛС</label>
                                                     <input class="form-control" name="snils" required
-                                                           placeholder="Например 123-456-789-12" value="{{ old('snils') }}">
+                                                           placeholder="Например 123-456-789-12"  minlength="14" value="{{ old('snils') }}">
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label class="col-form-label" for="inn">ИНН</label>
-                                                    <input class="form-control" name="inn" required
+                                                    <input class="form-control" name="inn"  minlength="12" required
                                                            placeholder="ИНН" value="{{ old('inn') }}">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="col-form-label" for="employment_history">Трудовая история (Трудовая книжка)</label>
-                                                <textarea class="form-control" name="employment_history"
+                                                <textarea class="form-control" name="employment_history"  minlength="10"
                                                           required placeholder="Введите предыдущие места работы"
                                                           value="{{ old('employment_history') }}"></textarea>
                                             </div>
