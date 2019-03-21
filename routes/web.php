@@ -19,4 +19,4 @@ Route::get('/', 'RegistratorController@index')->name('registration.index');
 Route::post('/','RegistratorController@store')->name('registration.store');
 Route::post('/ajax','AjaxController@postsList')->name('ajax.getPostsByDepartament');
 
-Route::get('/application', 'ApplicationController@index')->name('application.index');
+Route::resource('/application', 'ApplicationController')->names('application');

@@ -55,39 +55,38 @@ class ApplicationRepository extends CoreRepository
     }
 
     /**
-     * Возвращает одну запись со всеми дополнениями к ней
+     * Возвращает одну заявку со всеми дополнениями к ней
      *
      * @param $id
      * @return array
      */
-    public function getRecordWithAddiction($id)
+    public function getApplicationWithData($id)
     {
         if ($this->startConditions()->select(['id'])->find($id) === null){
-            abort(404, 'getRecordWithAddiction exception');
+            abort(404);
         }
         $columns = [
             'id',
-            'professor_id',
-            'indicator_id',
-            'audit_status',
-            'start',
-            'end',
-            'created_at',
-            'updated_at',
+            'first_name',
+            'middle_name',
+            'last_name',
+            'passport_id',
+            'snils',
+            'inn',
+            'employment_history',
+            'email',
+            'post_id'
         ];
-        $record = $this->startConditions()->select($columns)->where('id', $id)
-            ->with(['indicator','professor'])
-            ->with(['indicator' => function ($querry)
+        $application = $this->startConditions()->select($columns)->where('id', $id)
+            ->with(['post'])
+            ->with(['post' => function ($querry)
             {
-                $querry->select(['id','name','sub_activity_id'])
-                    ->with(['sub_activity'])->with(['sub_activity:id,name']);
+                $querry->select(['id','name','departament_id'])
+                    ->with(['departament'])->with(['departament:id,name']);
             }
-                ,'professor:id,first_name,middle_name,last_name'])
+            ])
             ->get()->First();
-
-        $addictions = $this->startConditions()->find($id)->addictions()->select('id','name','value')->get();
-
-        return compact('record', 'addictions');
+        return compact('application');
     }
 
 
@@ -96,7 +95,7 @@ class ApplicationRepository extends CoreRepository
      *
      * @return array
      */
-    public function getSubActivityList()
+    public function getDepartamentList()
     {
         $departaments = Departaments::select(['id','name'])->get();
         //dd($departament);
@@ -116,6 +115,11 @@ class ApplicationRepository extends CoreRepository
         return $indicatorList;
     }
 
+    /**
+     * Получение всех доступных должностей по ИД отдела
+     * @param $id
+     * @return \Illuminate\Support\Collection
+     *      */
     public function getPostsListByDepartamentId($id)
     {
         $indicatorList = Posts::select(['id','name','departament_id'])->where(['departament_id' => $id])->orderBy('id')->get();

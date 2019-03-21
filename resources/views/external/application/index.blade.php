@@ -45,7 +45,7 @@
                                             @default Неизвестный статус@break
                                         @endswitch</td>
                                     <td>{{ $item->created_at }}</td>
-                                    <td><a href="#" class="btn btn-group">Подробнее</a></td>
+                                    <td><a href="{{ route('application.show', $item->id) }}" class="btn btn-group">Подробнее</a></td>
                                 </tr>
                             @endforeach
                             </tbody>

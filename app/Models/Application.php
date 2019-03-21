@@ -8,7 +8,7 @@ class Application extends Model
 {
     protected $fillable = [
         'last_name', 'first_name', 'middle_name',
-        'passport_id', 'snils', 'inn', 'employment_history', 'email'
+        'passport_id', 'snils', 'inn', 'employment_history', 'email', 'post_id'
     ];
 
     /**

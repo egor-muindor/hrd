@@ -26,5 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Posts extends Model
 {
-    //
+    public function departament(){
+        return $this->belongsTo(Departaments::class);
+    }
 }

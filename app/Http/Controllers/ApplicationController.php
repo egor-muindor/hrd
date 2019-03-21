@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Application;
+use App\Repositories\ApplicationRepository;
 use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
@@ -45,9 +46,12 @@ class ApplicationController extends Controller
      * @param  \App\Models\Application  $application
      * @return \Illuminate\Http\Response
      */
-    public function show(Application $application)
+    public function show(Application $application, ApplicationRepository $repository)
     {
-        //
+        $application = $repository->getApplicationWithData(1);
+        dump($application);
+        return view('external.application.show', $application);
+
     }
 
     /**
