@@ -41,7 +41,25 @@
                                                     @endswitch">
                                                     <label class="col-form-label">Предыдущие места работу (трудовая книжка)</label>
                                                     <textarea class="form-control" readonly>{{ $application->employment_history }}</textarea>
-
+                                                    @if(count($addictions)>0)
+                                                    <div class="form-group">
+                                                        @php /** @var \App\Models\Addiction $addiction */ @endphp
+                                                        <table class="table table-hover">
+                                                            <thead>
+                                                            <th class="col-md-10">Описание</th>
+                                                            <th class="col-md">Ссылка</th>
+                                                            </thead>
+                                                            <tbody>
+                                                            @foreach($addictions as $addiction)
+                                                            <tr>
+                                                                <td>{{$addiction->description}}</td>
+                                                                <td><a href="{{ \Illuminate\Support\Facades\Storage::url($addiction->file) }}">Открыть</a></td>
+                                                            </tr>
+                                                            @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                        @endif
                                                 </div>
                                             </div>
                                         </div>

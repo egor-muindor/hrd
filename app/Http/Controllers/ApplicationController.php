@@ -25,37 +25,18 @@ class ApplicationController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Application  $application
+     * @param  \App\Models\Application $application
+     * @param ApplicationRepository $repository
      * @return \Illuminate\Http\Response
      */
     public function show(Application $application, ApplicationRepository $repository)
     {
+        $addictions = $repository->getAllAddictionsByAppId($application->id);
         $application = $repository->getApplicationWithData($application->id);
-        dump($application);
-        return view('ap.application.show', $application);
+        dump($application, $addictions);
+        return view('ap.application.show', compact('application','addictions'));
 
     }
 

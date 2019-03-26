@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Application as Model;
+use App\Models\Application;
 use App\Models\Departaments;
 use App\Models\Posts;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -59,7 +60,7 @@ class ApplicationRepository extends CoreRepository
      * Возвращает одну заявку со всеми дополнениями к ней
      *
      * @param $id
-     * @return array
+     * @return mixed
      */
     public function getApplicationWithData($id)
     {
@@ -90,7 +91,7 @@ class ApplicationRepository extends CoreRepository
             }
             ])
             ->get()->First();
-        return compact('application');
+        return $application;
     }
 
 
@@ -131,5 +132,8 @@ class ApplicationRepository extends CoreRepository
         return $indicatorList;
     }
 
-
+    public function getAllAddictionsByAppId($id)
+    {
+        return Application::find($id)->addictions()->get(['description', 'file']);
+    }
 }

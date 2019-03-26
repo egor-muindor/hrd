@@ -59,4 +59,13 @@ class Application extends Model
     public function post(){
         return $this->belongsTo(Posts::class);
     }
+
+    /**
+     * Возвращает все приложенные файлы
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function addictions(){
+        return $this->hasMany(Addiction::class);
+    }
 }
