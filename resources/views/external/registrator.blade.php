@@ -89,16 +89,16 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-form-label" for="departament_id">Отдел</label>
-                                                        <select onchange="ajaxReq(this.value)" id="departament_id" name="departament_id" value="{{ old('departament_id') }}"
+                                                        <select onchange="ajaxReq(this.value)" id="departament_id" name="departament_id"
                                                         class="form-control" placeholder="Выберете отдел">
                                                             @foreach($departaments as $departament)
-                                                                <option value="{{ $departament->id }}">{{ $departament->name }}</option>
+                                                                <option @if(old('departament_id') === $departament->id) selected @endif value="{{ $departament->id }}">{{ $departament->name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-form-label" for="post_id">Вакансия</label>
-                                                        <select id="post_id" name="post_id" value="{{ old('post_id') }}"
+                                                        <select id="post_id" name="post_id"
                                                                 class="form-control" required placeholder="Выберете вакансию">
                                                             <option value="-1" selected disabled>Загрузка</option>
                                                         </select>

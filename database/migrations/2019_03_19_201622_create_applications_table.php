@@ -25,7 +25,6 @@ class CreateApplicationsTable extends Migration
             $table->mediumText('employment_history'); // пока так, нужно будет приделать доп таблицу
             $table->text('snils');
             $table->text('inn');
-            $table->text('data_token');
             $table->mediumText('description')->nullable();
 
             $table->timestamps();
