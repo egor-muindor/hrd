@@ -7,7 +7,7 @@
             @include('ap.layouts.left_col_menu')
         <div class="col-md-10">
             <div class="row justify-content-center">
-                    <div class="col-md-11">
+                    <div class="col-md">
                         @if(session('success'))
                             <div class="row justify-content-center">
                                 <div class="col-md-10">
@@ -50,6 +50,7 @@
                                                 @endswitch</td>
                                             <td>{{ $item->created_at }}</td>
                                             <td><a href="{{ route('application.show', $item->id) }}" class="btn btn-group">Подробнее</a>
+                                                <a href="#" class="btn btn-group">Редактирование</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -59,10 +60,11 @@
                         </div>
                     </div>
             </div>
-            @if($paginator->total() > $paginator->count())
+                        @if($paginator->total() > $paginator->count())
                 <br>
                 <div class="row justify-content-center">
-                    <div class="col-md-11">
+                    <div class="col-md">
+
                         <div class="card">
                             <div class="card-body">
                                 {{ $paginator->links() }}

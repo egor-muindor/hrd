@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Posts whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Posts whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Departaments $departament
  */
 class Posts extends Model
 {
