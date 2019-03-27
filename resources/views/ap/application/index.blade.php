@@ -3,7 +3,7 @@
 @section('content')
     
     
-    <div class="row align-items-start">
+    <div class="row justify-content-center  align-items-start">
             @include('ap.layouts.left_col_menu')
         <div class="col-md-10">
             <div class="row justify-content-center">
@@ -63,8 +63,7 @@
                         @if($paginator->total() > $paginator->count())
                 <br>
                 <div class="row justify-content-center">
-                    <div class="col-md">
-
+                    <div class="col-md-6">
                         <div class="card">
                             <div class="card-body">
                                 {{ $paginator->links() }}

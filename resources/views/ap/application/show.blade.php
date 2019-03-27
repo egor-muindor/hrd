@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row align-items-start">
+    <div class="row justify-content-center align-items-start">
         @include('ap.layouts.left_col_menu')
         <div class="col-md-10">
             <div class="container">
@@ -41,23 +41,27 @@
                                                     @endswitch">
                                                     <label class="col-form-label">Предыдущие места работу (трудовая книжка)</label>
                                                     <textarea class="form-control" readonly>{{ $application->employment_history }}</textarea>
-                                                    @if(count($addictions)>0)
-                                                    <div class="form-group">
-                                                        @php /** @var \App\Models\Addiction $addiction */ @endphp
-                                                        <table class="table table-hover">
-                                                            <thead>
-                                                            <th class="col-md-10">Описание</th>
-                                                            <th class="col-md">Ссылка</th>
-                                                            </thead>
-                                                            <tbody>
-                                                            @foreach($addictions as $addiction)
-                                                            <tr>
-                                                                <td>{{$addiction->description}}</td>
-                                                                <td><a href="{{ \Illuminate\Support\Facades\Storage::url($addiction->file) }}">Открыть</a></td>
-                                                            </tr>
-                                                            @endforeach
-                                                            </tbody>
-                                                        </table>
+                                                    @if(count($addictions)>0)<div class="card-body">
+                                                        <div class="form-group">
+                                                            <h2 class="card-title">Приложения</h2>
+                                                            @php /** @var \App\Models\Addiction $addiction */ @endphp
+                                                            <table class="table table-hover">
+                                                                <thead>
+                                                                <th class="col-md-10">Описание</th>
+                                                                <th class="col-md">Ссылка</th>
+                                                                </thead>
+                                                                <tbody>
+                                                                @foreach($addictions as $addiction)
+                                                                    <tr>
+                                                                        <td>{{$addiction->description}}</td>
+                                                                        <td>
+                                                                            <a class="btn btn-group" href="{{ \Illuminate\Support\Facades\Storage::url($addiction->file) }}">Открыть</a>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                         @endif
                                                 </div>

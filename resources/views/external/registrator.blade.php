@@ -2,9 +2,7 @@
 
 @section('content')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    @auth()<div class="row align-items-start">
-        @include('ap.layouts.left_col_menu')
-        <div class="col-md-10">@endif
+        <div class="col-md-12">
             <form method="post" action="{{ route('registration.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="container">
@@ -114,7 +112,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="form-check">
-                                                            <label class="col-check-label" for="check1"><input class="form-check-input" name="check1" required type="checkbox">Согласие на <a href="#">что-нибудь</a></label>
+                                                            <input class="form-check-input" id="check1" name="check1" required type="checkbox"><label class="col-check-label" for="check1">Согласие на <a href="#">что-нибудь</a></label>
                                                         </div>
                                                     </div>
                                                     <button type="submit" class="btn btn-primary mb-2">Отправить</button>

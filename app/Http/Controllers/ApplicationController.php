@@ -24,6 +24,13 @@ class ApplicationController extends Controller
         return view('ap.application.index', compact('paginator'));
     }
 
+
+    public function unchecked()
+    {
+        $paginator = Application::whereStatus(0)->orderBy('id', 'desc')-> paginate(15);
+        return view('ap.application.index', compact('paginator'));
+    }
+
     /**
      * Display the specified resource.
      *
@@ -35,7 +42,7 @@ class ApplicationController extends Controller
     {
         $addictions = $repository->getAllAddictionsByAppId($application->id);
         $application = $repository->getApplicationWithData($application->id);
-        dump($application, $addictions);
+//        dump($application, $addictions);
         return view('ap.application.show', compact('application','addictions'));
 
     }
