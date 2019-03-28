@@ -41,6 +41,8 @@
                                                     @endswitch">
                                                     <label class="col-form-label">Предыдущие места работу (трудовая книжка)</label>
                                                     <textarea class="form-control" readonly>{{ $application->employment_history }}</textarea>
+                                                    <label class="col-form-label">Научные работы</label>
+                                                    <textarea class="form-control" readonly>{{ $application->scientific_works }}</textarea>
                                                     @if(count($addictions)>0)<div class="card-body">
                                                         <div class="form-group">
                                                             <h2 class="card-title">Приложения</h2>

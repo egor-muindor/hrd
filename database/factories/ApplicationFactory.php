@@ -22,6 +22,7 @@ $factory->define(\App\Models\Application::class, function (Faker $faker) {
         'inn' => '' . random_int(1000000000, 9999999999),
         'created_at' => $faker->dateTimeBetween('-2 month', '-7 days'),
         'post_id' => random_int(1,40),
+        'scientific_works' => $faker->realText(),
 
     ];
 

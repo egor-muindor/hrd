@@ -44,16 +44,21 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $scientific_works
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Addiction[] $addictions
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereScientificWorks($value)
  */
 class Application extends Model
 {
     protected $fillable = [
         'last_name', 'first_name', 'middle_name',
-        'passport_id', 'snils', 'inn', 'employment_history', 'email', 'post_id', 'data_token'
+        'passport_id', 'snils', 'inn', 'employment_history', 'email',
+        'post_id', 'scientific_works'
     ];
 
     /**
      * Возвращает вакансию
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function post(){
