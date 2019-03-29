@@ -62,17 +62,27 @@ class RegistratorController extends Controller
 
         foreach ($const_files as $cf) {
             if(!empty($request->file($cf[0]))) {
-                $file = \Storage::putFile('public/docs', $request->file($cf[0]));
-                $addiction_data = [
-                    'application_id' => $app_id,
-                    'description' => $cf[1],
-                    'file' => $file,
-                ];
-                $addiction = new Addiction($addiction_data);
-                $addiction->save();
-                if (!$addiction) {
-                    return back()->withErrors(['msg' => 'Ошибка сохранения (#6)'])->withInput();
+                $files = $request->file($cf[0]);
+                $j = 0;
+                foreach ($files as $file) {
+                    $cfile = \Storage::putFile('public/docs', $file);
+                    $j++;
+                    if($cfile) {
+                        $addiction_data = [
+                            'application_id' => $app_id,
+                            'description' => $cf[1] . ' ('. $j . ')',
+                            'file' => $cfile,
+                        ];
+                        $addiction = new Addiction($addiction_data);
+                        $addiction->save();
+                        if (!$addiction) {
+                            return back()->withErrors(['msg' => 'Ошибка сохранения (#6)'])->withInput();
+                        }
+                    } else {
+                        return back()->withErrors(['msg' => 'Ошибка сохранения (#7)'])->withInput();
+                    }
                 }
+
             }
         }
 
@@ -101,6 +111,7 @@ class RegistratorController extends Controller
                     }
                 }
             }
+
             Mail::to('hrd@muindor.com')->queue((new AlertHRD($item))->subject('Новая заявка')->from(['address' => 'robot@muindor.com', 'name' => 'robot']));
             return redirect()->route('registration.index')
                 ->with(['success' => 'Ваша заявка отправлнена']);

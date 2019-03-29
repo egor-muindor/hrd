@@ -87,19 +87,19 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-form-label" for="edu_id">Документ об образовании, о присвоении ученой степени, о присвоении ученого звания.</label>
-                                                        <input type="file" required multiple class="form-control-file" name="edu_id">
+                                                        <input accept="image/*" type="file" required multiple class="form-control-file" name="edu_id[]">
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-form-label" for="medical_id">Медицинская книжка</label>
-                                                        <input type="file" required multiple class="form-control-file" name="medical_id">
+                                                        <input accept="image/*" type="file" required multiple class="form-control-file" name="medical_id[]">
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-form-label" for="criminal_record">Справка о наличии (отсутствии) судимости и (или) факта уголовного преследования либо о прекращении уголовного преследования по реабилитирующим основаниям.</label>
-                                                        <input type="file" required multiple class="form-control-file" name="criminal_record">
+                                                        <input accept="image/*" type="file" required multiple class="form-control-file" name="criminal_record[]">
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-form-label" for="military_id">Военный билет</label>
-                                                        <input type="file" multiple class="form-control-file" name="military_id">
+                                                        <input accept="image/*" type="file" multiple class="form-control-file" name="military_id[]">
                                                     </div>
 
                                                     <div class="form-group">
@@ -165,7 +165,7 @@
             let Div = document.createElement('div');
             Div.id="div_"+createtime;
             Div.innerHTML = `<div class="form-group">
-            <input type="file" required multiple class="form-control-file" name="files[]">
+            <input accept="image/*" type="file" required class="form-control-file" name="files[]">
             <input type="text" required class="form-control" placeholder="Описание файла" name="description[]">
             <a href="#files" style="color: red" onclick="deleteElement(${createtime})">Удалить</a>
             </div>`;
