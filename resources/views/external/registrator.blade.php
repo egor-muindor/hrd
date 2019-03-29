@@ -127,7 +127,7 @@
                                                         </select>
                                                     </div>
                                                     <div id="files" class="form-group">
-                                                        <label class=col-form-label" for="files[]">Изображение документа</label>
+                                                        <label class=col-form-label" for="files[]">Дополнительные изображения документов</label>
                                                     </div>
                                                     <div class="form-group"> <a href="#files" onclick="addFile()" class="btn btn-light">Добавить файл</a> </div>
                                                     <div class="form-group">

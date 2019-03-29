@@ -112,7 +112,7 @@ class RegistratorController extends Controller
                 }
             }
 
-            Mail::to('hrd@muindor.com')->queue((new AlertHRD($item))->subject('Новая заявка')->from(['address' => 'robot@muindor.com', 'name' => 'robot']));
+            Mail::to('hrd@muindor.com')->queue((new AlertHRD($item))->subject('Новая заявка #'.$app_id)->from(['address' => 'robot@muindor.com', 'name' => 'robot']));
             return redirect()->route('registration.index')
                 ->with(['success' => 'Ваша заявка отправлнена']);
 
