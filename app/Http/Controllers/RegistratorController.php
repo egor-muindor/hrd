@@ -18,6 +18,13 @@ class RegistratorController extends Controller
         return view('external.registrator', compact('departaments'));
     }
 
+    /**
+     * Сохраняет новую заявку в базу и отправляет уведомление
+     * на почту о поступлении новой заявки
+     *
+     * @param StoreApplicationRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(StoreApplicationRequest $request){
 
         $rawData = $request->input();

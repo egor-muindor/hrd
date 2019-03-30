@@ -15,18 +15,18 @@ class CreateApplicationsTable extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('first_name');
-            $table->text('middle_name');
-            $table->text('last_name');
-            $table->unsignedBigInteger('post_id');
-            $table->text('passport_id');
-            $table->mediumText('employment_history'); // пока так, нужно будет приделать доп таблицу
-            $table->text('snils');
-            $table->text('inn');
+            $table->text('first_name');                         // Имя
+            $table->text('middle_name');                        // Отчество
+            $table->text('last_name');                          // Фамилия
+            $table->unsignedBigInteger('post_id');              // Номер должности
+            $table->text('passport_id');                        // Серия и номер паспорта. Храняться в виде: "0000 000000"
+            $table->mediumText('employment_history');           // Предыдущие места работы
+            $table->text('snils');                              // СНИЛС
+            $table->text('inn');                                // ИНН
+            $table->mediumtext('scientific_works');             // Научные труды
+            $table->text('email');                              // Email
 
-            $table->mediumtext('scientific_works');
-
-            $table->text('email');
+            // Далее поля заполняются при проверке
             $table->smallInteger('status')->default(0);
             $table->mediumText('description')->nullable();
 

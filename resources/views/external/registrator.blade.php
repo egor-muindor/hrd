@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    @push ('sctipts')
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
+    @endpush
         <div class="col-md-12">
             <form method="post" action="{{ route('registration.store') }}" enctype="multipart/form-data">
                 @csrf
@@ -65,23 +68,23 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="passport_id">Серия и номер паспорта</label>
-                                                            <input class="form-control" name="passport_id" required
-                                                                   placeholder="Например 1234 123456"  minlength="10" value="{{ old('passport_id') }}">
+                                                            <input id="pass_id" pattern="(^\d{4} \d{6}$)" class="form-control" name="passport_id" required
+                                                                   placeholder="Например 1234 123456" type="text" value="{{ old('passport_id') }}">
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="snils">СНИЛС</label>
-                                                            <input class="form-control" name="snils" required
-                                                                   placeholder="Например 123-456-789-12"  minlength="14" value="{{ old('snils') }}">
+                                                            <input id="snils_id" pattern="(^\d{3}-\d{3}-\d{3}-\d{2}$)" class="form-control" name="snils" required
+                                                                   placeholder="Например 123-456-789-12" value="{{ old('snils') }}">
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="inn">ИНН</label>
-                                                            <input class="form-control" name="inn"  minlength="12" required
+                                                            <input id="inn_id" pattern="\d{12}" class="form-control" name="inn" required
                                                                    placeholder="ИНН" value="{{ old('inn') }}">
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="col-form-label" for="employment_history">Трудовая история</label>
-                                                        <textarea class="form-control" name="employment_history"  minlength="10"
+                                                        <textarea class="form-control" name="employment_history" minlength="10"
                                                                   required placeholder="Введите предыдущие места работы"
                                                                   value="">{{ old('employment_history') }}</textarea>
                                                     </div>
@@ -127,7 +130,7 @@
                                                         </select>
                                                     </div>
                                                     <div id="files" class="form-group">
-                                                        <label class=col-form-label" for="files[]">Дополнительные изображения документов</label>
+                                                        <label class="col-form-label" for="files[]">Дополнительные изображения документов</label>
                                                     </div>
                                                     <div class="form-group"> <a href="#files" onclick="addFile()" class="btn btn-light">Добавить файл</a> </div>
                                                     <div class="form-group">
@@ -154,6 +157,7 @@
         @auth()</div>
     </div>@endif
     <script>
+
         let i = 0;
         function addFile()
         {
@@ -183,7 +187,6 @@
 
         }
 
-        ajaxReq(1);
         function ajaxReq(val){
             $('#post_id').html('<option value="-1" selected disabled>Загрузка</option>');
             $.ajax({
@@ -200,6 +203,7 @@
             });
 
         }
+
         function insertIntoIndicatorSelector(array){
             let result = '';
             for(let item of array){
@@ -208,5 +212,11 @@
             $('#post_id').html(result);
         }
 
+        $(document).ready(function($){
+            ajaxReq(1);
+            $('#pass_id').mask('0000 000000');
+            $('#snils_id').mask('000-000-000-00');
+            $('#inn_id').mask('000000000000');
+        });
     </script>
 @endsection
