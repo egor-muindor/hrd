@@ -19,4 +19,5 @@ Route::get('/', 'RegistratorController@index')->name('registration.index');
 Route::post('/','RegistratorController@store')->name('registration.store');
 Route::post('/ajax','AjaxController@postsList')->name('ajax.getPostsByDepartament');
 Route::get('/application/unchecked', 'ApplicationController@unchecked')->name('application.unchecked');
+Route::post('/application/submit', 'ApplicationController@submit')->name('application.submit.status');
 Route::resource('/application', 'ApplicationController')->names('application');

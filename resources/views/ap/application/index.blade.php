@@ -31,6 +31,7 @@
                                         <th>Отчество</th>
                                         <th>Статус заявки</th>
                                         <th>Дата подачи</th>
+                                        <th>Дата обновления заявки</th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -49,9 +50,8 @@
                                                     @default Неизвестный статус@break
                                                 @endswitch</td>
                                             <td>{{ $item->created_at }}</td>
-                                            <td><a href="{{ route('application.show', $item->id) }}" class="btn btn-group">Подробнее</a>
-                                                <a href="#" class="btn btn-group">Редактирование</a>
-                                            </td>
+                                            <td>{{ $item->updated_at }}</td>
+                                            <td><a href="{{ route('application.show', $item->id) }}" class="btn btn-group">Подробнее</a>                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>

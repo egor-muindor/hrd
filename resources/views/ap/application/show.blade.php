@@ -1,12 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+    @push ('sctipts')
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    @endpush
     <div class="row justify-content-center align-items-start">
         @include('ap.layouts.left_col_menu')
         <div class="col-md-10">
             <div class="container">
+                @include('ap.layouts.message_blog')
+                <div id="success"></div>
                 <nav class="nav navbar">
-                    <a class="btn btn-primary" href="{{ route('application.index') }}">Назад</a>
+                    <a class="btn btn-info" href="{{ route('application.index') }}">Назад</a>
+
+                    <a class="btn btn-outline-primary" href="{{ route('application.edit', $application->id) }}">Редактировать</a>
                 </nav>
                 <div class="row justify-content-center">
                     <div class="col-md-9">
@@ -28,17 +35,14 @@
                                                            value="{{ $application->post->departament->name }}">
                                                     <label class="col-form-label">Должность</label>
                                                     <input class="form-control" readonly value="{{ $application->post->name }}">
+
+                                                    <label class="col-form-label">Серия и номер паспорта</label>
+                                                    <input class="form-control" readonly value="{{ $application->passport_id }}">
                                                     <label class="col-form-label">СНИЛС</label>
                                                     <input class="form-control" readonly value="{{ $application->snils }}">
                                                     <label class="col-form-label">ИНН</label>
                                                     <input class="form-control" readonly value="{{ $application->inn }}">
-                                                    <label class="col-form-label">Статус</label>
-                                                    <input class="form-control" readonly value="@switch($application->status)
-                                                    @case(0)Не проверена@break
-                                                    @case(1)Принята@break
-                                                    @case(2)Отклонена@break
-                                                    @default Не найден статус
-                                                    @endswitch">
+
                                                     <label class="col-form-label">Предыдущие места работу (трудовая книжка)</label>
                                                     <textarea class="form-control" readonly>{{ $application->employment_history }}</textarea>
                                                     <label class="col-form-label">Научные работы</label>
@@ -80,10 +84,26 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="form-group">
+
+                                            <div class="col-md">
+                                                @if($application->status == 0)
+                                                    <a class="btn btn-primary" id="sub_app" onclick="ajaxReq(1)">Принять</a>
+                                                    <a class="btn btn-danger" id="deny_app" onclick="ajaxReq(2)">Отклонить</a>
+                                                @endif
+                                            </div>
+
+                                            <label class="col-form-label">Статус заявки</label>
+
+                                            <input id="status" class="form-control" readonly value="@switch($application->status)
+                                            @case(0)Не проверена@break
+                                            @case(1)Принята@break
+                                            @case(2)Отклонена@break
+                                            @default Не найден статус
+                                                    @endswitch">
                                             <label class="col-form-label">Дата создания: </label>
                                             <input class="form-control" disabled value="{{ $application->created_at }}">
                                             <label class="col-form-label">Дата изменения: </label>
-                                            <input class="form-control" disabled value="{{ $application->updated_at }}">
+                                            <input id="update_time" class="form-control" disabled value="{{ $application->updated_at }}">
                                         </div>
                                     </div>
                                 </div>
@@ -94,4 +114,42 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function ajaxReq(value){
+            $.ajax({
+                type:'POST',
+                url:'{{ route('application.submit.status') }}',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:'id={{$application->id}}&status='+value,
+                success:function(resp){
+                    // location.reload();
+                    console.log(resp);
+                    if(value == 0){
+                        $('#reset_app').hide()
+                    } else {
+                        $('#sub_app').hide();
+                        $('#deny_app').hide();
+                    }
+                    $('#status').val(resp.status);
+                    $('#update_time').val(resp.updated);
+                    $('#success').html(
+                        `<div class="row justify-content-center">
+                            <div class="col-md-11">
+                                <div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">x</span>
+                                    </button>
+                                    ${resp.success}
+                                </div>
+                            </div>
+                        </div>`)
+                }
+            });
+
+        }
+    </script>
+
 @endsection

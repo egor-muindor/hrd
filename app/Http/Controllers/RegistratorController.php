@@ -8,12 +8,15 @@ use App\Models\Addiction;
 use App\Models\Application;
 use App\Models\Departaments;
 use Mail;
+use SoapClient;
 
 
 class RegistratorController extends Controller
 {
 
     public function index(){
+//        $client = new SoapClient("http://192.168.56.1/I1C/ws/ws1.1cws?wsdl"); //для 1с
+//        dd($client);
         $departaments = Departaments::get();
         return view('external.registrator', compact('departaments'));
     }
@@ -50,11 +53,6 @@ class RegistratorController extends Controller
             'email' => $rawData['email'],
             'post_id' => $rawData['post_id'],
             'scientific_works' => $rawData['scientific_works'],
-            /**
-            'medical_id' => $rawData['medical_id'],
-            'criminal_record' => $rawData['criminal_record'],
-            'military_id' => $rawData['military_id'],
-             */
         ];
         $item = new Application($data);
         $item->save();

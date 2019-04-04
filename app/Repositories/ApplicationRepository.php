@@ -77,9 +77,11 @@ class ApplicationRepository extends CoreRepository
             'snils',
             'inn',
             'employment_history',
+            'scientific_works',
             'email',
             'created_at',
             'updated_at',
+            'status'
             
         ];
         $application = $this->startConditions()->select($columns)->where('id', $id)

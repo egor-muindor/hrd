@@ -53,7 +53,7 @@
                                                     <div class="form-row">
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="last_name">Фамилия</label>
-                                                            <input class="form-control " name="last_name" minlength="2" required placeholder="Фамилию" value="{{ old('first_name') }}">
+                                                            <input class="form-control " name="last_name" minlength="2" required placeholder="Фамилию" value="{{ old('last_name') }}">
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label class="col-form-label" for="first_name" >Имя</label>

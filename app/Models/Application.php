@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Application
@@ -49,11 +50,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereScientificWorks($value)
  */
 class Application extends Model
+
 {
+    use SoftDeletes;
     protected $fillable = [
         'last_name', 'first_name', 'middle_name',
         'passport_id', 'snils', 'inn', 'employment_history', 'email',
-        'post_id', 'scientific_works'
+        'post_id', 'scientific_works', 'status'
     ];
 
     /**
