@@ -23,7 +23,7 @@
                                     <div class="card-body">
                                         @php /** @var \App\Models\Application $application */ @endphp
                                         <div class="tab-content">
-                                            <div class="tab-pane active">
+
                                                 <div class="form-group">
                                                     <label class="col-form-label">Ид записи</label>
                                                     <input class="form-control" readonly value="{{ $application->id }}">
@@ -71,7 +71,7 @@
                                                     </div>
                                                         @endif
                                                 </div>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -84,26 +84,31 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="form-group">
-
                                             <div class="col-md">
                                                 @if($application->status == 0)
                                                     <a class="btn btn-primary" id="sub_app" onclick="ajaxReq(1)">Принять</a>
                                                     <a class="btn btn-danger" id="deny_app" onclick="ajaxReq(2)">Отклонить</a>
                                                 @endif
                                             </div>
-
                                             <label class="col-form-label">Статус заявки</label>
-
                                             <input id="status" class="form-control" readonly value="@switch($application->status)
-                                            @case(0)Не проверена@break
-                                            @case(1)Принята@break
-                                            @case(2)Отклонена@break
-                                            @default Не найден статус
-                                                    @endswitch">
+                                                @case(0)Не проверена@break
+                                                @case(1)Принята@break
+                                                @case(2)Отклонена@break
+                                                @default Не найден статус
+                                                @endswitch">
                                             <label class="col-form-label">Дата создания: </label>
                                             <input class="form-control" disabled value="{{ $application->created_at }}">
                                             <label class="col-form-label">Дата изменения: </label>
                                             <input id="update_time" class="form-control" disabled value="{{ $application->updated_at }}">
+                                            @if($application->status == 1)
+                                                <div class="align-items-center">
+                                                    <div class="col-md">
+                                                        <br>
+                                                        <a class="form-control btn btn-warning" id="deny_app" onclick="exportTo1C()">Отправить в 1С</a>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -117,6 +122,8 @@
 
     <script>
         function ajaxReq(value){
+            $('#sub_app').hide();
+            $('#deny_app').hide();
             $.ajax({
                 type:'POST',
                 url:'{{ route('application.submit.status') }}',
@@ -125,14 +132,7 @@
                 },
                 data:'id={{$application->id}}&status='+value,
                 success:function(resp){
-                    // location.reload();
-                    console.log(resp);
-                    if(value == 0){
-                        $('#reset_app').hide()
-                    } else {
-                        $('#sub_app').hide();
-                        $('#deny_app').hide();
-                    }
+
                     $('#status').val(resp.status);
                     $('#update_time').val(resp.updated);
                     $('#success').html(
@@ -146,6 +146,45 @@
                                 </div>
                             </div>
                         </div>`)
+                }
+            });
+
+        }
+
+        function exportTo1C(){
+            $.ajax({
+                type:'POST',
+                url:'{{ route('application.export') }}',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:'id={{$application->id}}',
+                success:function(resp) {
+                    if (resp.code == 200) {
+                    $('#success').html(
+                        `<div class="row justify-content-center">
+                            <div class="col-md-11">
+                                <div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">x</span>
+                                    </button>
+                                    ${resp.message}
+                                </div>
+                            </div>
+                        </div>`)
+                    } else {
+                        $('#success').html(
+                            `<div class="row justify-content-center">
+                                <div class="col-md-11">
+                                    <div class="alert alert-danger" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">x</span>
+                                        </button>
+                                        ${resp.message}
+                                    </div>
+                                </div>
+                            </div>`)
+                    }
                 }
             });
 

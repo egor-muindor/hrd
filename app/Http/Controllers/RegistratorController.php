@@ -15,8 +15,6 @@ class RegistratorController extends Controller
 {
 
     public function index(){
-//        $client = new SoapClient("http://192.168.56.1/I1C/ws/ws1.1cws?wsdl"); //для 1с
-//        dd($client);
         $departaments = Departaments::get();
         return view('external.registrator', compact('departaments'));
     }

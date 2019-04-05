@@ -112,6 +112,7 @@
     </div>
     <script>
         function ajaxReq(value){
+            $('#reset_app').hide();
             $.ajax({
                 type:'POST',
                 url:'{{ route('application.submit.status') }}',
@@ -120,7 +121,6 @@
                 },
                 data:'id={{$application->id}}&status='+value,
                 success:function(resp){
-                    $('#reset_app').hide();
                     $('#status').val(resp.status);
                     $('#update_time').val(resp.updated);
                     $('#success').html(`<div class="row justify-content-center">
@@ -137,5 +137,10 @@
             });
 
         }
+        $(document).ready(function($){
+            $('#pass_id').mask('0000 000000');
+            $('#snils_id').mask('000-000-000-00');
+            $('#inn_id').mask('000000000000');
+        });
     </script>
 @endsection

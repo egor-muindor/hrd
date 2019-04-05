@@ -7,7 +7,7 @@ use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Models\Application;
 use App\Repositories\ApplicationRepository;
-use Carbon\Carbon;
+use http\Env\Response;
 use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
@@ -103,6 +103,48 @@ class ApplicationController extends Controller
         }
     }
 
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function export(Request $request){
+
+        $application = Application::findOrFail($request->id);
+        try{
+        $client = new \SoapClient("http://192.168.56.1/I1C/ws/ws1.1cws?wsdl"); //для 1с
+        $status = 'Ошибка определения статуса';
+        switch ($application->status){
+            case 0:
+                $status = 'Не проверена'; break;
+            case 1:
+                $status = 'Принята'; break;
+            case 2:
+                $status = 'Отклонена'; break;
+        }
+
+        $data = array(
+            'first_name' => $application->first_name,
+            'middle_name' => $application->middle_name,
+            'last_name' => $application->last_name,
+            'post_id' => $application->post->name,
+            'passport_id' => $application->passport_id,
+            'employment_history' => $application->employment_history,
+            'snils' => $application->snils,
+            'inn' => $application->inn,
+            'scientific_works' => $application->scientific_works,
+            'email' => $application->email,
+            'status' => $status,
+            'description' => $application->description);
+
+        $result = $client->SendApplication($data);
+
+        return response()->json(['message' => 'Успешно отправлено в БД 1С', 'code' => $result->return]);
+        } catch (\Exception $error) {
+            \Debugbar::info($error);
+            return response()->json(['message' => 'Ошибка сохранения в 1С', 'code' => 500]);
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *
