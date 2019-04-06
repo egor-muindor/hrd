@@ -4,6 +4,7 @@
 /storage/*.key
 /vendor
 /.idea
+.phpstorm.meta.php
 .env
 .env.example
 .env.*.php
