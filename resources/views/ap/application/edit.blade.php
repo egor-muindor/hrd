@@ -86,19 +86,22 @@
                                                     <a class="btn btn-outline-warning col-md"  style="white-space: pre-wrap" id="reset_app" onclick="ajaxReq(0)">Вернуть на рассмотрение</a>
                                                 @endif
                                             </div>
-
                                             <label class="col-form-label">Статус заявки</label>
 
                                             <input id="status" class="form-control" readonly value="@switch($application->status)
-                                            @case(0)Не проверена@break
-                                            @case(1)Принята@break
-                                            @case(2)Отклонена@break
-                                            @default Не найден статус
-                                                    @endswitch">
+                                        @case(0)Не проверена@break
+                                        @case(1)Принята@break
+                                        @case(2)Отклонена@break
+                                        @default Не найден статус
+                                        @endswitch">
                                             <label class="col-form-label">Дата создания: </label>
                                             <input class="form-control" disabled value="{{ $application->created_at }}">
                                             <label class="col-form-label">Дата изменения: </label>
                                             <input class="form-control" id="update_time" disabled value="{{ $application->updated_at }}">
+                                            <div class="col-md">
+                                                <br>
+                                                <a class="btn btn-danger col-md"  style="white-space: pre-wrap" id="delete_app" data-toggle="modal" data-target="#myModal" onclick="">Удалить заявку</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -106,6 +109,29 @@
                         </div>
                     </div>
                 </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Модальное окно -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Вы хотите удалить заявку №{{ $application->id }}?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('application.destroy', $application->id) }}" method="post">
+                    @method('DELETE')
+                    @csrf
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                    </div>
                 </form>
             </div>
         </div>

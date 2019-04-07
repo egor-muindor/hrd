@@ -8,18 +8,7 @@
         <div class="col-md-10">
             <div class="row justify-content-center">
                     <div class="col-md">
-                        @if(session('success'))
-                            <div class="row justify-content-center">
-                                <div class="col-md-10">
-                                    <div class="alert alert-success">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">x</span>
-                                        </button>
-                                        {{ session()->get('success') }}
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
+                        @include('ap.layouts.message_blog')
                         <div class="card">
                             <div class="card-body">
                                 <table class="table table-hover">

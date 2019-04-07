@@ -101,6 +101,11 @@
                                             <input class="form-control" disabled value="{{ $application->created_at }}">
                                             <label class="col-form-label">Дата изменения: </label>
                                             <input id="update_time" class="form-control" disabled value="{{ $application->updated_at }}">
+                                            @if(!empty($application->deleted_at))
+                                                <label class="col-form-label">Дата удаления: </label>
+                                                <input class="form-control" disabled value="{{ $application->deleted_at }}">
+                                            @endif
+
                                             @if($application->status == 1)
                                                 <div class="align-items-center">
                                                     <div class="col-md">

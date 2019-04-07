@@ -56,7 +56,7 @@ class Application extends Model
     protected $fillable = [
         'last_name', 'first_name', 'middle_name',
         'passport_id', 'snils', 'inn', 'employment_history', 'email',
-        'post_id', 'scientific_works', 'status'
+        'post_id', 'scientific_works', 'status', 'deleted_at'
     ];
 
     /**

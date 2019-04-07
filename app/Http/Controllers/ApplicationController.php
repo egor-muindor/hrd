@@ -7,6 +7,7 @@ use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Models\Application;
 use App\Repositories\ApplicationRepository;
+use Carbon\Carbon;
 use http\Env\Response;
 use Illuminate\Http\Request;
 
@@ -61,7 +62,6 @@ class ApplicationController extends Controller
     public function edit(ApplicationRepository $repository, Application $application)
     {
         $application = $repository->getApplicationWithData($application->id);
-//        dump($application, $addictions);
         return view('ap.application.edit', compact('application'));
 
     }
@@ -85,7 +85,6 @@ class ApplicationController extends Controller
      */
     public function update(UpdateApplicationRequest $request, $id)
     {
-        //dd($request, $id);
         $application = Application::find($id);
         if (empty($application)) {
             return back()->withErrors(['msg' => "Запись id= {$id} не найдена"])->withInput();
@@ -109,7 +108,6 @@ class ApplicationController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function export(Request $request){
-
         $application = Application::findOrFail($request->id);
         try{
         $client = new \SoapClient("http://192.168.56.1/I1C/ws/ws1.1cws?wsdl"); //для 1с
@@ -122,7 +120,6 @@ class ApplicationController extends Controller
             case 2:
                 $status = 'Отклонена'; break;
         }
-
         $data = array(
             'first_name' => $application->first_name,
             'middle_name' => $application->middle_name,
@@ -138,21 +135,31 @@ class ApplicationController extends Controller
             'description' => $application->description);
 
         $result = $client->SendApplication($data);
-
         return response()->json(['message' => 'Успешно отправлено в БД 1С', 'code' => $result->return]);
         } catch (\Exception $error) {
             \Debugbar::info($error);
             return response()->json(['message' => 'Ошибка сохранения в 1С', 'code' => 500]);
         }
     }
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Application  $application
+     * @param \App\Models\Application $application
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Application $application)
     {
-        //
+        $status = $application->delete();
+        if ($status){
+            return redirect()
+                ->route('application.index')
+                ->with(['success' => "Заявка №$application->id успешно удалена"]);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Ошибка удаления'])
+                ->withInput();
+        }
     }
 }
