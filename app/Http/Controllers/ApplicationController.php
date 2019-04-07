@@ -110,7 +110,7 @@ class ApplicationController extends Controller
     public function export(Request $request){
         $application = Application::findOrFail($request->id);
         try{
-        $client = new \SoapClient("http://192.168.56.1/I1C/ws/ws1.1cws?wsdl"); //для 1с
+        $client = new \SoapClient(env('ADDRESS_1C', 'disable.1c')); //для 1с
         $status = 'Ошибка определения статуса';
         switch ($application->status){
             case 0:
