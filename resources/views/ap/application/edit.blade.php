@@ -82,14 +82,14 @@
                                                     @if(count($addictions)>0)
                                                         <div class="card-body">
                                                             <div class="form-group">
-                                                                <h2 class="card-title">Приложения</h2>
+                                                                <h2 class="card-title" id="addictions_body">Приложения</h2>
                                                                 @php /** @var \App\Models\Addiction $addiction */ @endphp
-                                                                <table class="table table-hover">
+                                                                <table id="table_addiction" class="table table-hover">
                                                                     <thead>
                                                                     <th class="col-md-10">Описание</th>
                                                                     <th class="col-md">Ссылка</th>
                                                                     </thead>
-                                                                    <tbody>
+                                                                    <tbody id="addictions_body">
                                                                     @foreach($addictions as $addiction)
                                                                         <tr id="addiction_id_{{ $addiction->id }}">
                                                                             <td>{{$addiction->description}}</td>
@@ -106,6 +106,7 @@
                                                             </div>
                                                         </div>
                                                     @endif
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_addiction">Добавить новое приложение</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -190,53 +191,48 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                    <button type="submit" class="btn btn-danger" data-dismiss="modal" id="btn_delete_addiction" data-appid="{{ $application->id }}" data-addid="">Удалить</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="btn_delete_addiction" data-appid="{{ $application->id }}" data-addid="">Удалить</button>
                 </div>
             </div>
         </div>
     </div>
+{{--    Модальное окно добавления нового приложения к заявке --}}
+    <div class="modal fade" id="add_addiction" tabindex="-1" role="dialog" aria-labelledby="AddNewAddiction" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form id="add_addiction_form" action="#add_addiction">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Добавление нового приложения</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input accept="image/*" type="file" required class="form-control-file" id="file_addiction">
+                        <br>
+                        <input type="text" required class="form-control" placeholder="Описание файла" id="description_addiction">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-primary" data-dismiss="modal" id="btn_upload_addiction" data-appid="{{ $application->id }}">Загрузить</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
     <script>
 
-        function show_message(message, code){
-            if (code === 200) {
-                $('#success').append(
-                    `<div class="row justify-content-center">
-                            <div class="col-md-11">
-                                <div class="alert alert-success">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">x</span>
-                                    </button>
-                                    ${message}
-                                </div>
-                            </div>
-                        </div>`)
-            } else {
-                $('#success').append(
-                    `<div class="row justify-content-center">
-                                <div class="col-md-11">
-                                    <div class="alert alert-danger" role="alert">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">x</span>
-                                        </button>
-                                        ${message}
-                                    </div>
-                                </div>
-                            </div>`)
-                $('#export_app').show();
-            }
 
-            $('html, body').animate({ scrollTop: $('#app').offset().top }, 500);
-
-        }
         $(document).ready(function($){
             $('#pass_id').mask('0000 000000');
             $('#snils_id').mask('000-000-000-00');
             $('#inn_id').mask('000000000000');
 
             $('#btn_delete_addiction').on('click' , function () {
-                let button = $(this);
-                let addiction_id = button.data('addid');
-                let application_id = button.data('appid');
+                let addiction_id = this.dataset['addid'];
+                let application_id = this.dataset['appid'];
                 $.ajax({
 
                     type:'DELETE',
@@ -252,11 +248,54 @@
                 });
             });
 
+            $('#btn_upload_addiction').on('click' , function (e) {
+                let button = $(this);
+                let application_id = button.data('appid');
+                let description = $('#description_addiction').val();
+                let file = $('#file_addiction').prop('files')[0];
+                if (!((file) === undefined) && !((description) === '')) {
+
+
+                    let data = new FormData();
+                    data.append('file', file);
+                    data.append('description', description);
+                    data.append('application_id', application_id);
+                    $.ajax({
+                        type: 'POST',
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        url: '{{route('addiction.store')}}',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: data,
+                        success: function (resp) {
+                            show_message(resp.message, resp.code);
+                            if (resp.code == 200) {
+                                $('#table_addiction tbody').append(
+                                    `<tr id="addiction_id_${resp.addiction_id}">
+                                        <td>${description}</td>
+                                        <td>
+                                            <a class="btn btn-group" href="${resp.url}">Открыть</a>
+                                            <a type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#delete_addiction" data-addiction=${resp.addiction_id}"  >Удалить</a>
+                                        </td>
+                                    </tr>`);
+
+                                $('#add_addiction_form').trigger('reset');
+                            }
+                        }
+                    });
+                }
+
+            });
+
+
             $('#delete_addiction').on('show.bs.modal', function (event) {
                 let button = $(event.relatedTarget); // Кнопка, что спровоцировало модальное окно
 
                 let addiction_id = button.data('addiction'); // Извлечение информации из данных-* атрибутов
-
+console.log(addiction_id);
                 let modal = $(this);
                 $(this).find('#btn_delete_addiction').attr('data-addid', addiction_id);
                 modal.find('#del_addiction_id').val(addiction_id);
@@ -301,6 +340,38 @@
             });
 
         }
+        function show_message(message, code){
+            if (code === 200) {
+                $('#success').append(
+                    `<div class="row justify-content-center">
+                    <br>
+                            <div class="col-md-11 sticky-top">
+                                <div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">x</span>
+                                    </button>
+                                    ${message}
+                                </div>
+                            </div>
+                        </div>`)
+            } else {
+                $('#success').append(
+                    `<div class="row justify-content-center">
+                        <br>
+                                <div class="col-md-11 sticky-top">
+                                    <div class="alert alert-danger" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">x</span>
+                                        </button>
+                                        ${message}
+                                    </div>
+                                </div>
+                            </div>`)
+                $('#export_app').show();
+            }
 
+            $('html, body').animate({ scrollTop: $('#app').offset().top }, 500);
+
+        }
     </script>
 @endsection
