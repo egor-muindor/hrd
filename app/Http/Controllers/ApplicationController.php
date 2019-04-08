@@ -65,8 +65,9 @@ class ApplicationController extends Controller
     {
         $application = $repository->getApplicationWithData($application->id);
         $departaments = Departaments::get();
+        $addictions = $repository->getAllAddictionsByAppId($application->id);
         $posts = Posts::whereDepartamentId($application->post->departament_id)->get();
-        return view('ap.application.edit', compact('application', 'departaments', 'posts'));
+        return view('ap.application.edit', compact('application', 'departaments', 'posts', 'addictions'));
 
     }
 

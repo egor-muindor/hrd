@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @push ('sctipts')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
 @endpush
 
@@ -76,9 +78,34 @@
                                                               value="">{{ old('scientific_works', $application->scientific_works) }}</textarea>
                                                     <label class="col-form-label" for="email">Email</label>
                                                     <input id="email" type="email" class="form-control" name="email" required
-                                                           placeholder="ИНН" value="{{ old('email',$application->email) }}">
+                                                           placeholder="Email" value="{{ old('email',$application->email) }}">
+                                                    @if(count($addictions)>0)
+                                                        <div class="card-body">
+                                                            <div class="form-group">
+                                                                <h2 class="card-title">Приложения</h2>
+                                                                @php /** @var \App\Models\Addiction $addiction */ @endphp
+                                                                <table class="table table-hover">
+                                                                    <thead>
+                                                                    <th class="col-md-10">Описание</th>
+                                                                    <th class="col-md">Ссылка</th>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    @foreach($addictions as $addiction)
+                                                                        <tr id="addiction_id_{{ $addiction->id }}">
+                                                                            <td>{{$addiction->description}}</td>
+                                                                            <td>
 
+                                                                                    <a class="btn btn-group" href="{{ \Illuminate\Support\Facades\Storage::url($addiction->file) }}">Открыть</a>
+                                                                                    <a type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#delete_addiction" data-addiction="{{ $addiction->id }}"  >Удалить</a>
 
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -129,7 +156,7 @@
     </div>
 
 
-    <!-- Модальное окно -->
+{{--     Модальное окно удаления заявки --}}
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -150,7 +177,92 @@
             </div>
         </div>
     </div>
+{{--    Модальное окно удаления приложения к заявке --}}
+    <div class="modal fade" id="delete_addiction" tabindex="-1" role="dialog" aria-labelledby="myDeleteAddictionLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Вы действительно хотите удалить приложение?</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <button type="submit" class="btn btn-danger" data-dismiss="modal" id="btn_delete_addiction" data-appid="{{ $application->id }}" data-addid="">Удалить</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
+
+        function show_message(message, code){
+            if (code === 200) {
+                $('#success').append(
+                    `<div class="row justify-content-center">
+                            <div class="col-md-11">
+                                <div class="alert alert-success">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">x</span>
+                                    </button>
+                                    ${message}
+                                </div>
+                            </div>
+                        </div>`)
+            } else {
+                $('#success').append(
+                    `<div class="row justify-content-center">
+                                <div class="col-md-11">
+                                    <div class="alert alert-danger" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">x</span>
+                                        </button>
+                                        ${message}
+                                    </div>
+                                </div>
+                            </div>`)
+                $('#export_app').show();
+            }
+
+            $('html, body').animate({ scrollTop: $('#app').offset().top }, 500);
+
+        }
+        $(document).ready(function($){
+            $('#pass_id').mask('0000 000000');
+            $('#snils_id').mask('000-000-000-00');
+            $('#inn_id').mask('000000000000');
+
+            $('#btn_delete_addiction').on('click' , function () {
+                let button = $(this);
+                let addiction_id = button.data('addid');
+                let application_id = button.data('appid');
+                $.ajax({
+
+                    type:'DELETE',
+                    url:'{{route('addiction.destroy')}}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data:`addiction_id=${addiction_id}&application_id=${application_id}`,
+                    success:function(resp){
+                        show_message(resp.message, resp.code);
+                        $('#addiction_id_'+addiction_id).remove()
+                    }
+                });
+            });
+
+            $('#delete_addiction').on('show.bs.modal', function (event) {
+                let button = $(event.relatedTarget); // Кнопка, что спровоцировало модальное окно
+
+                let addiction_id = button.data('addiction'); // Извлечение информации из данных-* атрибутов
+
+                let modal = $(this);
+                $(this).find('#btn_delete_addiction').attr('data-addid', addiction_id);
+                modal.find('#del_addiction_id').val(addiction_id);
+
+            });
+        });
 
         function changePosts(val){
             $('#post_id').html('<option value="-1" selected disabled>Загрузка</option>');
@@ -184,26 +296,11 @@
                 },
                 data:'id={{$application->id}}&status='+value,
                 success:function(resp){
-                    $('#status').val(resp.status);
-                    $('#update_time').val(resp.updated);
-                    $('#success').append(`<div class="row justify-content-center">
-                            <div class="col-md-11">
-                                <div class="alert alert-success">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">x</span>
-                                    </button>
-                                    ${resp.success}
-                        </div>
-                    </div>
-                </div>`)
+                    show_message(resp.success, 200)
                 }
             });
 
         }
-        $(document).ready(function($){
-            $('#pass_id').mask('0000 000000');
-            $('#snils_id').mask('000-000-000-00');
-            $('#inn_id').mask('000000000000');
-        });
+
     </script>
 @endsection

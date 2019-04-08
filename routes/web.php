@@ -19,6 +19,7 @@ Route::get('/', 'RegistratorController@index')->name('registration.index');
 Route::post('/','RegistratorController@store')->name('registration.store');
 Route::post('/ajax','AjaxController@postsList')->name('ajax.getPostsByDepartament');
 Route::post('/application/export/', 'ApplicationController@export')->name('application.export');
+Route::delete('/addiction', 'AddictionController@destroy')->name('addiction.destroy');
 Route::get('/application/unchecked', 'ApplicationController@unchecked')->name('application.unchecked');
 Route::post('/application/submit', 'ApplicationController@submit')->name('application.submit.status');
 Route::resource('/application', 'ApplicationController')->names('application');

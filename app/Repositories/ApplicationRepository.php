@@ -136,6 +136,6 @@ class ApplicationRepository extends CoreRepository
 
     public function getAllAddictionsByAppId($id)
     {
-        return Application::find($id)->addictions()->get(['description', 'file']);
+        return Application::find($id)->addictions()->get(['description', 'file', 'id']);
     }
 }
