@@ -7,6 +7,7 @@ use App\Mail\AlertHRD;
 use App\Models\Addiction;
 use App\Models\Application;
 use App\Models\Departaments;
+use App\Models\Posts;
 use Mail;
 use SoapClient;
 
@@ -16,7 +17,8 @@ class RegistratorController extends Controller
 
     public function index(){
         $departaments = Departaments::get();
-        return view('external.registrator', compact('departaments'));
+        $posts = Posts::whereDepartamentId($departaments->first()->id)->get();
+        return view('external.registrator', compact('departaments', 'posts'));
     }
 
     /**

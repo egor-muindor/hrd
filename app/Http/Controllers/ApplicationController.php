@@ -6,6 +6,8 @@ use App\Http\Requests\ChangeStatusRequest;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Models\Application;
+use App\Models\Departaments;
+use App\Models\Posts;
 use App\Repositories\ApplicationRepository;
 use Carbon\Carbon;
 use http\Env\Response;
@@ -62,7 +64,9 @@ class ApplicationController extends Controller
     public function edit(ApplicationRepository $repository, Application $application)
     {
         $application = $repository->getApplicationWithData($application->id);
-        return view('ap.application.edit', compact('application'));
+        $departaments = Departaments::get();
+        $posts = Posts::whereDepartamentId($application->post->departament_id)->get();
+        return view('ap.application.edit', compact('application', 'departaments', 'posts'));
 
     }
 

@@ -47,6 +47,9 @@
                                                     <textarea class="form-control" readonly>{{ $application->employment_history }}</textarea>
                                                     <label class="col-form-label">Научные работы</label>
                                                     <textarea class="form-control" readonly>{{ $application->scientific_works }}</textarea>
+
+                                                    <label class="col-form-label">Email</label>
+                                                    <input class="form-control" readonly value="{{ $application->email }}">
                                                     @if(count($addictions)>0)<div class="card-body">
                                                         <div class="form-group">
                                                             <h2 class="card-title">Приложения</h2>
@@ -110,7 +113,7 @@
                                                 <div class="align-items-center">
                                                     <div class="col-md">
                                                         <br>
-                                                        <a class="form-control btn btn-warning" id="deny_app" onclick="exportTo1C()">Отправить в 1С</a>
+                                                        <a class="form-control btn btn-warning" id="export_app" onclick="exportTo1C()">Отправить в 1С</a>
                                                     </div>
                                                 </div>
                                             @endif
@@ -140,7 +143,7 @@
 
                     $('#status').val(resp.status);
                     $('#update_time').val(resp.updated);
-                    $('#success').html(
+                    $('#success').append(
                         `<div class="row justify-content-center">
                             <div class="col-md-11">
                                 <div class="alert alert-success">
@@ -157,6 +160,7 @@
         }
 
         function exportTo1C(){
+            $('#export_app').hide();
             $.ajax({
                 type:'POST',
                 url:'{{ route('application.export') }}',
@@ -166,7 +170,7 @@
                 data:'id={{$application->id}}',
                 success:function(resp) {
                     if (resp.code == 200) {
-                    $('#success').html(
+                    $('#success').append(
                         `<div class="row justify-content-center">
                             <div class="col-md-11">
                                 <div class="alert alert-success">
@@ -178,7 +182,7 @@
                             </div>
                         </div>`)
                     } else {
-                        $('#success').html(
+                        $('#success').append(
                             `<div class="row justify-content-center">
                                 <div class="col-md-11">
                                     <div class="alert alert-danger" role="alert">
@@ -189,6 +193,7 @@
                                     </div>
                                 </div>
                             </div>`)
+                        $('#export_app').show();
                     }
                 }
             });

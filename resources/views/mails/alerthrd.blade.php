@@ -14,12 +14,8 @@
 
         </tr>
         <tr>
-            <td>
-                <label>Email: </label>
-            </td>
-            <td>
-                <input readonly size="30" value="{{ $application->email }}">
-            </td>
+            <td><label>Email: </label></td>
+            <td><input readonly size="30" value="{{ $application->email }}"></td>
         </tr>
         <tr>
             <td><label>Отдел:</label></td>
@@ -30,7 +26,10 @@
             <td><label>Должность: </label></td>
             <td><input readonly size="30" value="{{ $application->post->name }}"></td>
         </tr>
-
+        <tr>
+            <td><label>Серия и номер паспорта: </label></td>
+            <td><input readonly size="30" value="{{ $application->passport_id }}"></td>
+        </tr>
         <tr>
             <td><label>СНИЛС: </label></td>
             <td><input readonly size="30" value="{{ $application->snils }}"></td>

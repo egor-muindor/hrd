@@ -97,7 +97,10 @@
                                                         <label class="col-form-label" for="post_id">Вакансия</label>
                                                         <select id="post_id" name="post_id"
                                                                 class="form-control" required placeholder="Выберете вакансию">
-                                                            <option value="-1" selected disabled>Загрузка</option>
+                                                            @php /** @var \App\Models\Posts $post */ @endphp
+                                                            @foreach($posts as $post)
+                                                                <option value="{{ $post->id }}">{{ $post->name }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
                                                     <div id="files" class="form-group">
@@ -184,7 +187,6 @@
         }
 
         $(document).ready(function($){
-            ajaxReq(1);
             $('#pass_id').mask('0000 000000');
             $('#snils_id').mask('000-000-000-00');
             $('#inn_id').mask('000000000000');

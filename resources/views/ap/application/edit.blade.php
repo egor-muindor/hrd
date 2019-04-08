@@ -41,10 +41,21 @@
                                                     <input class="form-control " name="middle_name" minlength="2" required placeholder="Отчество" value="{{ old('middle_name', $application->middle_name) }}">
 
                                                     <label class="col-form-label">Отдел</label>
-                                                    <input class="form-control" readonly
-                                                           value="{{ $application->post->departament->name }}">
+                                                    <select onchange="changePosts(this.value)" id="departament_id" name="departament_id"
+                                                            class="form-control" placeholder="Выберете отдел">
+                                                            @foreach($departaments as $departament)
+                                                                <option @if($application->post->departament_id === $departament->id) selected @endif value="{{ $departament->id }}">{{ $departament->name }}</option>
+                                                            @endforeach
+                                                    </select>
                                                     <label class="col-form-label">Должность</label>
-                                                    <input class="form-control" readonly value="{{ $application->post->name }}">
+                                                    <select id="post_id" name="post_id"
+                                                            class="form-control" required placeholder="Выберете вакансию">
+                                                        @php /** @var \App\Models\Posts $post */ @endphp
+                                                        @foreach($posts as $post)
+                                                            <option @if($application->post_id === $post->id) selected @endif value="{{ $post->id }}">{{ $post->name }}</option>
+                                                        @endforeach
+                                                    </select>
+
 
                                                     <label class="col-form-label" for="passport_id">Серия и номер паспорта</label>
                                                     <input id="pass_id" pattern="(^\d{4} \d{6}$)" class="form-control" name="passport_id" required
@@ -63,6 +74,9 @@
                                                     <textarea class="form-control" name="scientific_works"  minlength="10"
                                                               required placeholder="Введите ваши научные работы"
                                                               value="">{{ old('scientific_works', $application->scientific_works) }}</textarea>
+                                                    <label class="col-form-label" for="email">Email</label>
+                                                    <input id="email" type="email" class="form-control" name="email" required
+                                                           placeholder="ИНН" value="{{ old('email',$application->email) }}">
 
 
                                                 </div>
@@ -137,6 +151,29 @@
         </div>
     </div>
     <script>
+
+        function changePosts(val){
+            $('#post_id').html('<option value="-1" selected disabled>Загрузка</option>');
+            $.ajax({
+
+                type:'POST',
+                url:'{{route('ajax.getPostsByDepartament')}}',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:'departament_id='+ val,
+                success:function(resp){
+                    insertIntoIndicatorSelector(resp['postList']);
+                }
+            })};
+            function insertIntoIndicatorSelector(array){
+                let result = '';
+                for(let item of array){
+                    result += `<option value="${item['id']}">${item['name']}</option>`
+                }
+                $('#post_id').html(result);
+            }
+
         function ajaxReq(value){
             $('#reset_app').hide();
             $.ajax({
@@ -149,7 +186,7 @@
                 success:function(resp){
                     $('#status').val(resp.status);
                     $('#update_time').val(resp.updated);
-                    $('#success').html(`<div class="row justify-content-center">
+                    $('#success').append(`<div class="row justify-content-center">
                             <div class="col-md-11">
                                 <div class="alert alert-success">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
