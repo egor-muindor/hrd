@@ -5,11 +5,12 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     @endpush
     <div class="row justify-content-center align-items-start">
-        @include('ap.layouts.left_col_menu')
+
         <div class="col-md-10">
             <div class="container">
                 @include('ap.layouts.message_blog')
-                <div id="success"></div>
+                <div id="success" class="sticky-top" style="padding-top: 10px"></div>
+
                 <nav class="nav navbar">
                     <a class="btn btn-info" href="{{ route('application.index') }}">Назад</a>
 

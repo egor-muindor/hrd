@@ -9,10 +9,10 @@
 @section('content')
 
     <div class="row justify-content-center align-items-start">
-        @include('ap.layouts.left_col_menu')
+
         <div class="col-md-10">
             <div class="container">
-                <div id="success"></div>
+                <div id="success" class="sticky-top" style="padding-top: 10px"></div>
                 @include('ap.layouts.message_blog')
                 <form method="post" action="{{ route('application.update', $application->id) }}" enctype="multipart/form-data">
                     @method('PATCH')
@@ -344,8 +344,7 @@ console.log(addiction_id);
             if (code === 200) {
                 $('#success').append(
                     `<div class="row justify-content-center">
-                    <br>
-                            <div class="col-md-11 sticky-top">
+                            <div class="col-md-11">
                                 <div class="alert alert-success">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">x</span>
@@ -357,8 +356,7 @@ console.log(addiction_id);
             } else {
                 $('#success').append(
                     `<div class="row justify-content-center">
-                        <br>
-                                <div class="col-md-11 sticky-top">
+                                <div class="col-md-11">
                                     <div class="alert alert-danger" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">x</span>
@@ -370,7 +368,7 @@ console.log(addiction_id);
                 $('#export_app').show();
             }
 
-            $('html, body').animate({ scrollTop: $('#app').offset().top }, 500);
+            // $('html, body').animate({ scrollTop: $('#app').offset().top }, 500);
 
         }
     </script>

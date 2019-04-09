@@ -4,7 +4,7 @@
     
     
     <div class="row justify-content-center  align-items-start">
-            @include('ap.layouts.left_col_menu')
+
         <div class="col-md-10">
             <div class="row justify-content-center">
                     <div class="col-md">
