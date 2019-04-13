@@ -38,7 +38,13 @@
                     @auth
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('application.index') }}">Список заявок</a>
+                            <a class="nav-link" href="{{ route('departament.index') }}">Отделы</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('post.index') }}">Вакансии</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('application.index') }}">Заявки</a>
                         </li>
                     </ul>
                     @endif

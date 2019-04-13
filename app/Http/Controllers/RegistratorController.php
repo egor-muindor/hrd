@@ -6,18 +6,19 @@ use App\Http\Requests\StoreApplicationRequest;
 use App\Mail\AlertHRD;
 use App\Models\Addiction;
 use App\Models\Application;
-use App\Models\Departaments;
-use App\Models\Posts;
+use App\Models\Departament;
+use App\Models\Post;
+use Illuminate\Http\RedirectResponse;
 use Mail;
-use SoapClient;
+use Storage;
 
 
 class RegistratorController extends Controller
 {
 
     public function index(){
-        $departaments = Departaments::get();
-        $posts = Posts::whereDepartamentId($departaments->first()->id)->get();
+        $departaments = Departament::get();
+        $posts = Post::whereDepartamentId($departaments->first()->id)->get();
         return view('external.registrator', compact('departaments', 'posts'));
     }
 
@@ -26,7 +27,7 @@ class RegistratorController extends Controller
      * на почту о поступлении новой заявки
      *
      * @param StoreApplicationRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(StoreApplicationRequest $request){
 
@@ -70,7 +71,7 @@ class RegistratorController extends Controller
                 $files = $request->file($cf[0]);
                 $j = 0;
                 foreach ($files as $file) {
-                    $cfile = \Storage::putFile('public/docs', $file);
+                    $cfile = Storage::putFile('public/docs', $file);
                     $j++;
                     if($cfile) {
                         $addiction_data = [
@@ -98,7 +99,7 @@ class RegistratorController extends Controller
                 $count = count($files);
 
                 for ($i = 0; $i < $count; $i++){
-                    $file = \Storage::putFile('public/docs', $files[$i]);
+                    $file = Storage::putFile('public/docs', $files[$i]);
                     if ($file) {
                         $addiction_data = [
                             'application_id' => $app_id,

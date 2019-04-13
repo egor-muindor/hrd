@@ -9,7 +9,7 @@
             <form method="post" action="{{ route('registration.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="container">
-                    @php    /** @var \Illuminate\Support\ViewErrorBag $errors */ @endphp
+                    @php    /** @var ViewErrorBag $errors */use Illuminate\Support\ViewErrorBag; @endphp
                     @include('ap.layouts.message_blog')
 
                     <div class="row justify-content-center">
@@ -97,7 +97,7 @@
                                                         <label class="col-form-label" for="post_id">Вакансия</label>
                                                         <select id="post_id" name="post_id"
                                                                 class="form-control" required placeholder="Выберете вакансию">
-                                                            @php /** @var \App\Models\Posts $post */ @endphp
+                                                            @php /** @var Post $post */use App\Models\Post; @endphp
                                                             @foreach($posts as $post)
                                                                 <option value="{{ $post->id }}">{{ $post->name }}</option>
                                                             @endforeach
@@ -137,7 +137,7 @@
         {
             i++;
 
-            let Form = document.getElementById('files')
+            let Form = document.getElementById('files');
             let createtime = new Date().getTime();
 
             let Div = document.createElement('div');
@@ -154,7 +154,7 @@
         function deleteElement(createtime)
         {
 
-            var Form = document.getElementById('files')
+            var Form = document.getElementById('files');
             Form.removeChild(document.getElementById("div_"+createtime));
 
 

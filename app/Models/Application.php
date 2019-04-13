@@ -2,8 +2,14 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Application
@@ -21,33 +27,33 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $inn
  * @property string|null $data_token
  * @property string|null $description
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string|null $deleted_at
- * @property-read \App\Models\Posts $post
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereDataToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereEmploymentHistory($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereFirstName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereInn($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereLastName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereMiddleName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application wherePassportId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application wherePostId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereSnils($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @property-read Post $post
+ * @method static Builder|Application newModelQuery()
+ * @method static Builder|Application newQuery()
+ * @method static Builder|Application query()
+ * @method static Builder|Application whereCreatedAt($value)
+ * @method static Builder|Application whereDataToken($value)
+ * @method static Builder|Application whereDeletedAt($value)
+ * @method static Builder|Application whereDescription($value)
+ * @method static Builder|Application whereEmail($value)
+ * @method static Builder|Application whereEmploymentHistory($value)
+ * @method static Builder|Application whereFirstName($value)
+ * @method static Builder|Application whereId($value)
+ * @method static Builder|Application whereInn($value)
+ * @method static Builder|Application whereLastName($value)
+ * @method static Builder|Application whereMiddleName($value)
+ * @method static Builder|Application wherePassportId($value)
+ * @method static Builder|Application wherePostId($value)
+ * @method static Builder|Application whereSnils($value)
+ * @method static Builder|Application whereStatus($value)
+ * @method static Builder|Application whereUpdatedAt($value)
+ * @mixin Eloquent
  * @property string $scientific_works
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Addiction[] $addictions
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereScientificWorks($value)
+ * @property-read Collection|Addiction[] $addictions
+ * @method static Builder|Application whereScientificWorks($value)
  */
 class Application extends Model
 
@@ -62,16 +68,16 @@ class Application extends Model
     /**
      * Возвращает вакансию
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function post(){
-        return $this->belongsTo(Posts::class);
+        return $this->belongsTo(Post::class);
     }
 
     /**
      * Возвращает все приложенные файлы
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function addictions(){
         return $this->hasMany(Addiction::class);

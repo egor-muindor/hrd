@@ -29,7 +29,7 @@
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        @php /** @var \App\Models\Application $application */ @endphp
+                                        @php /** @var Application $application */use App\Models\Application; @endphp
                                         <div class="tab-content">
                                             <div class="tab-pane active">
                                                 <div class="form-group">
@@ -52,7 +52,7 @@
                                                     <label class="col-form-label">Должность</label>
                                                     <select id="post_id" name="post_id"
                                                             class="form-control" required placeholder="Выберете вакансию">
-                                                        @php /** @var \App\Models\Posts $post */ @endphp
+                                                        @php /** @var Post $post */use App\Models\Post; @endphp
                                                         @foreach($posts as $post)
                                                             <option @if($application->post_id === $post->id) selected @endif value="{{ $post->id }}">{{ $post->name }}</option>
                                                         @endforeach
@@ -83,7 +83,7 @@
                                                         <div class="card-body">
                                                             <div class="form-group">
                                                                 <h2 class="card-title" id="addictions_body">Приложения</h2>
-                                                                @php /** @var \App\Models\Addiction $addiction */ @endphp
+                                                                @php /** @var Addiction $addiction */use App\Models\Addiction; @endphp
                                                                 <table id="table_addiction" class="table table-hover">
                                                                     <thead>
                                                                     <th class="col-md-10">Описание</th>
@@ -316,8 +316,10 @@ console.log(addiction_id);
                 success:function(resp){
                     insertIntoIndicatorSelector(resp['postList']);
                 }
-            })};
-            function insertIntoIndicatorSelector(array){
+            })
+        }
+
+        function insertIntoIndicatorSelector(array) {
                 let result = '';
                 for(let item of array){
                     result += `<option value="${item['id']}">${item['name']}</option>`
@@ -364,7 +366,7 @@ console.log(addiction_id);
                                         ${message}
                                     </div>
                                 </div>
-                            </div>`)
+                            </div>`);
                 $('#export_app').show();
             }
 
