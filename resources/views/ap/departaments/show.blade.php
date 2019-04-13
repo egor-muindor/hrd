@@ -20,7 +20,7 @@
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        @php /** @var Departament $departament */use App\Models\Departament; @endphp
+                                        @php /** @var App\Models\Departament $departament */@endphp
                                         <div class="tab-content">
                                             <div class="tab-pane active">
                                                 <div class="form-group">
@@ -39,7 +39,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h1 class="card-title">Вакансии отдела "{{ $departament->name }}"</h1>
-                                            @php /** @var Post $post */use App\Models\Post; @endphp
+                                            @php/** @var App\Models\Post $post */@endphp
                                             <table class="table table-hover table-responsive-md">
                                                 <thead class="bg-white sticky-top">
                                                 <th class="col-md-1">Ид</th>
@@ -67,5 +67,6 @@
                 </div>
             </div>
         </div>
+    </div>
 
 @endsection

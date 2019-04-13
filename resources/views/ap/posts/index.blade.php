@@ -23,7 +23,7 @@
                                             <th class="col-md-2"></th>
                                             </thead>
                                             <tbody>
-                                            @php /** @var Post $post */use App\Models\Post; @endphp
+                                            @php /** @var App\Models\Post $post */ @endphp
                                             @foreach($posts as $post)
                                                 <tr>
                                                     <td class="col-md-1">{{ $post->id }}</td>

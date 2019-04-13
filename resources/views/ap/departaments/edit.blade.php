@@ -37,7 +37,7 @@
                                 <div class="col-md-12">
                                     <div class="card">
                                         <div class="card-body">
-                                            @php /** @var Departament $departament */use App\Models\Departament; @endphp
+                                            @php /** @var App\Models\Departament $departament */ @endphp
                                             <div class="tab-content">
                                                 <div class="tab-pane active">
                                                     <div class="form-group">

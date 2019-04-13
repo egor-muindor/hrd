@@ -20,7 +20,7 @@
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        @php /** @var Post $post */use App\Models\Post; @endphp
+                                        @php /** @var App\Models\Post $post */ @endphp
                                         <div class="tab-content">
                                             <div class="tab-pane active">
                                                 <div class="form-group">

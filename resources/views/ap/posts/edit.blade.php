@@ -49,7 +49,7 @@
                                                         <label class="col-form-label">Отдел</label>
                                                         <select id="departament_id" name="departament_id"
                                                                 required class="form-control">
-                                                            @php /** @var Departament $departament */use App\Models\Departament; @endphp
+                                                            @php /** @var App\Models\Departament $departament */ @endphp
                                                             @foreach ($departaments as $departament)
                                                                 <option @if($departament->id === $post->departament_id) selected
                                                                         @endif value="{{ $departament->id }}">{{ $departament->name }}</option>

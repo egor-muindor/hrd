@@ -9,7 +9,7 @@
             <form method="post" action="{{ route('registration.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="container">
-                    @php    /** @var ViewErrorBag $errors */use Illuminate\Support\ViewErrorBag; @endphp
+                    @php    /** @var Illuminate\Support\ViewErrorBag $errors */ @endphp
                     @include('ap.layouts.message_blog')
 
                     <div class="row justify-content-center">
@@ -97,7 +97,7 @@
                                                         <label class="col-form-label" for="post_id">Вакансия</label>
                                                         <select id="post_id" name="post_id"
                                                                 class="form-control" required placeholder="Выберете вакансию">
-                                                            @php /** @var Post $post */use App\Models\Post; @endphp
+                                                            @php /** @var App\Models\Post $post */ @endphp
                                                             @foreach($posts as $post)
                                                                 <option value="{{ $post->id }}">{{ $post->name }}</option>
                                                             @endforeach

@@ -22,7 +22,7 @@
                                             <th class="col-md-2"></th>
                                             </thead>
                                             <tbody>
-                                            @php /** @var Departament $departament */use App\Models\Departament; @endphp
+                                            @php /** @var App\Models\Departament $departament */ @endphp
                                             @foreach($departaments as $departament)
                                                 <tr>
                                                     <td class="col-md-1">{{ $departament->id }}</td>

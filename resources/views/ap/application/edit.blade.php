@@ -29,7 +29,7 @@
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        @php /** @var Application $application */use App\Models\Application; @endphp
+                                        @php /** @var App\Models\Application $application */ @endphp
                                         <div class="tab-content">
                                             <div class="tab-pane active">
                                                 <div class="form-group">
@@ -52,7 +52,7 @@
                                                     <label class="col-form-label">Должность</label>
                                                     <select id="post_id" name="post_id"
                                                             class="form-control" required placeholder="Выберете вакансию">
-                                                        @php /** @var Post $post */use App\Models\Post; @endphp
+                                                        @php /** @var App\Models\Post $post */ @endphp
                                                         @foreach($posts as $post)
                                                             <option @if($application->post_id === $post->id) selected @endif value="{{ $post->id }}">{{ $post->name }}</option>
                                                         @endforeach
@@ -83,7 +83,7 @@
                                                         <div class="card-body">
                                                             <div class="form-group">
                                                                 <h2 class="card-title" id="addictions_body">Приложения</h2>
-                                                                @php /** @var Addiction $addiction */use App\Models\Addiction; @endphp
+                                                                @php /** @var App\Models\Addiction $addiction */ @endphp
                                                                 <table id="table_addiction" class="table table-hover">
                                                                     <thead>
                                                                     <th class="col-md-10">Описание</th>

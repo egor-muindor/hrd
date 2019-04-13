@@ -26,7 +26,7 @@
                                     </thead>
                                     <tbody>
                                     @foreach($paginator as $item)
-                                        @php /** @var Application $item */use App\Models\Application; @endphp
+                                        @php /** @var App\Models\Application $item */@endphp
                                         <tr class="row">
                                             <td class="col-md-1">{{ $item->id }}</td>
                                             <td class="col-md">{{ $item->last_name }}</td>
