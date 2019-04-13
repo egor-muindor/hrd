@@ -99,7 +99,7 @@ class ApplicationController extends Controller
 
         if ($result) {
             return redirect()
-                ->route('application.show', $id)
+                ->route('application.show', $application->id)
                 ->with(['success' => 'Успешно сохранено']);
         } else {
             return back()
