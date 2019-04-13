@@ -26,7 +26,7 @@
                                     </thead>
                                     <tbody>
                                     @foreach($paginator as $item)
-                                        @php /** @var \App\Models\Application $item */ @endphp
+                                        @php /** @var Application $item */use App\Models\Application; @endphp
                                         <tr class="row">
                                             <td class="col-md-1">{{ $item->id }}</td>
                                             <td class="col-md">{{ $item->last_name }}</td>
@@ -49,7 +49,7 @@
                         </div>
                     </div>
             </div>
-                        @if($paginator->total() > $paginator->count())
+            @if($paginator->total() > $paginator->count())
                 <br>
                 <div class="row justify-content-center">
                     <div class="col-md-6">

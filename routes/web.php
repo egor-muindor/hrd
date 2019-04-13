@@ -27,3 +27,6 @@ Route::post('/application/export/', 'ApplicationController@export')->name('appli
 Route::get('/application/unchecked', 'ApplicationController@unchecked')->name('application.unchecked');
 Route::post('/application/submit', 'ApplicationController@submit')->name('application.submit.status');
 Route::resource('/application', 'ApplicationController')->names('application');
+
+Route::resource('/departament', 'DepartamentController')->names('departament');
+Route::resource('/post', 'PostController')->names('post');
