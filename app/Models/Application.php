@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Eloquent;
+use Iatstuti\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -54,15 +55,24 @@ use Illuminate\Support\Carbon;
  * @property string $scientific_works
  * @property-read Collection|Addiction[] $addictions
  * @method static Builder|Application whereScientificWorks($value)
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|Application onlyTrashed()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Query\Builder|Application withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Application withoutTrashed()
  */
 class Application extends Model
-
 {
-    use SoftDeletes;
+    use SoftDeletes, CascadeSoftDeletes;
+
     protected $fillable = [
         'last_name', 'first_name', 'middle_name',
         'passport_id', 'snils', 'inn', 'employment_history', 'email',
-        'post_id', 'scientific_works', 'status', 'deleted_at'
+        'post_id', 'scientific_works', 'status'
+    ];
+
+    protected $cascadeDeletes = [
+        'addictions',
     ];
 
     /**
@@ -70,7 +80,8 @@ class Application extends Model
      *
      * @return BelongsTo
      */
-    public function post(){
+    public function post()
+    {
         return $this->belongsTo(Post::class);
     }
 
@@ -79,7 +90,8 @@ class Application extends Model
      *
      * @return HasMany
      */
-    public function addictions(){
+    public function addictions()
+    {
         return $this->hasMany(Addiction::class);
     }
 }

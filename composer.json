@@ -13,6 +13,7 @@
         "artisaninweb/laravel-soap": "0.3.0.9",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.3",
+      "iatstuti/laravel-cascade-soft-deletes": "^1.5",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0"
     },

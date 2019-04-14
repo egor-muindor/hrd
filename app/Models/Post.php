@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
@@ -27,12 +28,17 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Post whereUpdatedAt($value)
  * @mixin Eloquent
  * @property-read Departament $departament
+ * @property int $archive
+ * @method static Builder|Post whereArchive($value)
  */
 class Post extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'name', 'departament_id'
     ];
+
 
     public function departament()
     {

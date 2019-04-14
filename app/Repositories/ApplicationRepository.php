@@ -55,8 +55,10 @@ class ApplicationRepository extends CoreRepository
         $application = $this->startConditions()->select($columns)->where('id', $id)
             ->with(['post'])
             ->with(['post' => function ($querry) {
-                $querry->select(['id', 'name', 'departament_id'])
-                    ->with(['departament'])->with(['departament:id,name']);
+                $querry->select(['id', 'name', 'departament_id'])->withTrashed()
+                    ->with(['departament'])->with(['departament' => function ($querry) {
+                        $querry->select(['id', 'name'])->withTrashed();
+                    }]);
             }
             ])
             ->get()->First();

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Eloquent;
+use Iatstuti\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,9 +26,25 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Departament whereName($value)
  * @method static Builder|Departament whereUpdatedAt($value)
  * @mixin Eloquent
+ * @property int $archive
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Query\Builder|Departament onlyTrashed()
+ * @method static bool|null restore()
+ * @method static Builder|Departament whereArchive($value)
+ * @method static \Illuminate\Database\Query\Builder|Departament withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|Departament withoutTrashed()
  */
 class Departament extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, CascadeSoftDeletes;
     protected $fillable = ['name'];
+
+    protected $cascadeDeletes = [
+        'posts'
+    ];
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }
