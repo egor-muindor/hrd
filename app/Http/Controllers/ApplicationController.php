@@ -167,9 +167,8 @@ class ApplicationController extends Controller
                 ->route('application.index')
                 ->with(['success' => "Заявка №$application->id успешно удалена"]);
         } else {
-            return back()
-                ->withErrors(['msg' => 'Ошибка удаления'])
-                ->withInput();
+            return redirect()->route('application.index')
+                ->withErrors(['msg' => 'Ошибка удаления']);
         }
     }
 }

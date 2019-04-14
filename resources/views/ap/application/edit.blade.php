@@ -172,7 +172,9 @@
                     @csrf
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                        <button type="submit" class="btn btn-danger">Удалить</button>
+                        <button type="submit" class="btn btn-danger" id="del_butt"
+                                onclick="$('#del_butt').attr('disabled','')">Удалить
+                        </button>
                     </div>
                 </form>
             </div>

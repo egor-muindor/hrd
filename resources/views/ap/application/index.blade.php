@@ -5,9 +5,9 @@
     
     <div class="row justify-content-center  align-items-start">
 
-        <div class="col-md-10">
+        <div class="col-md-11">
             <div class="row justify-content-center">
-                    <div class="col-md">
+                <div class="col-md-12">
                         @include('ap.layouts.message_blog')
                         <div class="card">
                             <div class="card-body">
@@ -19,8 +19,8 @@
                                         <th class="col-md">Имя</th>
                                         <th class="col-md">Отчество</th>
                                         <th class="col-md">Статус заявки</th>
-                                        <th class="col d-none d-lg-block d-xl-block">Дата подачи</th>
-                                        <th class="col d-none d-lg-block d-xl-block">Дата обновления заявки</th>
+                                        <th class="col-md d-none d-lg-block d-xl-block">Дата подачи</th>
+                                        <th class="col-md d-none d-lg-block d-xl-block">Дата обновления заявки</th>
                                         <th class="col-md"></th>
                                     </tr>
                                     </thead>
@@ -38,8 +38,8 @@
                                                     @case(2)Отклонена@break
                                                     @default Неизвестный статус@break
                                                 @endswitch</td>
-                                            <td class="col d-none d-lg-block d-xl-block">{{ $item->created_at }}</td>
-                                            <td class="col d-none d-lg-block d-xl-block">{{ $item->updated_at }}</td>
+                                            <td class="col-md d-none d-lg-block d-xl-block">{{ $item->created_at }}</td>
+                                            <td class="col-md d-none d-lg-block d-xl-block">{{ $item->updated_at }}</td>
                                             <td class="col-md"><a href="{{ route('application.show', $item->id) }}" class="btn btn-group">Подробнее</a>                                            </td>
                                         </tr>
                                     @endforeach
