@@ -11,8 +11,6 @@
 |
 */
 
-
-
 Auth::routes();
 
 Route::get('/', 'RegistratorController@index')->name('registration.index');

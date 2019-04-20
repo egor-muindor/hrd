@@ -117,7 +117,7 @@ class ApplicationController extends Controller
     {
         $application = Application::findOrFail($request->id);
         try {
-            $client = new SoapClient(env('ADDRESS_1C', 'disable.1c')); //для 1с
+            $client = new SoapClient(config('app.address_1c')); //для 1с
             $status = 'Ошибка определения статуса';
             switch ($application->status) {
                 case 0:

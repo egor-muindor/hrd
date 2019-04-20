@@ -228,4 +228,7 @@ return [
 
     ],
 
+    /** Custom settings */
+    'address_1c' => env('ADDRESS_1C', 'disable.1c'),
+
 ];

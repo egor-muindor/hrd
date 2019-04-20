@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateAddictionsTable extends Migration
 {
@@ -20,7 +20,7 @@ class CreateAddictionsTable extends Migration
             $table->text('file');
             $table->timestamps();
 
-            $table->foreign('application_id')->references('id')->on('applications');
+            $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade');
         });
     }
 

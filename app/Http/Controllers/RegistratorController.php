@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreApplicationRequest;
-use App\Mail\AlertHRD;
+use App\Jobs\ExportTo1C;
 use App\Models\Addiction;
 use App\Models\Application;
 use App\Models\Departament;
 use App\Models\Post;
 use Illuminate\Http\RedirectResponse;
-use Mail;
 use Storage;
 
 
@@ -118,7 +117,10 @@ class RegistratorController extends Controller
                 }
             }
 
-            Mail::to('hrd@muindor.com')->queue((new AlertHRD($item))->subject('Новая заявка #'.$app_id)->from(['address' => 'robot@muindor.com', 'name' => 'robot']));
+//            Mail::to('hrd@muindor.com')->queue((new AlertHRD($item))->subject('Новая заявка #'.$app_id)->from(['address' => 'robot@muindor.com', 'name' => 'robot']));
+//            dd(ExportTo1C::dispatchNow($item));
+            ExportTo1C::dispatch($item);
+
             return redirect()->route('registration.index')
                 ->with(['success' => 'Ваша заявка отправлнена']);
 
