@@ -60,38 +60,112 @@ use Illuminate\Support\Carbon;
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Query\Builder|Application withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Application withoutTrashed()
+ * @property string $Surname
+ * @property string $Name
+ * @property string $Patronymic
+ * @property string $Sex
+ * @property string $Birthday
+ * @property string $Birthplace
+ * @property string $Languages
+ * @property string $AcademicDegree
+ * @property string $ScientificWork
+ * @property string $MilitaryRank
+ * @property string $MilitaryComposition
+ * @property string $MilitaryBranch
+ * @property string $HomeAddress
+ * @property string $Phone
+ * @property string $PassportSeries
+ * @property string $PassportNumber
+ * @property string $PassportGiven
+ * @property string $Inn
+ * @property string $Pfr
+ * @property string $Biography
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereAcademicDegree($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereBiography($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereBirthday($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereBirthplace($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereHomeAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereLanguages($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereMilitaryBranch($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereMilitaryComposition($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereMilitaryRank($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application wherePassportGiven($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application wherePassportNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application wherePassportSeries($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application wherePatronymic($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application wherePfr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereScientificWork($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereSex($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereSurname($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AbroadData[] $abroad_data
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AwardData[] $award_data
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\EducationData[] $education_data
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\FamilyData[] $family_data
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\WorkData[] $work_data
  */
 class Application extends Model
 {
     use SoftDeletes, CascadeSoftDeletes;
 
     protected $fillable = [
-        'last_name', 'first_name', 'middle_name',
-        'passport_id', 'snils', 'inn', 'employment_history', 'email',
-        'post_id', 'scientific_works', 'status'
+        'Surname', 'Name', 'Patronymic', 'Sex', 'Birthday' , 'Birthplace' , 'Languages' , 'AcademicDegree',
+        'ScientificWork', 'MilitaryRank', 'MilitaryComposition', 'MilitaryBranch' , 'HomeAddress', 'Phone',
+        'PassportSeries', 'PassportNumber', 'PassportGiven', 'Inn' , 'Pfr', 'Biography'
     ];
 
     protected $cascadeDeletes = [
-        'addictions',
+        'abroad_data', 'award_data', 'education_data', 'family_data', 'work_data'
     ];
 
     /**
-     * Возвращает вакансию
-     *
-     * @return BelongsTo
-     */
-    public function post()
-    {
-        return $this->belongsTo(Post::class);
-    }
-
-    /**
-     * Возвращает все приложенные файлы
+     * Возвращает все записи о кандидате из abroad_data
      *
      * @return HasMany
      */
-    public function addictions()
+    public function abroad_data()
     {
-        return $this->hasMany(Addiction::class);
+        return $this->hasMany(AbroadData::class);
+    }
+
+    /**
+     * Возвращает все записи о кандидате из award_data
+     *
+     * @return HasMany
+     */
+    public function award_data()
+    {
+        return $this->hasMany(AwardData::class);
+    }
+
+    /**
+     * Возвращает все записи о кандидате из education_data
+     *
+     * @return HasMany
+     */
+    public function education_data()
+    {
+        return $this->hasMany(EducationData::class);
+    }
+
+    /**
+     * Возвращает все записи о кандидате из family_data
+     *
+     * @return HasMany
+     */
+    public function family_data()
+    {
+        return $this->hasMany(FamilyData::class);
+    }
+
+    /**
+     * Возвращает все записи о кандидате из work_data
+     *
+     * @return HasMany
+     */
+    public function work_data()
+    {
+        return $this->hasMany(WorkData::class);
     }
 }

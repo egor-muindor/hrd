@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePostsTable extends Migration
+class CreateFamilyDataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,19 @@ class CreatePostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('family_data', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('name');
-            $table->unsignedBigInteger('departament_id');
+            $table->text('surname');
+            $table->text('patronymic');
+            $table->text('birthday');
+            $table->text('telephone');
+            $table->unsignedBigInteger('candidate_id');
+
+            $table->foreign('candidate_id')->references('id')->on('applications');
+
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('departament_id')->references('id')->on('departaments');
         });
     }
 
@@ -31,6 +36,6 @@ class CreatePostsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('family_data');
     }
 }

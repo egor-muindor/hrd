@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDepartamentsTable extends Migration
+class CreateWorkDataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,16 @@ class CreateDepartamentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('departaments', function (Blueprint $table) {
+        Schema::create('work_data', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('name');
+            $table->text('entry');
+            $table->text('exit');
+            $table->text('position');
+            $table->text('location');
+            $table->unsignedBigInteger('candidate_id');
+
+            $table->foreign('candidate_id')->references('id')->on('applications');
+
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +35,6 @@ class CreateDepartamentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('departaments');
+        Schema::dropIfExists('work_data');
     }
 }

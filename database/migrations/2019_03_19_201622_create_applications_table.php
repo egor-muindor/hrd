@@ -15,25 +15,29 @@ class CreateApplicationsTable extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('first_name');                         // Имя
-            $table->text('middle_name');                        // Отчество
-            $table->text('last_name');                          // Фамилия
-            $table->unsignedBigInteger('post_id');              // Номер должности
-            $table->text('passport_id');                        // Серия и номер паспорта. Храняться в виде: "0000 000000"
-            $table->mediumText('employment_history');           // Предыдущие места работы
-            $table->text('snils');                              // СНИЛС
-            $table->text('inn');                                // ИНН
-            $table->mediumtext('scientific_works');             // Научные труды
-            $table->text('email');                              // Email
-
-            // Далее поля заполняются при проверке
-            $table->smallInteger('status')->default(0);
-            $table->mediumText('description')->nullable();
+            $table->text('Surname');
+            $table->text('Name');
+            $table->text('Patronymic');
+            $table->text('Sex');
+            $table->text('Birthday');
+            $table->text('Birthplace');
+            $table->text('Languages');
+            $table->text('AcademicDegree');
+            $table->text('ScientificWork');
+            $table->text('MilitaryRank');
+            $table->text('MilitaryComposition');
+            $table->text('MilitaryBranch');
+            $table->text('HomeAddress');
+            $table->text('Phone');
+            $table->text('PassportSeries');
+            $table->text('PassportNumber');
+            $table->text('PassportGiven');
+            $table->text('Inn');
+            $table->text('Pfr');
+            $table->longText('Biography');
 
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('post_id')->references('id')->on('posts');
         });
     }
 

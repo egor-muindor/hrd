@@ -1,7 +1,6 @@
 <?php
 
-use App\User;
-use Illuminate\Support\Str;
+use App\Models\User;
 use Faker\Generator as Faker;
 
 /*
@@ -15,12 +14,12 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(\App\Models\User::class, function (Faker $faker) {
+$factory->define(User::class, function (Faker $faker) {
     return [
         'name' => 'Muindor',
         'email' => 'qwer@qwer.ru',
         'email_verified_at' => now(),
-        'password' => '$2y$10$EnJoabyvLO8UGTuqrHxHPufOpg0ZPXSAFB22yKCd1aLGgGHMSE4sS', // password
+        'password' => '$2y$10$EnJoabyvLO8UGTuqrHxHPufOpg0ZPXSAFB22yKCd1aLGgGHMSE4sS', // password "12345678"
         'remember_token' => '4VscQNcXaSODzPHlL12XuQs05F0yJdFfNBspQenQGxe4hNp8IIc2dUBr9bb2',
     ];
 });

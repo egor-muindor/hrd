@@ -22,11 +22,12 @@
 </head>
 <body>
     <div id="app">
+
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
+{{--                <a class="navbar-brand" href="{{ url('/') }}">--}}
+{{--                    {{ config('app.name', 'Laravel') }}--}}
+{{--                </a>--}}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -37,15 +38,16 @@
                     <!-- Left Side Of Navbar -->
                     @auth
                     <ul class="navbar-nav mr-auto">
+
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('departament.index') }}">Отделы</a>
+                            Вы авторизованы! Демо режим!
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('post.index') }}">Вакансии</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('application.index') }}">Заявки</a>
-                        </li>
+{{--                        <li class="nav-item">--}}
+{{--                            <a class="nav-link" href="{{ route('post.index') }}">Вакансии</a>--}}
+{{--                        </li>--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a class="nav-link" href="{{ route('application.index') }}">Заявки</a>--}}
+{{--                        </li>--}}
                     </ul>
                     @endif
                     <!-- Right Side Of Navbar -->
@@ -53,7 +55,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Авторизация') }}</a>
                             </li>
                             @if (Route::has('register'))
                                 <li class="nav-item">
@@ -83,6 +85,7 @@
                 </div>
             </div>
         </nav>
+
 
         <main class="py-4">
             @yield('content')

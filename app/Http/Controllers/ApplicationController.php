@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ChangeStatusRequest;
 use App\Http\Requests\UpdateApplicationRequest;
+use App\Jobs\ExportTo1C;
 use App\Models\Application;
 use App\Models\Departament;
 use App\Models\Post;
 use App\Repositories\ApplicationRepository;
+use Carbon\Carbon;
 use Debugbar;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -115,37 +117,10 @@ class ApplicationController extends Controller
      */
     public function export(Request $request)
     {
-        $application = Application::findOrFail($request->id);
         try {
-            $client = new SoapClient(config('app.address_1c')); //для 1с
-            $status = 'Ошибка определения статуса';
-            switch ($application->status) {
-                case 0:
-                    $status = 'Не проверена';
-                    break;
-                case 1:
-                    $status = 'Принята';
-                    break;
-                case 2:
-                    $status = 'Отклонена';
-                    break;
-            }
-            $data = array(
-                'first_name' => $application->first_name,
-                'middle_name' => $application->middle_name,
-                'last_name' => $application->last_name,
-                'post_id' => $application->post->name,
-                'passport_id' => $application->passport_id,
-                'employment_history' => $application->employment_history,
-                'snils' => $application->snils,
-                'inn' => $application->inn,
-                'scientific_works' => $application->scientific_works,
-                'email' => $application->email,
-                'status' => $status,
-                'description' => $application->description);
-
-            $result = $client->SendApplication($data);
-            return response()->json(['message' => 'Успешно отправлено в БД 1С', 'code' => $result->return]);
+            $item = Application::findOrFail($request->id);
+            ExportTo1C::dispatch($item)->delay(Carbon::now()->addSeconds(15));
+            return response()->json(['message' => 'Успешно отправлено в БД 1С', 'code' => 200]);
         } catch (Exception $error) {
             Debugbar::info($error);
             return response()->json(['message' => 'Ошибка сохранения в 1С', 'code' => 500]);
