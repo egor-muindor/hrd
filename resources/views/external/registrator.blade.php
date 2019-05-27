@@ -11,7 +11,7 @@
                 @csrf
                 <div class="container">
                     @php    /** @var Illuminate\Support\ViewErrorBag $errors */ @endphp
-                    @include('ap.layouts.message_blog')
+                    @include('ap_old.layouts.message_blog')
 
                     <div class="row justify-content-center">
                         <div class="col-md-12">

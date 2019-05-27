@@ -8,7 +8,7 @@
         <div class="col-md-11">
             <div class="row justify-content-center">
                 <div class="col-md-12">
-                        @include('ap.layouts.message_blog')
+                        @include('ap_old.layouts.message_blog')
                         <div class="card">
                             <div class="card-body">
                                 <table class="table table-hover table-responsive-md">

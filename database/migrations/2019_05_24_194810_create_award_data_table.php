@@ -15,8 +15,8 @@ class CreateAwardDataTable extends Migration
     {
         Schema::create('award_data', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('data');
-            $table->text('reward');
+            $table->string('data');
+            $table->string('reward');
             $table->unsignedBigInteger('candidate_id');
 
             $table->foreign('candidate_id')->references('id')->on('applications');

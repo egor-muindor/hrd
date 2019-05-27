@@ -5,7 +5,7 @@
     <div class="row justify-content-center align-items-start">
         <div class="col-md-10">
             <div class="container">
-                @include('ap.layouts.message_blog')
+                @include('ap_old.layouts.message_blog')
                 <div class="row justify-content-center">
                     <div class="col-md-9">
                         <nav class="nav navbar">

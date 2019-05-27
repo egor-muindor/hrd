@@ -13,7 +13,7 @@
         <div class="col-md-10">
             <div class="container">
                 <div id="success" class="sticky-top" style="padding-top: 10px"></div>
-                @include('ap.layouts.message_blog')
+                @include('ap_old.layouts.message_blog')
                 <form method="post" action="{{ route('application.update', $application->id) }}" enctype="multipart/form-data">
                     @method('PATCH')
                     @csrf

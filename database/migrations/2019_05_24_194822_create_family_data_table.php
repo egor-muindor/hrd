@@ -15,11 +15,11 @@ class CreateFamilyDataTable extends Migration
     {
         Schema::create('family_data', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('name');
-            $table->text('surname');
-            $table->text('patronymic');
-            $table->text('birthday');
-            $table->text('telephone');
+            $table->string('name');
+            $table->string('surname');
+            $table->string('patronymic');
+            $table->string('birthday');
+            $table->string('telephone');
             $table->unsignedBigInteger('candidate_id');
 
             $table->foreign('candidate_id')->references('id')->on('applications');

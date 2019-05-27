@@ -15,10 +15,10 @@ class CreateWorkDataTable extends Migration
     {
         Schema::create('work_data', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('entry');
-            $table->text('exit');
-            $table->text('position');
-            $table->text('location');
+            $table->string('entry');
+            $table->string('exit');
+            $table->string('position');
+            $table->string('location');
             $table->unsignedBigInteger('candidate_id');
 
             $table->foreign('candidate_id')->references('id')->on('applications');

@@ -15,10 +15,10 @@ class CreateAbroadDataTable extends Migration
     {
         Schema::create('abroad_data', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('sinceTime');
-            $table->text('atTime');
-            $table->text('country');
-            $table->text('goal');
+            $table->string('sinceTime');
+            $table->string('atTime');
+            $table->string('country');
+            $table->string('goal');
             $table->unsignedBigInteger('candidate_id');
 
             $table->foreign('candidate_id')->references('id')->on('applications');

@@ -7,24 +7,63 @@ use App\Jobs\ExportTo1C;
 use App\Models\AbroadData;
 use App\Models\Application;
 use App\Models\AwardData;
+use App\Models\Candidate;
 use App\Models\EducationData;
 use App\Models\FamilyData;
 use App\Models\WorkData;
 
 use Exception;
 use Illuminate\Http\RedirectResponse;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 
 class RegistratorController extends Controller
 {
+    public function auth(){
+        return view('external.auth_candidate');
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function authorization(Request $request)
+    {
+        $candidate = Candidate::whereEmail($request->email)->first();
+        if (!empty($candidate)) {
+            $hash = Hash::check($request->input('password'),$candidate->password);
+            if ($hash){
+                $token = Hash::make(Str::random());
+                $candidate->update(['remember_token' => $token]);
+                return redirect(route('registration.create'))->cookie('candidate_token', $token);
+            } else {
+                return back()->withInput()->withErrors('Неверная почта или пароль');
+            }
+        } else {
+            return back()->withInput()->withErrors('Неверная почта или пароль');
+        }
+
+
+    }
+
+    public function index()
+    {
+        return view('external.main_page');
+    }
+
     /**
      * Возвращает окно заявки
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function create(Request $request)
     {
+        if (empty($request->cookie('candidate_token'))){
+            return redirect(route('registration.auth'));
+        } else if(empty(Candidate::whereRememberToken($request->cookie('candidate_token'))->first())){
+            return redirect(route('registration.auth'));
+        }
         return view('external.newRegistrator');
     }
 
@@ -37,9 +76,16 @@ class RegistratorController extends Controller
     public function store(StoreApplicationRequest $request)
     {
 //        dd(__METHOD__, $request->input());
+        if (empty($request->cookie('candidate_token'))){
+            return response()->json(['message' => 'Ошибка авторизации', 'code' => 500]);
+        } else if(empty(Candidate::whereRememberToken($request->cookie('candidate_token'))->first())){
+            return response()->json(['message' => 'Ошибка авторизации', 'code' => 500]);
+        }
         $rawData = $request->input();
 
+
         $candidate = new Application([
+            'candidate_id' => Candidate::whereRememberToken($request->cookie('candidate_token'))->first()->id,
             'Surname' => $rawData['formData']['candidateSurname'],
             'Name' => $rawData['formData']['candidateName'],
             'Patronymic' => $rawData['formData']['candidatePatronymic'],

@@ -15,8 +15,8 @@
     <div class="row justify-content-center align-items-start">
         <div class="col-md-10">
             <div class="container">
-                @include('ap.layouts.message_blog')
-                <form method="post" action="{{ route('departament.update', $departament->id) }}"
+                @include('ap_old.layouts.message_blog')
+                <form method="post" action="{{ route('post.update', $post->id) }}"
                       enctype="multipart/form-data">
                     @method('PATCH')
                     @csrf
@@ -25,7 +25,7 @@
                             <nav class="nav navbar">
                                 <div>
                                     <a class="btn btn-secondary"
-                                       href="{{ route('departament.show', $departament->id) }}">Назад</a>
+                                       href="{{ route('post.show', $post->id) }}">Назад</a>
                                 </div>
                                 <div>
                                     <a class="btn btn-danger " id="delete_app" data-toggle="modal"
@@ -37,16 +37,24 @@
                                 <div class="col-md-12">
                                     <div class="card">
                                         <div class="card-body">
-                                            @php /** @var App\Models\Departament $departament */ @endphp
+                                            @php /** @var Post $post */use App\Models\Post; @endphp
                                             <div class="tab-content">
                                                 <div class="tab-pane active">
                                                     <div class="form-group">
-                                                        <label class="col-form-label">Ид отдела</label>
-                                                        <input class="form-control" readonly
-                                                               value="{{ $departament->id }}">
-                                                        <label class="col-form-label">Название отдела</label>
-                                                        <input name="name" class="form-control" required
-                                                               placeholder="Название" value="{{ $departament->name }}">
+                                                        <label class="col-form-label">Ид должности</label>
+                                                        <input class="form-control" readonly value="{{ $post->id }}">
+                                                        <label class="col-form-label">Вакансия</label>
+                                                        <input name="name" class="form-control"
+                                                               placeholder="Название" value="{{ $post->name }}">
+                                                        <label class="col-form-label">Отдел</label>
+                                                        <select id="departament_id" name="departament_id"
+                                                                required class="form-control">
+                                                            @php /** @var App\Models\Departament $departament */ @endphp
+                                                            @foreach ($departaments as $departament)
+                                                                <option @if($departament->id === $post->departament_id) selected
+                                                                        @endif value="{{ $departament->id }}">{{ $departament->name }}</option>
+                                                            @endforeach
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -61,17 +69,18 @@
         </div>
     </div>
 
-    {{--     Модальное окно удаления отдела --}}
+    {{--     Модальное окно удаления вакансии --}}
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">Вы хотите удалить отдел {{ $departament->name }}?</h4>
+                    <h4 class="modal-title" id="myModalLabel">Вы хотите удалить вакансию {{ $post->name }} из
+                        отдела {{$post->departament->name}}?</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('departament.destroy', $departament->id) }}" method="post">
+                <form action="{{ route('post.destroy', $post->id) }}" method="post">
                     @method('DELETE')
                     @csrf
                     <div class="modal-footer">
@@ -82,4 +91,5 @@
             </div>
         </div>
     </div>
+
 @endsection

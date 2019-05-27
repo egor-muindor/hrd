@@ -8,7 +8,7 @@
 
         <div class="col-md-10">
             <div class="container">
-                @include('ap.layouts.message_blog')
+                @include('ap_old.layouts.message_blog')
                 <div id="success" class="sticky-top" style="padding-top: 10px"></div>
 
                 <nav class="nav navbar">

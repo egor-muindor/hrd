@@ -15,14 +15,14 @@ class CreateEducationDataTable extends Migration
     {
         Schema::create('education_data', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('institution');
-            $table->text('faculty');
-            $table->text('formStudy');
-            $table->text('admissionYear');
-            $table->text('graduationYear');
-            $table->text('graduationCourse');
-            $table->text('specialty');
-            $table->text('diploma');
+            $table->string('institution');
+            $table->string('faculty');
+            $table->string('formStudy');
+            $table->string('admissionYear');
+            $table->string('graduationYear');
+            $table->string('graduationCourse');
+            $table->string('specialty');
+            $table->string('diploma');
             $table->unsignedBigInteger('candidate_id');
 
             $table->foreign('candidate_id')->references('id')->on('applications');

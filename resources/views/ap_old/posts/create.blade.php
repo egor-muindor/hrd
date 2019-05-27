@@ -5,7 +5,7 @@
     <div class="row justify-content-center align-items-start">
         <div class="col-md-10">
             <div class="container">
-                @include('ap.layouts.message_blog')
+                @include('ap_old.layouts.message_blog')
                 <form method="post" action="{{ route('post.store') }}"
                       enctype="multipart/form-data">
                     @csrf
