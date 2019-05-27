@@ -2,11 +2,15 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-10">
-            @include('layouts.message_block')
             <div class="container">
                 <div class="card">
                     <div class="card-body">
-                        <h2>Добавить кандидата</h2>
+                        <div class="row">
+                            <a class="btn btn-secondary" href="{{ route('head.index') }}">Назад</a>
+                            <div class="col text-center">
+                                <h2>Добавить кандидата</h2>
+                            </div>
+                        </div>
                         <hr>
                         <form action="{{ route('candidate.store') }}" method="post">
                             @csrf

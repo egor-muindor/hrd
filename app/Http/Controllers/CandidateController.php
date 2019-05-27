@@ -23,8 +23,8 @@ class CandidateController extends Controller
      */
     public function index()
     {
-        $links = Candidate::all();
-        return view('control_panel.index', compact('links'));
+        $candidates = Candidate::paginate(25);
+        return view('control_panel.candidates_list', compact('candidates'));
     }
 
     /**

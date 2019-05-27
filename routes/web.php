@@ -26,6 +26,7 @@ Route::post('/candidate/add','RegistratorController@store')->name('registration.
 
 Route::get('/cp', 'HeadController@index')->name('head.index');
 
+Route::get('/candidate', 'CandidateController@index' )->name('candidate.index');
 Route::get('/candidate/create', 'CandidateController@create')->name('candidate.create');
 Route::post('/candidate', 'CandidateController@store')->name('candidate.store');
 

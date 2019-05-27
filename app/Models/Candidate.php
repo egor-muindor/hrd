@@ -30,10 +30,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Candidate whereUncialId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Candidate whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $status
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Candidate whereStatus($value)
  */
 class Candidate extends Model
 {
     protected $fillable = [
-        'email', 'password', 'uncial_id', 'remember_token', 'last_visit', 'head_name'
+        'email', 'password', 'uncial_id', 'remember_token', 'last_visit', 'head_name', 'status'
     ];
 }

@@ -21,6 +21,7 @@ class CreateCandidatesTable extends Migration
             $table->timestamp('last_visit')->nullable();
             $table->string('remember_token')->nullable();
             $table->string('head_name');
+            $table->string('status')->default('Не подано');
             $table->timestamps();
         });
     }
