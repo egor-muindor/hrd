@@ -67,7 +67,7 @@
                                         :remove-button-size="25"
                                         :show-loading="true"
                                         :loading-size="50"
-                                        :quality="1"
+                                        :quality="3"
                                         :prevent-white-space="true">
                                 </croppa>
                             </div>

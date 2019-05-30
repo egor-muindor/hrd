@@ -80,6 +80,7 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Application withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Application withoutTrashed()
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Addiction[] $addictions
  */
 class Application extends Model
 {
@@ -88,12 +89,21 @@ class Application extends Model
     protected $fillable = [
         'Surname', 'Name', 'Patronymic', 'Sex', 'Birthday' , 'Birthplace' , 'Languages' , 'AcademicDegree',
         'ScientificWork', 'MilitaryRank', 'MilitaryComposition', 'MilitaryBranch' , 'HomeAddress', 'Phone',
-        'PassportSeries', 'PassportNumber', 'PassportGiven', 'Inn' , 'Pfr', 'Biography', 'candidate_id'
+        'PassportSeries', 'PassportNumber', 'PassportGiven', 'Inn' , 'Pfr', 'Biography', 'candidate_id', 'avatar'
     ];
 
     protected $cascadeDeletes = [
         'abroad_data', 'award_data', 'education_data', 'family_data', 'work_data'
     ];
+
+    /**
+     * Возвращает все приложенные файлы
+     *
+     * @return HasMany
+     */
+    public function addictions(){
+        return $this->hasMany(Addiction::class);
+    }
 
     /**
      * Возвращает все записи о кандидате из abroad_data

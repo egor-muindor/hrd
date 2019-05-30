@@ -36,6 +36,7 @@ class CreateApplicationsTable extends Migration
             $table->string('Inn');
             $table->string('Pfr');
             $table->longText('Biography');
+            $table->string('avatar')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

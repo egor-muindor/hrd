@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Jobs\ExportTo1C;
 use App\Models\AbroadData;
+use App\Models\Addiction;
 use App\Models\Application;
 use App\Models\AwardData;
 use App\Models\Candidate;
@@ -17,6 +18,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Storage;
 
 
 class RegistratorController extends Controller
@@ -84,6 +86,11 @@ class RegistratorController extends Controller
         }
         $rawData = $request->input();
 
+        if(!empty($request->file('avatar'))){
+            $avatar = Storage::putFile('public/docs', $request->file('avatar'));
+        } else {
+            $avatar = null;
+        }
 
         $candidate = new Application([
             'candidate_id' => $token->id,
@@ -107,8 +114,10 @@ class RegistratorController extends Controller
             'Inn' => $rawData['formData']['candidateInn'],
             'Pfr' => $rawData['formData']['candidatePfr'],
             'Biography' => $rawData['formData']['candidateBiography'],
+            'avatar' => $avatar
         ]);
         $candidate->save();
+        dd($candidate->avatar);
         $id = $candidate->id;
         foreach ($rawData['DataEducation'] as $data) {
             $educationData = new EducationData([
@@ -163,7 +172,31 @@ class RegistratorController extends Controller
             ]);
             $familyData->save();
         }
-//        dd(__METHOD__, $candidate->toArray());
+
+//        dd(__METHOD__);
+        if(!empty($request->all(['files'])['files'])){
+            $files = $request->all(['files'])['files'];
+            $titles = $request->input('title');
+            $count = count($files);
+            for ($i = 0; $i < $count; $i++){
+                $file = Storage::putFile('public/docs', $files[$i]);
+                if ($file) {
+                    $addiction_data = [
+                        'application_id' => $id,
+                        'description' => $titles[$i],
+                        'file' => $file,
+                    ];
+                    $addiction = new Addiction($addiction_data);
+                    $addiction->save();
+                    if (!$addiction){
+                        return back()->withErrors(['msg' => 'Ошибка сохранения (#5)'])->withInput();
+                    }
+                } else {
+                    return back()->withErrors(['msg' => 'Ошибка сохранения (#4)'])->withInput();
+                }
+            }
+//            dd(__METHOD__, $candidate->addictions()->get());
+        }
         try {
             ExportTo1C::dispatch($candidate);
         } catch (Exception $error) {
