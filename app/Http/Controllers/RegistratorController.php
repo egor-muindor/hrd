@@ -76,16 +76,17 @@ class RegistratorController extends Controller
     public function store(StoreApplicationRequest $request)
     {
 //        dd(__METHOD__, $request->input());
+        $token = Candidate::whereRememberToken($request->cookie('candidate_token'))->first();
         if (empty($request->cookie('candidate_token'))){
             return response()->json(['message' => 'Ошибка авторизации', 'code' => 500]);
-        } else if(empty(Candidate::whereRememberToken($request->cookie('candidate_token'))->first())){
+        } else if(empty($token)){
             return response()->json(['message' => 'Ошибка авторизации', 'code' => 500]);
         }
         $rawData = $request->input();
 
 
         $candidate = new Application([
-            'candidate_id' => Candidate::whereRememberToken($request->cookie('candidate_token'))->first()->id,
+            'candidate_id' => $token->id,
             'Surname' => $rawData['formData']['candidateSurname'],
             'Name' => $rawData['formData']['candidateName'],
             'Patronymic' => $rawData['formData']['candidatePatronymic'],
@@ -162,7 +163,7 @@ class RegistratorController extends Controller
             ]);
             $familyData->save();
         }
-//        dd(__METHOD__, $candidate);
+//        dd(__METHOD__, $candidate->toArray());
         try {
             ExportTo1C::dispatch($candidate);
         } catch (Exception $error) {

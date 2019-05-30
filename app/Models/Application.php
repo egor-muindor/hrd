@@ -102,7 +102,7 @@ class Application extends Model
      */
     public function abroad_data()
     {
-        return $this->hasMany(AbroadData::class);
+        return $this->hasMany(AbroadData::class,'candidate_id');
     }
 
     /**
@@ -112,7 +112,7 @@ class Application extends Model
      */
     public function award_data()
     {
-        return $this->hasMany(AwardData::class);
+        return $this->hasMany(AwardData::class,'candidate_id');
     }
 
     /**
@@ -122,7 +122,7 @@ class Application extends Model
      */
     public function education_data()
     {
-        return $this->hasMany(EducationData::class);
+        return $this->hasMany(EducationData::class,'candidate_id');
     }
 
     /**
@@ -132,7 +132,7 @@ class Application extends Model
      */
     public function family_data()
     {
-        return $this->hasMany(FamilyData::class);
+        return $this->hasMany(FamilyData::class,'candidate_id');
     }
 
     /**
@@ -142,6 +142,6 @@ class Application extends Model
      */
     public function work_data()
     {
-        return $this->hasMany(WorkData::class);
+        return $this->hasMany(WorkData::class,'candidate_id');
     }
 }

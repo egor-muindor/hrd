@@ -23,7 +23,7 @@ Route::post('candidate/auth', 'RegistratorController@authorization')->name('regi
 
 Route::get('/candidate/add', 'RegistratorController@create')->name('registration.create');
 Route::post('/candidate/add','RegistratorController@store')->name('registration.store');
-
+Route::post('/candidate/add/files','RegistratorController@acceptFiles')->name('registration.files');
 Route::get('/cp', 'HeadController@index')->name('head.index');
 
 Route::get('/candidate', 'CandidateController@index' )->name('candidate.index');

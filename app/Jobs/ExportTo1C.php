@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 
 use App\Models\Application;
+use App\Models\Candidate;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -41,50 +42,98 @@ class ExportTo1C implements ShouldQueue
      */
     public function handle()
     {
-        /**
-         * Его я не трогал, так что он работать не будет как есть, нужно переписывать
-         */
         try {
-            $client = new SoapClient(config('app.address_1c')); //для 1с
-//            $client = new SoapClient('http://192.168.56.1/I1C/ws/ws3.1cws?wsdl');
-            $addictions = Addiction::whereApplicationId($this->application->id)->get();
-            $array_with_links = []; //Массив, в котором будем передавать ссылки
-            foreach ($addictions as $addiction) {
-                $url = Storage::url($addiction->file);
-                $desc = $addiction->description;
-                $extension = substr(strrchr($addiction->file, '.'), 1);
-                if (!empty($extension)) {
-                    $array_with_links[] = [$url, $desc, $extension];  //Загоняем ссылки и описания в массив для передачи
-                }
+            $client = new SoapClient(config('app.address_1c'), array( "trace" => false, "exceptions" => true, 'cache_wsdl' => WSDL_CACHE_NONE) ); //для 1с
+            $formData = [
+                $this->application->Surname,
+                $this->application->Name,
+                $this->application->Patronymic,
+                $this->application->Sex,
+                $this->application->Birthday,
+                $this->application->Birthplace,
+                $this->application->Languages,
+                $this->application->AcademicDegree,
+                $this->application->ScientificWork,
+                $this->application->MilitaryRank,
+                $this->application->MilitaryComposition,
+                $this->application->MilitaryBranch,
+                $this->application->HomeAddress,
+                $this->application->Phone,
+                $this->application->PassportSeries,
+                $this->application->PassportNumber,
+                $this->application->PassportGiven,
+                $this->application->Inn,
+                $this->application->Pfr,
+                $this->application->Biography];
+
+            $DataEducation = [];
+            foreach ($this->application->education_data as $education){
+                $DataEducation[] = [
+                    $education->institution,
+                    $education->faculty,
+                    $education->formStudy,
+                    $education->admissionYear,
+                    $education->graduationYear,
+                    $education->graduationCourse,
+                    $education->specialty,
+                    $education->diploma,
+                    $education->candidate_id];
             }
 
-            $dat = [
-                'first_name' => $this->application->first_name,
-                'middle_name' => $this->application->middle_name,
-                'last_name' => $this->application->last_name,
-                'post_id' => $this->application->post->name,
-                'passport_id' => $this->application->passport_id,
-                'employment_history' => $this->application->employment_history,
-                'snils' => $this->application->snils,
-                'inn' => $this->application->inn,
-                'scientific_works' => $this->application->scientific_works,
-                'email' => $this->application->email,
-                'status' => 'Не проверена',
-                'description' => $this->application->description,
-                'data' => $array_with_links
-
-            ];
-
-            $response = $client->SendApplication($dat); // ответ от 1с
-            Log::info('[WTF]', [$response]);
-            // Удаление всех приложений
-            foreach ($addictions as $addiction) {
-                // тут можно обработать все приложения перед удалением
-                Storage::delete($addiction->file);
-                $addiction->forceDelete();
+            $DataWork = [];
+            foreach ($this->application->work_data as $work){
+                $DataWork[] = [
+                    $work->entry,
+                    $work->exit,
+                    $work->position,
+                    $work->location,
+                    $work->candidate_id];
             }
-            $this->application->forceDelete();
-            $this->delete();
+            $DataAbroad = [];
+            foreach ($this->application->abroad_data as $abroad){
+                $DataAbroad[] = [
+                    $abroad->sinceTime,
+                    $abroad->atTime,
+                    $abroad->country,
+                    $abroad->goal,
+                    $abroad->candidate_id];
+            }
+            $DataAward = [];
+            foreach ($this->application->award_data as $award){
+                $DataAward[] = [
+                    $award->data,
+                    $award->reward,
+                    $award->candidate_id];
+            }
+
+            $DataFamily = [];
+            foreach ($this->application->family_data as $family){
+                $DataFamily[] = [
+                    $family->name,
+                    $family->surname,
+                    $family->patronymic,
+                    $family->birthday,
+                    $family->telephone,
+                    $family->candidate_id
+                ];
+            }
+            $datas = array(
+                "formData" => $formData,
+                "DataEducation" => $DataEducation,
+                "DataWork" => $DataWork,
+                "DataAbroad" => $DataAbroad,
+                "DataAward" => $DataAward,
+                "DataFamily" => $DataFamily);
+
+
+            $response = $client->SendApplication($datas); // ответ от 1с
+            if (!empty($response)){
+                Candidate::update(['uncial_id' => $response->return, 'status' => 'Доставлено в 1С']); //Возвращает уникальную ссылку на запись
+                $this->application->forceDelete();
+                $this->delete();
+            } else {
+                throw new Exception('Ошибка отправки данных в 1С.', 500);
+            }
         } catch (Exception $error) {
             throw new Exception($error, 101);
         }
