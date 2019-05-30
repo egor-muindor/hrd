@@ -10,8 +10,11 @@
                                 <a class="btn btn-outline-primary" href="{{route('login')}}">Авторизация
                                     руководителя</a>
                                 <hr>
+                            @else
+                                <a class="btn btn-outline-primary" href="{{route('head.index')}}">Панель управления руководителя</a>
+                                <hr>
                             @endguest
-                            <a class="btn btn-outline-primary" href="{{route('registration.auth')}}">Авторизация кандидата</a>
+                            <a class="btn btn-outline-primary" href="{{route('registration.lk')}}">Личный кабинет кандидата</a>
                         </div>
                     </div>
                 </div>

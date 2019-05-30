@@ -20,13 +20,16 @@ Route::get('/', 'RegistratorController@index')->name('registration.index');
 
 Route::get('candidate/auth', 'RegistratorController@auth')->name('registration.auth');
 Route::post('candidate/auth', 'RegistratorController@authorization')->name('registration.authorization');
+Route::get('candidate/logout', 'RegistratorController@logout')->name('registration.logout');
 
-Route::get('/candidate/add', 'RegistratorController@create')->name('registration.create');
+Route::get('candidate/', 'RegistratorController@lk_candidate')->name('registration.lk')
+    ->middleware(\App\Http\Middleware\CandidateAuth::class);
+Route::get('/candidate/add', 'RegistratorController@create')->name('registration.create')
+    ->middleware(\App\Http\Middleware\CandidateAuth::class);
 Route::post('/candidate/add','RegistratorController@store')->name('registration.store');
-Route::post('/candidate/add/files','RegistratorController@acceptFiles')->name('registration.files');
-Route::get('/cp', 'HeadController@index')->name('head.index');
 
-Route::get('/candidate', 'CandidateController@index' )->name('candidate.index');
-Route::get('/candidate/create', 'CandidateController@create')->name('candidate.create');
-Route::post('/candidate', 'CandidateController@store')->name('candidate.store');
+Route::get('/cp', 'HeadController@index')->name('head.index');
+Route::get('/cp/candidate', 'CandidateController@index' )->name('candidate.index');
+Route::get('/cp/candidate/create', 'CandidateController@create')->name('candidate.create');
+Route::post('/cp/candidate', 'CandidateController@store')->name('candidate.store');
 

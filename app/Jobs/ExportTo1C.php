@@ -128,7 +128,7 @@ class ExportTo1C implements ShouldQueue
 
             $response = $client->SendApplication($datas); // ответ от 1с
             if (!empty($response)){
-                Candidate::update(['uncial_id' => $response->return, 'status' => 'Доставлено в 1С']); //Возвращает уникальную ссылку на запись
+                $this->application->candidate()->update(['uncial_id' => $response->return, 'status' => 'Доставлено в 1С']); //Возвращает уникальную ссылку на запись
                 $this->application->forceDelete();
                 $this->delete();
             } else {

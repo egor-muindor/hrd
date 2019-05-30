@@ -5,6 +5,7 @@
         </header>
         <main>
             <form @submit="sendData" action="javascript:void(0);" method="get" class="container form">
+                <a class="btn btn-secondary" href="/candidate/">Назад</a>
                 <!-- <img :src="this.imgUrl" alt="Вставка обрезанного фото"> -->
                 <section class="main-information">
                     <div class="row">
@@ -19,11 +20,11 @@
                                     </div>
                                     <input class="input input-name" id="main-information__name" type="text"
                                            v-model="formData.candidateName" name="main-information__name"
-                                           placeholder="Иван" required>
+                                           placeholder="Иван" required style="margin-top: 20px">
                                     <div class="label-box">
                                         <label class="label" for="main-information__name">Имя</label>
                                     </div>
-                                    <select class="sex" id="sex" name="sex" v-model="formData.candidateSex" required>
+                                    <select class="sex" id="sex" name="sex" v-model="formData.candidateSex" required style="margin-top: 20px">
                                         <option>Муж</option>
                                         <option>Жен</option>
                                     </select>
@@ -34,19 +35,19 @@
                                 <div class="col">
                                     <input class="input input-name" id="main-information__patronymic" type="text"
                                            v-model="formData.candidatePatronymic"
-                                           name="main-information__patronymic" placeholder="Иванович" required>
+                                           name="main-information__patronymic" placeholder="Иванович" required style="margin-top: 20px">
                                     <div class="label-box">
                                         <label class="label" for="main-information__patronymic">Отчество</label>
                                     </div>
                                     <input class="birth-date" id="birth-date" type="date"
                                            v-model="formData.candidateBirthday" name="birth-date" min="1900-01-01"
-                                           max="2100-01-01" required>
+                                           max="2100-01-01" required style="margin-top: 20px">
                                     <div class="label-box">
                                         <label class="label label-birth-date" for="birth-date">Дата рождения</label>
                                     </div>
                                     <input class="input input-birth-place" type="text"
                                            v-model="formData.candidateBirthplace" name="birth-place"
-                                           placeholder="г. Москва, ул. Ленина, д. 12" required>
+                                           placeholder="г. Москва, ул. Ленина, д. 12" required style="margin-top: 20px">
                                     <div class="label-box">
                                         <label class="label label-birth-place" for="birth-place">Место рождения</label>
                                     </div>
@@ -569,7 +570,14 @@
                     </table>
                     <button class="btn btn-primary" type="button" @click="generateRow(tableFiles)">Добавить ряд</button>
                 </section>
-                <input name="_token" hidden v-bind:value="csrf">
+                <br><br>
+                <div class="form-group">
+                    <div class="label-box">
+                        <label class="col-form-label" for="email">Email для обратной связи:</label>
+                    </div>
+                    <input id="email" type="email" class="form-control" placeholder="contact@mail.ru" v-model="formData.candidateEmail" required>
+
+                </div>
                 <button type="submit" class="btn btn-form btn-outline-success">Отправить</button>
                 <div v-html="debugbody"></div>
             </form>
@@ -618,7 +626,8 @@
                     candidatePassportGiven: '',
                     candidateInn: '',
                     candidatePfr: '',
-                    candidateBiography: ''
+                    candidateBiography: '',
+                    candidateEmail: ''
                 },
                 debugbody: ''
             }
@@ -682,9 +691,11 @@
                     .then(response => {
                         // let resp = response['body'].json();
                         if (response['body']['code'] == 200) {
-                            alert(response['body']['message'])
+                            window.location = '/candidate?success=1';
+
                         }
-                        this.debugbody = response['body']
+                        this.debugbody = response['body'];
+
                     }).catch(error => {
                     let errors = [];
                     for (let each in error['body']['errors']) {
@@ -785,7 +796,8 @@
                 candidatePassportGiven: 'otdelenie',
                 candidateInn: '123123123123',
                 candidatePfr: '11111111111',
-                candidateBiography: 'dlinnaya avtobiografiya'
+                candidateBiography: 'dlinnaya avtobiografiya',
+                candidateEmail: 'qwer@qwer.ru'
             }
         }
     }

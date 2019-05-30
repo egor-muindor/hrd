@@ -29,6 +29,16 @@ class RegistratorController extends Controller
 
     /**
      * @param Request $request
+     * @return RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function logout(Request $request)
+    {
+        return redirect('/')->cookie('candidate_token', '', 0);
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function authorization(Request $request)
     {
@@ -45,13 +55,20 @@ class RegistratorController extends Controller
         } else {
             return back()->withInput()->withErrors('Неверная почта или пароль');
         }
-
-
     }
 
     public function index()
     {
         return view('external.main_page');
+    }
+
+    public function lk_candidate(Request $request)
+    {
+        $candidate = Candidate::whereRememberToken($request->cookie('candidate_token'))->first();
+        if ($request->input('success') === "1"){
+            return view('external.lk_candidate')->with(['success' => 'Заявка упешно отправлена', 'candidate' => $candidate]);
+        }
+        return view('external.lk_candidate', compact('candidate'));
     }
 
     /**
@@ -61,11 +78,11 @@ class RegistratorController extends Controller
      */
     public function create(Request $request)
     {
-        if (empty($request->cookie('candidate_token'))){
-            return redirect(route('registration.auth'));
-        } else if(empty(Candidate::whereRememberToken($request->cookie('candidate_token'))->first())){
-            return redirect(route('registration.auth'));
-        }
+//        if (empty($request->cookie('candidate_token'))){
+//            return redirect(route('registration.auth'));
+//        } else if(empty(Candidate::whereRememberToken($request->cookie('candidate_token'))->first())){
+//            return redirect(route('registration.auth'));
+//        }
         return view('external.newRegistrator');
     }
 
@@ -114,10 +131,11 @@ class RegistratorController extends Controller
             'Inn' => $rawData['formData']['candidateInn'],
             'Pfr' => $rawData['formData']['candidatePfr'],
             'Biography' => $rawData['formData']['candidateBiography'],
-            'avatar' => $avatar
+            'avatar' => $avatar,
+            'email' => $rawData['formData']['candidateEmail']
         ]);
         $candidate->save();
-        dd($candidate->avatar);
+//        dd($candidate->avatar);
         $id = $candidate->id;
         foreach ($rawData['DataEducation'] as $data) {
             $educationData = new EducationData([
@@ -197,6 +215,7 @@ class RegistratorController extends Controller
             }
 //            dd(__METHOD__, $candidate->addictions()->get());
         }
+        $candidate->candidate()->update(['status' => 'Направлено в отдел кадров']);
         try {
             ExportTo1C::dispatch($candidate);
         } catch (Exception $error) {

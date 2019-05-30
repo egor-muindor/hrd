@@ -82,7 +82,6 @@
 
 
         <main class="py-4">
-            @include('layouts.message_block')
             @yield('content')
         </main>
     </div>

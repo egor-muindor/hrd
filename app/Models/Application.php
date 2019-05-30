@@ -154,4 +154,14 @@ class Application extends Model
     {
         return $this->hasMany(WorkData::class,'candidate_id');
     }
+
+    /**
+     * Возвращает все записи о кандидате из work_data
+     *
+     * @return BelongsTo
+     */
+    public function candidate()
+    {
+        return $this->belongsTo(Candidate::class);
+    }
 }

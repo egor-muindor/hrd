@@ -88,6 +88,18 @@ class StoreApplicationRequest extends FormRequest
     }
 
     /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'formData.candidateEmail' => 'Email',
+        ];
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -115,6 +127,7 @@ class StoreApplicationRequest extends FormRequest
             'formData.candidateInn' => 'required|regex:/(^[0-9]{12}$)/',
             'formData.candidatePfr' => 'required|regex:/(^[0-9]{3}-[0-9]{3}-[0-9]{3}-[0-9]{2}$)/',
             'formData.candidateBiography' => 'required',
+            'formData.candidateEmail' => 'required|email',
 
             'DataEducation.*.institution' => 'required',
             'DataEducation.*.faculty' => 'required',

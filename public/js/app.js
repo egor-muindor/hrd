@@ -2363,6 +2363,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'app',
   props: {
@@ -2402,7 +2410,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         candidatePassportGiven: '',
         candidateInn: '',
         candidatePfr: '',
-        candidateBiography: ''
+        candidateBiography: '',
+        candidateEmail: ''
       },
       debugbody: ''
     };
@@ -2525,7 +2534,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }).then(function (response) {
                   // let resp = response['body'].json();
                   if (response['body']['code'] == 200) {
-                    alert(response['body']['message']);
+                    window.location = '/candidate?success=1';
                   }
 
                   _this.debugbody = response['body'];
@@ -2676,7 +2685,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       candidatePassportGiven: 'otdelenie',
       candidateInn: '123123123123',
       candidatePfr: '11111111111',
-      candidateBiography: 'dlinnaya avtobiografiya'
+      candidateBiography: 'dlinnaya avtobiografiya',
+      candidateEmail: 'qwer@qwer.ru'
     };
   }
 });
@@ -41245,6 +41255,15 @@ var render = function() {
           on: { submit: _vm.sendData }
         },
         [
+          _c(
+            "a",
+            {
+              staticClass: "btn btn-secondary",
+              attrs: { href: "/candidate/" }
+            },
+            [_vm._v("Назад")]
+          ),
+          _vm._v(" "),
           _c("section", { staticClass: "main-information" }, [
             _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-12 col-md-8" }, [
@@ -41294,6 +41313,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "input input-name",
+                      staticStyle: { "margin-top": "20px" },
                       attrs: {
                         id: "main-information__name",
                         type: "text",
@@ -41330,6 +41350,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "sex",
+                        staticStyle: { "margin-top": "20px" },
                         attrs: { id: "sex", name: "sex", required: "" },
                         on: {
                           change: function($event) {
@@ -41372,6 +41393,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "input input-name",
+                      staticStyle: { "margin-top": "20px" },
                       attrs: {
                         id: "main-information__patronymic",
                         type: "text",
@@ -41406,6 +41428,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "birth-date",
+                      staticStyle: { "margin-top": "20px" },
                       attrs: {
                         id: "birth-date",
                         type: "date",
@@ -41441,6 +41464,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "input input-birth-place",
+                      staticStyle: { "margin-top": "20px" },
                       attrs: {
                         type: "text",
                         name: "birth-place",
@@ -43196,10 +43220,39 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("input", {
-            attrs: { name: "_token", hidden: "" },
-            domProps: { value: _vm.csrf }
-          }),
+          _c("br"),
+          _c("br"),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _vm._m(46),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.formData.candidateEmail,
+                  expression: "formData.candidateEmail"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                id: "email",
+                type: "email",
+                placeholder: "contact@mail.ru",
+                required: ""
+              },
+              domProps: { value: _vm.formData.candidateEmail },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.formData, "candidateEmail", $event.target.value)
+                }
+              }
+            })
+          ]),
           _vm._v(" "),
           _c(
             "button",
@@ -43829,6 +43882,16 @@ var staticRenderFns = [
         _c("th", { staticClass: "col-7" }, [_vm._v("Файл")]),
         _vm._v(" "),
         _c("th", { staticClass: "col-1" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "label-box" }, [
+      _c("label", { staticClass: "col-form-label", attrs: { for: "email" } }, [
+        _vm._v("Email для обратной связи:")
       ])
     ])
   }
