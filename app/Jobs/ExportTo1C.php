@@ -64,7 +64,8 @@ class ExportTo1C implements ShouldQueue
                 $this->application->PassportGiven,
                 $this->application->Inn,
                 $this->application->Pfr,
-                $this->application->Biography];
+                $this->application->Biography,
+                Storage::url($this->application->avatar)];
 
             $DataEducation = [];
             foreach ($this->application->education_data as $education){
@@ -117,18 +118,40 @@ class ExportTo1C implements ShouldQueue
                     $family->candidate_id
                 ];
             }
+
+            $DataFiles = [];
+            foreach ($this->application->addictions()->get() as $file){
+                $url = Storage::url($file->file);
+                $desc = $file->description;
+                $extension = substr(strrchr($url, '.'), 1);
+                $DataFiles[] = [
+                    $url,
+                    $desc,
+                    $extension
+                ];
+            }
+
+            $domen = config('app.url');
+//            $avatar = /**/
             $datas = array(
                 "formData" => $formData,
                 "DataEducation" => $DataEducation,
                 "DataWork" => $DataWork,
                 "DataAbroad" => $DataAbroad,
                 "DataAward" => $DataAward,
-                "DataFamily" => $DataFamily);
+                "DataFamily" => $DataFamily,
+                "DataFiles" => $DataFiles,
+                "domen" => $domen );
 
 
             $response = $client->SendApplication($datas); // ответ от 1с
             if (!empty($response)){
                 $this->application->candidate()->update(['uncial_id' => $response->return, 'status' => 'Доставлено в 1С']); //Возвращает уникальную ссылку на запись
+                $addictions = $this->application->addictions()->get();
+                foreach ($addictions as $addiction) {
+                    // тут можно обработать все приложения перед удалением
+                    Storage::delete($addiction->file);
+                }
                 $this->application->forceDelete();
                 $this->delete();
             } else {

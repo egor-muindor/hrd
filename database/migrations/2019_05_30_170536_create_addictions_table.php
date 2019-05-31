@@ -20,7 +20,7 @@ class CreateAddictionsTable extends Migration
             $table->text('file');
             $table->timestamps();
 
-            $table->foreign('application_id')->references('id')->on('applications');
+            $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade');
         });
     }
 
