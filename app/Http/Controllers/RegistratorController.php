@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\StoreCandidateRequest;
 use App\Jobs\ExportTo1C;
+use App\Jobs\RefreshStatusJob;
 use App\Models\AbroadData;
 use App\Models\Addiction;
 use App\Models\Application;
@@ -20,6 +21,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Log;
 use SoapClient;
 use Storage;
 
@@ -107,12 +109,7 @@ class RegistratorController extends Controller
     {
         $candidate = Candidate::whereRememberToken($request->cookie('candidate_token'))->first();
         if($candidate->status === 'Отправлено в отдел кадров' or $candidate->status === 'На рассмотрении'){
-            $client = new SoapClient(config('app.address_1c'), array( "trace" => false, "exceptions" => true, 'cache_wsdl' => WSDL_CACHE_NONE) ); //для 1с
-            $data = ['UniqueField' => $candidate->uncial_id];
-            $response = $client->GetStatus($data);
-            if($response->return !== null and $response->return !== 'На рассмотрении'){
-                $candidate->update(['status' => $response->return]);
-            }
+            RefreshStatusJob::dispatch($candidate);
         }
         if ($request->input('success') === "1") {
             return view('external.lk_candidate')->with(['success' => 'Заявка упешно отправлена', 'candidate' => $candidate]);
