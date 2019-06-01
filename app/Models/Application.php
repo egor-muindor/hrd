@@ -81,6 +81,9 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\Application withoutTrashed()
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Addiction[] $addictions
+ * @property string|null $avatar
+ * @property-read \App\Models\Candidate $candidate
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Application whereAvatar($value)
  */
 class Application extends Model
 {

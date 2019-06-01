@@ -20,8 +20,14 @@
                         <h2>Личный кабинет кандидата</h2>
 
                         <nav class="navbar">
-                            <a class="nav-item btn btn-outline-primary" href="{{ route('registration.create') }}">Отправить заявление</a>
-                            <a class="nav-item btn btn-outline-danger" href="{{ route('registration.logout') }}">Выйти</a>
+                            @if($candidate->status === 'Не отправлено')
+                                <a class="nav-item btn btn-outline-primary" href="{{ route('registration.create') }}">Отправить
+                                    заявление</a>
+                            @else
+                                <a class="nav-item"></a>
+                            @endif
+                            <a class="nav-item btn btn-outline-danger"
+                               href="{{ route('registration.logout') }}">Выйти</a>
                         </nav>
                         @php /** @var \App\Models\Candidate $candidate */ @endphp
                         <div class="form-group">

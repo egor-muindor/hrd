@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCandidateRequest;
+use App\Mail\SendInvite;
 use App\Models\Candidate;
+use App\Models\Invite;
 use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Mail;
 
 class CandidateController extends Controller
 {
@@ -35,8 +38,8 @@ class CandidateController extends Controller
     public function create()
     {
 
-        return view('control_panel.create_candidate');
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -49,20 +52,7 @@ class CandidateController extends Controller
     {
 //        dd($request);
 //        dd(Auth::user()->name);
-        $data = [
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            'head_name' => Auth::user()->name,
-        ];
 
-
-        $newCandidate = new Candidate($data);
-        $result = $newCandidate->save();
-        if ($result) {
-            return back()->with(['success' => 'Кандидат успешно добавлен']);
-        }
-
-        return back()->withInput()->withErrors('Ошибка сохранения');
     }
 
     /**

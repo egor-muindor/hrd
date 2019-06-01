@@ -7,12 +7,14 @@
                     <div class="card-body">
                         <h2>Панель управления руководителя</h2>
                         <hr>
-                        <h3>Управление кандидатами</h3>
+                        <h4>Управление аккаунтами соискателей</h4>
 
                         <div class="form-group">
-                            <a class="btn btn-outline-primary" href="{{ route('candidate.create') }}">Добавить нового кандидата</a>
-                            <a class="btn btn-outline-primary" href="{{ route('candidate.index') }}">Список кандидатов</a>
+                            <a class="btn btn-outline-primary" href="{{ route('invites.create') }}">Добавить нового соискателя</a>
+                            <a class="btn btn-outline-primary" href="{{ route('candidate.index') }}">Список соискателей</a>
+                            <a class="btn btn-outline-primary" href="{{ route('invites.index') }}">Список приглашений</a>
                         </div>
+                        <hr>
                     </div>
                 </div>
             </div>

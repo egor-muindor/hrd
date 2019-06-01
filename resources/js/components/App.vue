@@ -14,13 +14,13 @@
                                 <div class="col">
                                     <input class="input" id="main-information__surname" type="text"
                                            v-model="formData.candidateSurname" name="main-information__surname"
-                                           placeholder="Иванов" required>
+                                           maxlength="255" placeholder="Иванов" required>
                                     <div class="label-box">
                                         <label class="label" for="main-information__surname">Фамилия</label>
                                     </div>
                                     <input class="input input-name" id="main-information__name" type="text"
                                            v-model="formData.candidateName" name="main-information__name"
-                                           placeholder="Иван" required style="margin-top: 20px">
+                                           maxlength="255" placeholder="Иван" required style="margin-top: 20px">
                                     <div class="label-box">
                                         <label class="label" for="main-information__name">Имя</label>
                                     </div>
@@ -35,19 +35,19 @@
                                 <div class="col">
                                     <input class="input input-name" id="main-information__patronymic" type="text"
                                            v-model="formData.candidatePatronymic"
-                                           name="main-information__patronymic" placeholder="Иванович" required style="margin-top: 20px">
+                                           maxlength="255" name="main-information__patronymic" placeholder="Иванович" required style="margin-top: 20px">
                                     <div class="label-box">
                                         <label class="label" for="main-information__patronymic">Отчество</label>
                                     </div>
                                     <input class="birth-date" id="birth-date" type="date"
                                            v-model="formData.candidateBirthday" name="birth-date" min="1900-01-01"
-                                           max="2100-01-01" required style="margin-top: 20px">
+                                           maxlength="255" max="2100-01-01" required style="margin-top: 20px">
                                     <div class="label-box">
                                         <label class="label label-birth-date" for="birth-date">Дата рождения</label>
                                     </div>
                                     <input class="input input-birth-place" type="text"
                                            v-model="formData.candidateBirthplace" name="birth-place"
-                                           placeholder="г. Москва, ул. Ленина, д. 12" required style="margin-top: 20px">
+                                           maxlength="255" placeholder="г. Москва, ул. Ленина, д. 12" required style="margin-top: 20px">
                                     <div class="label-box">
                                         <label class="label label-birth-place" for="birth-place">Место рождения</label>
                                     </div>
@@ -95,14 +95,14 @@
                             <td>
                                 <input class="input" id="institution" type="text" name="institution"
                                        v-model="entry['institution']" placeholder="Московский политех"
-                                       required>
+                                       maxlength="255" required>
                                 <div class="label-box">
                                     <label class="label" for="institution">Университет</label>
                                 </div>
                             </td>
                             <td>
                                 <input class="input" id="faculty" type="text" name="faculty" v-model="entry['faculty']"
-                                       placeholder="Информационные системы" required>
+                                       maxlength="255" placeholder="Информационные системы" required>
                                 <div class="label-box">
                                     <label class="label" for="faculty">Факультет</label>
                                 </div>
@@ -117,14 +117,14 @@
                             <td>
                                 <input class="input" id="admission-year" type="number" min="1900" max="2099" step="1"
                                        name="admission-year"
-                                       v-model="entry['admissionYear']" placeholder="2018" required>
+                                       maxlength="255" v-model="entry['admissionYear']" placeholder="2018" required>
                                 <div class="label-box">
                                     <label class="label" for="admission-year">Год поступления</label>
                                 </div>
                             </td>
                             <td>
                                 <input class="input" type="number" min="1900" max="2099" step="1" name="graduation-year"
-                                       v-model="entry['graduationYear']" placeholder="2018" required>
+                                       maxlength="255" v-model="entry['graduationYear']" placeholder="2018" required>
                                 <div class="label-box">
                                     <label class="label" for="graduation-year">Год окончания</label>
                                 </div>
@@ -132,7 +132,7 @@
                             <td>
                                 <input class="input" id="graduation-course" type="number" min="1" max="7" step="1"
                                        name="graduation-course"
-                                       v-model="entry['graduationCourse']" placeholder="1">
+                                       maxlength="255" v-model="entry['graduationCourse']" placeholder="1">
                                 <div class="label-box">
                                     <label class="label" for="graduation-course">Курс</label>
                                 </div>
@@ -140,7 +140,7 @@
                             <td>
                                 <input class="input" id="specialty" type="text" name="specialty"
                                        placeholder="Программист"
-                                       v-model="entry['specialty']" required>
+                                       maxlength="255" v-model="entry['specialty']" required>
                                 <div class="label-box">
                                     <label class="label" for="specialty">Специальность</label>
                                 </div>
@@ -148,7 +148,7 @@
                             <td>
                                 <input class="input" id="diploma" type="text" name="diploma" v-mask="'###### #######'"
                                        placeholder="999999 9999999"
-                                       v-model="entry['diploma']" required>
+                                       maxlength="255" v-model="entry['diploma']" required>
                                 <div class="label-box">
                                     <label class="label" for="diploma">№ диплома</label>
                                 </div>
@@ -169,7 +169,7 @@
                     <div class="row">
                         <div class="col">
                             <input class="input" id="languages" type="text" v-model="formData.candidateLanguages"
-                                   name="languages" placeholder="Английский, Испанский">
+                                   maxlength="255" name="languages" placeholder="Английский, Испанский">
                             <div class="label-box">
                                 <label class="label" for="languages">Иностранные языки</label>
                             </div>
@@ -177,7 +177,7 @@
                         <div class="col">
                             <input class="input" id="science-degree" type="text"
                                    v-model="formData.candidateAcademicDegree" name="science-degree"
-                                   placeholder="Доктор наук">
+                                   maxlength="255" placeholder="Доктор наук">
                             <div class="label-box">
                                 <label class="label" for="science-degree">Ученая степень</label>
                             </div>
@@ -185,7 +185,7 @@
                         <div class="col">
                             <input class="input" id="scientific-work" type="text"
                                    v-model="formData.candidateScientificWork" name="scientific-work"
-                                   placeholder="Научные работы">
+                                   maxlength="255" placeholder="Научные работы">
                             <div class="label-box">
                                 <label class="label" for="scientific-work">Научные труды</label>
                             </div>
@@ -215,17 +215,17 @@
                             <td>
                                 <input class="input" type="date" name="work-activity__entry" v-model="entry['entry']"
                                        min="1900-01-01" max="2100-01-01"
-                                       placeholder="Поступления" required>
+                                       maxlength="255" placeholder="Поступления" required>
                             </td>
                             <td>
                                 <input class="input" type="date" name="work-activity__exit" v-model="entry['exit']"
                                        min="1900-01-01" max="2100-01-01"
-                                       placeholder="Уход" required>
+                                       maxlength="255" placeholder="Уход" required>
                             </td>
                             <td>
                                 <input class="input" id="work-activity__position" type="text"
                                        name="work-activity__position" v-model="entry['position']"
-                                       placeholder="Менеджер" required>
+                                       maxlength="255" placeholder="Менеджер" required>
                                 <div class="label-box">
                                     <label class="label" for="work-activity__position">Должность</label>
                                 </div>
@@ -233,7 +233,7 @@
                             <td>
                                 <input class="input" id="work-activity__location" type="text"
                                        name="work-activity__location" v-model="entry['location']"
-                                       placeholder="г. Москва, ул. Ленина, д. 12" required>
+                                       maxlength="255" placeholder="г. Москва, ул. Ленина, д. 12" required>
                                 <div class="label-box">
                                     <label class="label" for="work-activity__location">Местонахождение</label>
                                 </div>
@@ -274,17 +274,17 @@
                             <td>
                                 <input class="input" type="month" name="work-activity__since-time"
                                        v-model="entry['sinceTime']" min="1900-01" max="2100-01"
-                                       placeholder="С какого времени" required>
+                                       maxlength="255" placeholder="С какого времени" required>
                             </td>
                             <td>
                                 <input class="input" type="month" name="work-activity__at-time"
                                        v-model="entry['atTime']" min="1900-01" max="2100-01"
-                                       placeholder="По какое время" required>
+                                       maxlength="255" placeholder="По какое время" required>
                             </td>
                             <td>
                                 <input class="input" id="work-activity__country" type="text"
                                        name="work-activity__country" v-model="entry['country']"
-                                       placeholder="Россия" required>
+                                       maxlength="255" placeholder="Россия" required>
                                 <div class="label-box">
                                     <label class="label" for="work-activity__country">Страна</label>
                                 </div>
@@ -292,7 +292,7 @@
                             <td>
                                 <input class="input" id="work-activity__goal" type="text" name="work-activity__goal"
                                        v-model="entry['goal']"
-                                       placeholder="работа, служебная командировка, туризм" required>
+                                       maxlength="255" placeholder="работа, служебная командировка, туризм" required>
                                 <div class="label-box">
                                     <label class="label" for="work-activity__goal">Цель</label>
                                 </div>
@@ -324,12 +324,12 @@
                             <td>
                                 <input class="input" type="date" name="government-award__data" v-model="entry['data']"
                                        min="1900-01-01" max="2100-01-01"
-                                       placeholder="Дата награднения" required>
+                                       maxlength="255" placeholder="Дата награднения" required>
                             </td>
                             <td>
                                 <input class="input" id="government-award__reward" type="text"
                                        name="government-award__reward"
-                                       v-model="entry['reward']" placeholder="Медаль, Почетная грамота" required>
+                                       maxlength="255" v-model="entry['reward']" placeholder="Медаль, Почетная грамота" required>
                                 <div class="label-box">
                                     <label class="label" for="government-award__reward">Награда</label>
                                 </div>
@@ -352,7 +352,7 @@
                         <div class="col">
                             <input class="input" id="military-duty__rank" type="text"
                                    v-model="formData.candidateMilitaryRank" name="military-duty__rank"
-                                   placeholder="Cержант" required>
+                                   maxlength="255" placeholder="Cержант" required>
                             <div class="label-box">
                                 <label class="label" for="military-duty__rank">Воинское звание</label>
                             </div>
@@ -360,7 +360,7 @@
                         <div class="col">
                             <input class="input" id="military-duty__composition" type="text"
                                    v-model="formData.candidateMilitaryComposition"
-                                   name="military-duty__composition" placeholder="Рота" required>
+                                   maxlength="255" name="military-duty__composition" placeholder="Рота" required>
                             <div class="label-box">
                                 <label class="label" for="military-duty__composition">Состав</label>
                             </div>
@@ -368,7 +368,7 @@
                         <div class="col">
                             <input class="input" id="military-duty__branch" type="text"
                                    v-model="formData.candidateMilitaryBranch" name="military-duty__branch"
-                                   placeholder="Мотострелковые войска" required>
+                                   maxlength="255" placeholder="Мотострелковые войска" required>
                             <div class="label-box">
                                 <label class="label" for="military-duty__branch">Род войск</label>
                             </div>
@@ -395,7 +395,7 @@
                             <td>
                                 <input class="input" id="family-status__name" type="text" name="family-status__name"
                                        v-model="entry['name']" placeholder="Иван"
-                                       required>
+                                       maxlength="255" required>
                                 <div class="label-box">
                                     <label class="label" for="family-status__name">Имя</label>
                                 </div>
@@ -403,7 +403,7 @@
                             <td>
                                 <input class="input" id="family-status__surname" type="text"
                                        name="family-status__surname" v-model="entry['surname']"
-                                       placeholder="Иванов" required>
+                                       maxlength="255" placeholder="Иванов" required>
                                 <div class="label-box">
                                     <label class="label" for="family-status__surname">Фамилия</label>
                                 </div>
@@ -411,7 +411,7 @@
                             <td>
                                 <input class="input" id="family-status__patronymic" type="text"
                                        name="family-status__patronymic"
-                                       v-model="entry['patronymic']" placeholder="Иванович" required>
+                                       maxlength="255" v-model="entry['patronymic']" placeholder="Иванович" required>
                                 <div class="label-box">
                                     <label class="label" for="family-status__patronymic">Отчество</label>
                                 </div>
@@ -421,13 +421,13 @@
                                 <input class="input" id="family-status__birthday" type="date"
                                        name="family-status__birthday"
                                        v-model="entry['birthday']" min="1900-01-01" max="2100-01-01"
-                                       placeholder="Дата рождения" required>
+                                       maxlength="255" placeholder="Дата рождения" required>
                             </td>
                             <td>
                                 <input class="input" id="family-status__telephone" type="tel"
                                        name="family-status__telephone"
                                        v-model="entry['telephone']" v-mask="'+7 (###)-###-##-##'"
-                                       placeholder="+7 (999)-999-99-99" required>
+                                       maxlength="255" placeholder="+7 (999)-999-99-99" required>
                                 <div class="label-box">
                                     <label class="label" for="family-status__telephone">Контактный телефон</label>
                                 </div>
@@ -450,7 +450,7 @@
                             <input class="input" id="contact-information__address" type="text"
                                    v-model="formData.candidateHomeAddress"
                                    name="contact-information__address" placeholder="г. Москва, ул. Ленина, д. 12"
-                                   required>
+                                   maxlength="255" required>
                             <div class="label-box">
                                 <label class="label" for="contact-information__address">Домашний адрес</label>
                             </div>
@@ -459,7 +459,7 @@
                             <input class="input" id="contact-information__telephone" type="tel"
                                    v-model="formData.candidatePhone"
                                    name="contact-information__telephone" v-mask="'+7 (###)-###-##-##'"
-                                   placeholder="+7 (999)-999-99-99" required>
+                                   maxlength="255" placeholder="+7 (999)-999-99-99" required>
                             <div class="label-box">
                                 <label class="label" for="contact-information__telephone">Контактный телефон</label>
                             </div>
@@ -472,7 +472,7 @@
                         <div class="col">
                             <input class="input" id="passport-data__passport-series" type="text"
                                    v-model="formData.candidatePassportSeries"
-                                   name="passport-data__passport-series" v-mask="'####'" placeholder="1111" required>
+                                   maxlength="255" name="passport-data__passport-series" v-mask="'####'" placeholder="1111" required>
                             <div class="label-box">
                                 <label class="label" for="passport-data__passport-series">Серия паспорта</label>
                             </div>
@@ -481,7 +481,7 @@
                             <input class="input" id="passport-data__passport-number" type="text"
                                    v-model="formData.candidatePassportNumber"
                                    name="passport-data__passport-number" v-mask="'######'" placeholder="111111"
-                                   required>
+                                   maxlength="255" required>
                             <div class="label-box">
                                 <label class="label" for="passport-data__passport-number">Номер паспорта</label>
                             </div>
@@ -489,7 +489,7 @@
                         <div class="col">
                             <input class="input" id="passport-data__passport-issued" type="text"
                                    v-model="formData.candidatePassportGiven"
-                                   name="passport-data__passport-issued" placeholder="Отделом УФМС России по " required>
+                                   maxlength="255" name="passport-data__passport-issued" placeholder="Отделом УФМС России по " required>
                             <div class="label-box">
                                 <label class="label" for="passport-data__passport-issued">Кем выдан</label>
                             </div>
@@ -502,7 +502,7 @@
                         <div class="col">
                             <input class="input" id="additional-docs__inn" type="text" v-model="formData.candidateInn"
                                    name="additional-docs__inn" v-mask="'############'" placeholder="111111111111"
-                                   required>
+                                   maxlength="255" required>
                             <div class="label-box">
                                 <label class="label" for="additional-docs__inn">ИНН</label>
                             </div>
@@ -510,7 +510,7 @@
                         <div class="col">
                             <input class="input" id="additional-docs__PFR" type="text" v-model="formData.candidatePfr"
                                    name="additional-docs__PFR" v-mask="'###-###-###-##'" placeholder="111-111-111-11"
-                                   required>
+                                   maxlength="255" required>
                             <div class="label-box">
                                 <label class="label" for="additional-docs__PFR">СНИЛС(ПФР)</label>
                             </div>
@@ -553,7 +553,7 @@
                         <tbody>
                         <tr v-for="(entry, index) in tableFiles">
                             <td>
-                                <input class="form-control" type="text" v-model="entry['title']"
+                                <input maxlength="255" class="form-control" type="text" v-model="entry['title']"
                                        placeholder="Название файла" required>
                             </td>
                             <td>
@@ -570,14 +570,6 @@
                     </table>
                     <button class="btn btn-primary" type="button" @click="generateRow(tableFiles)">Добавить ряд</button>
                 </section>
-                <br><br>
-                <div class="form-group">
-                    <div class="label-box">
-                        <label class="col-form-label" for="email">Email для обратной связи:</label>
-                    </div>
-                    <input id="email" type="email" class="form-control" placeholder="contact@mail.ru" v-model="formData.candidateEmail" required>
-
-                </div>
                 <button type="submit" class="btn btn-form btn-outline-success">Отправить</button>
                 <div v-html="debugbody"></div>
             </form>
@@ -626,8 +618,7 @@
                     candidatePassportGiven: '',
                     candidateInn: '',
                     candidatePfr: '',
-                    candidateBiography: '',
-                    candidateEmail: ''
+                    candidateBiography: ''
                 },
                 debugbody: ''
             }
@@ -796,8 +787,7 @@
                 candidatePassportGiven: 'otdelenie',
                 candidateInn: '123123123123',
                 candidatePfr: '11111111111',
-                candidateBiography: 'dlinnaya avtobiografiya',
-                candidateEmail: 'qwer@qwer.ru'
+                candidateBiography: 'dlinnaya avtobiografiya'
             }
         }
     }

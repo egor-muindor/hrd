@@ -8,7 +8,7 @@
                         <div class="row">
                             <a class="btn btn-secondary" href="{{ route('head.index') }}">Назад</a>
                             <div class="col text-center">
-                                <h2>Список кандидатов</h2>
+                                <h2>Список зарегистрированных соискателей</h2>
                             </div>
                         </div>
                         <hr>

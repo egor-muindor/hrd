@@ -1,29 +1,27 @@
 @extends('layouts.app')
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-10">
+        <div class="col-6">
+            @include('layouts.message_block')
             <div class="container">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
                             <a class="btn btn-secondary" href="{{ route('head.index') }}">Назад</a>
                             <div class="col text-center">
-                                <h2>Добавить кандидата</h2>
+                                <h2>Добавить соискателя</h2>
                             </div>
                         </div>
                         <hr>
-                        <form action="{{ route('candidate.store') }}" method="post">
+                        <form action="{{ route('invites.store') }}" method="post">
                             @csrf
+                            <p class="text-info">На электронную почту соискателя будет отправлено письмо, со ссылкой на регистрацию в системе</p>
                             <div class="form-group">
-                                <label for="email" class="col-form-label">Введите электронную почту кандидата:</label>
-                                <input id="email" class="form-control" name="email" type="text" placeholder="Email">
-                            </div>
-                            <div class="form-group">
-                                <label for="password" class="col-form-label">Введите пароль:</label>
-                                <input id="password" class="form-control" name="password" type="text" placeholder="Пароль">
+                                <label for="email" class="col-form-label">Введите электронную почту соискателя:</label>
+                                <input id="email" class="form-control" name="email" type="email" placeholder="Email">
                             </div>
                             <div class="text-right">
-                                <button type="submit" class="btn btn-primary">Создать</button>
+                                <button type="submit" class="btn btn-primary">Отправить приглашение</button>
                             </div>
                         </form>
                     </div>

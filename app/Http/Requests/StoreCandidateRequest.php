@@ -37,8 +37,9 @@ class StoreCandidateRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|unique:candidates,email',
-            'password' => 'required'
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'rules' => 'accepted',
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreApplicationRequest;
+use App\Http\Requests\StoreCandidateRequest;
 use App\Jobs\ExportTo1C;
 use App\Models\AbroadData;
 use App\Models\Addiction;
@@ -11,6 +12,7 @@ use App\Models\AwardData;
 use App\Models\Candidate;
 use App\Models\EducationData;
 use App\Models\FamilyData;
+use App\Models\Invite;
 use App\Models\WorkData;
 
 use Exception;
@@ -18,12 +20,14 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use SoapClient;
 use Storage;
 
 
 class RegistratorController extends Controller
 {
-    public function auth(){
+    public function auth()
+    {
         return view('external.auth_candidate');
     }
 
@@ -44,8 +48,8 @@ class RegistratorController extends Controller
     {
         $candidate = Candidate::whereEmail($request->email)->first();
         if (!empty($candidate)) {
-            $hash = Hash::check($request->input('password'),$candidate->password);
-            if ($hash){
+            $hash = Hash::check($request->input('password'), $candidate->password);
+            if ($hash) {
                 $token = Hash::make(Str::random());
                 $candidate->update(['remember_token' => $token]);
                 return redirect(route('registration.create'))->cookie('candidate_token', $token);
@@ -57,6 +61,43 @@ class RegistratorController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function registrationCandidate(Request $request)
+    {
+        $invite = Invite::whereToken($request->input('token'))->get()
+            ->firstWhere('email', '=', $request->input('email'));
+        if ($invite === null) {
+            return view('external.register_timeout');
+        }
+        return view('external.register', compact('invite'));
+    }
+
+    public function register(StoreCandidateRequest $request){
+        $invite = Invite::whereToken($request->input('token'))->get()
+            ->firstWhere('email', '=', $request->input('email'));
+        if ($invite === null) {
+            return back()->withInput()->withErrors('Ошибка регистрации');
+        }
+        $data = [
+            'email' => $invite->email,
+            'password' => \Hash::make($request->input('password')),
+            'head_name' => $invite->head_name,
+            'status' => 'Не отправлено'
+        ];
+
+        $newCandidate = new Candidate($data);
+        $result = $newCandidate->save();
+        if ($result) {
+            $invite->forceDelete();
+            return redirect(route('registration.auth'));
+        }
+
+        return back()->withInput()->withErrors('Ошибка сохранения');
+    }
+
     public function index()
     {
         return view('external.main_page');
@@ -65,7 +106,15 @@ class RegistratorController extends Controller
     public function lk_candidate(Request $request)
     {
         $candidate = Candidate::whereRememberToken($request->cookie('candidate_token'))->first();
-        if ($request->input('success') === "1"){
+        if($candidate->status === 'Отправлено в отдел кадров' or $candidate->status === 'На рассмотрении'){
+            $client = new SoapClient(config('app.address_1c'), array( "trace" => false, "exceptions" => true, 'cache_wsdl' => WSDL_CACHE_NONE) ); //для 1с
+            $data = ['UniqueField' => $candidate->uncial_id];
+            $response = $client->GetStatus($data);
+            if($response->return !== null and $response->return !== 'На рассмотрении'){
+                $candidate->update(['status' => $response->return]);
+            }
+        }
+        if ($request->input('success') === "1") {
             return view('external.lk_candidate')->with(['success' => 'Заявка упешно отправлена', 'candidate' => $candidate]);
         }
         return view('external.lk_candidate', compact('candidate'));
@@ -74,6 +123,7 @@ class RegistratorController extends Controller
     /**
      * Возвращает окно заявки
      *
+     * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create(Request $request)
@@ -83,7 +133,11 @@ class RegistratorController extends Controller
 //        } else if(empty(Candidate::whereRememberToken($request->cookie('candidate_token'))->first())){
 //            return redirect(route('registration.auth'));
 //        }
-        return view('external.newRegistrator');
+        $candidate = Candidate::whereRememberToken($request->cookie('candidate_token'))->first();
+        if($candidate->status === 'Не отправлено'){
+            return view('external.newRegistrator');
+        }
+        return redirect(route('registration.lk'));
     }
 
     /**
@@ -96,14 +150,14 @@ class RegistratorController extends Controller
     {
 //        dd(__METHOD__, $request->input());
         $token = Candidate::whereRememberToken($request->cookie('candidate_token'))->first();
-        if (empty($request->cookie('candidate_token'))){
+        if (empty($request->cookie('candidate_token'))) {
             return response()->json(['message' => 'Ошибка авторизации', 'code' => 500]);
-        } else if(empty($token)){
+        } else if (empty($token)) {
             return response()->json(['message' => 'Ошибка авторизации', 'code' => 500]);
         }
         $rawData = $request->input();
 
-        if(!empty($request->file('avatar'))){
+        if (!empty($request->file('avatar'))) {
             $avatar = Storage::putFile('public/docs', $request->file('avatar'));
         } else {
             $avatar = null;
@@ -132,7 +186,6 @@ class RegistratorController extends Controller
             'Pfr' => $rawData['formData']['candidatePfr'],
             'Biography' => $rawData['formData']['candidateBiography'],
             'avatar' => $avatar,
-            'email' => $rawData['formData']['candidateEmail']
         ]);
         $candidate->save();
 //        dd($candidate->avatar);
@@ -192,11 +245,11 @@ class RegistratorController extends Controller
         }
 
 //        dd(__METHOD__);
-        if(!empty($request->all(['files'])['files'])){
+        if (!empty($request->all(['files'])['files'])) {
             $files = $request->all(['files'])['files'];
             $titles = $request->input('title');
             $count = count($files);
-            for ($i = 0; $i < $count; $i++){
+            for ($i = 0; $i < $count; $i++) {
                 $file = Storage::putFile('public/docs', $files[$i]);
                 if ($file) {
                     $addiction_data = [
@@ -206,7 +259,7 @@ class RegistratorController extends Controller
                     ];
                     $addiction = new Addiction($addiction_data);
                     $addiction->save();
-                    if (!$addiction){
+                    if (!$addiction) {
                         return back()->withErrors(['msg' => 'Ошибка сохранения (#5)'])->withInput();
                     }
                 } else {
