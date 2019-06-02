@@ -41,7 +41,7 @@ class CreateApplicationsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('candidate_id')->references('id')->on('candidates');
+            $table->foreign('candidate_id')->references('id')->on('candidates')->onDelete('cascade');;
         });
     }
 

@@ -21,7 +21,7 @@ class CreateAbroadDataTable extends Migration
             $table->string('goal');
             $table->unsignedBigInteger('candidate_id');
 
-            $table->foreign('candidate_id')->references('id')->on('applications');
+            $table->foreign('candidate_id')->references('id')->on('applications')->onDelete('cascade');;
 
             $table->timestamps();
             $table->softDeletes();

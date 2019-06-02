@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 
 use App\Models\Application;
-use App\Models\Candidate;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -43,7 +42,7 @@ class ExportTo1C implements ShouldQueue
     public function handle()
     {
         try {
-            $client = new SoapClient(config('app.address_1c'), array( "trace" => false, "exceptions" => true, 'cache_wsdl' => WSDL_CACHE_NONE) ); //для 1с
+            $client = new SoapClient(config('app.address_1c'), array("trace" => false, "exceptions" => true, 'cache_wsdl' => WSDL_CACHE_NONE)); //для 1с
             $formData = [
                 $this->application->Surname,
                 $this->application->Name,
@@ -65,10 +64,11 @@ class ExportTo1C implements ShouldQueue
                 $this->application->Inn,
                 $this->application->Pfr,
                 $this->application->Biography,
-                Storage::url($this->application->avatar)];
+                Storage::url($this->application->avatar),
+                $this->application->candidate()->first()->email];
 
             $DataEducation = [];
-            foreach ($this->application->education_data as $education){
+            foreach ($this->application->education_data as $education) {
                 $DataEducation[] = [
                     $education->institution,
                     $education->faculty,
@@ -82,7 +82,7 @@ class ExportTo1C implements ShouldQueue
             }
 
             $DataWork = [];
-            foreach ($this->application->work_data as $work){
+            foreach ($this->application->work_data as $work) {
                 $DataWork[] = [
                     $work->entry,
                     $work->exit,
@@ -91,7 +91,7 @@ class ExportTo1C implements ShouldQueue
                     $work->candidate_id];
             }
             $DataAbroad = [];
-            foreach ($this->application->abroad_data as $abroad){
+            foreach ($this->application->abroad_data as $abroad) {
                 $DataAbroad[] = [
                     $abroad->sinceTime,
                     $abroad->atTime,
@@ -100,7 +100,7 @@ class ExportTo1C implements ShouldQueue
                     $abroad->candidate_id];
             }
             $DataAward = [];
-            foreach ($this->application->award_data as $award){
+            foreach ($this->application->award_data as $award) {
                 $DataAward[] = [
                     $award->data,
                     $award->reward,
@@ -108,7 +108,7 @@ class ExportTo1C implements ShouldQueue
             }
 
             $DataFamily = [];
-            foreach ($this->application->family_data as $family){
+            foreach ($this->application->family_data as $family) {
                 $DataFamily[] = [
                     $family->name,
                     $family->surname,
@@ -120,7 +120,7 @@ class ExportTo1C implements ShouldQueue
             }
 
             $DataFiles = [];
-            foreach ($this->application->addictions()->get() as $file){
+            foreach ($this->application->addictions()->get() as $file) {
                 $url = Storage::url($file->file);
                 $desc = $file->description;
                 $extension = substr(strrchr($url, '.'), 1);
@@ -141,11 +141,11 @@ class ExportTo1C implements ShouldQueue
                 "DataAward" => $DataAward,
                 "DataFamily" => $DataFamily,
                 "DataFiles" => $DataFiles,
-                "domen" => $domen );
+                "domen" => $domen);
 
-
+//            dd(config('app.address_1c'));
             $response = $client->SendApplication($datas); // ответ от 1с
-            if (!empty($response)){
+            if (!empty($response)) {
                 $this->application->candidate()->update(['uncial_id' => $response->return, 'status' => 'Отправлено в отдел кадров']); //Возвращает уникальную ссылку на запись
                 $addictions = $this->application->addictions()->get();
                 foreach ($addictions as $addiction) {

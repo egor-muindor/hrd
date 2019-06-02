@@ -685,7 +685,7 @@
                             window.location = '/candidate?success=1';
 
                         }
-                        this.debugbody = response['body'];
+                        // this.debugbody = response['body'];
 
                     }).catch(error => {
                     let errors = [];
@@ -741,6 +741,7 @@
             }
         },
         mounted() {
+            return null;
             // Тестовые данные!
             this.tableDataEducation = [
                 {

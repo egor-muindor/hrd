@@ -13,7 +13,7 @@ use Mail;
 class InviteController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Возвращает страницу со списком активных инвайтов
      *
      * @return \Illuminate\Http\Response
      */
@@ -24,7 +24,7 @@ class InviteController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Возвращает страницу создания инвайта
      *
      * @return \Illuminate\Http\Response
      */
@@ -34,7 +34,7 @@ class InviteController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Функция создания новой инвайт ссылки и отправляет на почту
      *
      * @param StoreInviteRequest $request
      * @return \Illuminate\Http\Response
@@ -55,6 +55,13 @@ class InviteController extends Controller
         return back()->with(['success' => 'Сообщение отправлено']);
     }
 
+    /**
+     * Повторно отправляет инвайт на почту соискателя.
+     * Старый инвайт становиться недействительным.
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function retry(Request $request){
         $invite = Invite::findOrFail($request->input(['id']));
         $token = Hash::make($invite->email);
@@ -64,14 +71,4 @@ class InviteController extends Controller
         return response(['message' => 'Отправлено']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

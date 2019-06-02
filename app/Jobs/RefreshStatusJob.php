@@ -16,11 +16,12 @@ class RefreshStatusJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     private $candidate;
     public $tries = 1;
+    public $timeout = 5;
 
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param $candidate
      */
     public function __construct($candidate)
     {
@@ -35,14 +36,22 @@ class RefreshStatusJob implements ShouldQueue
     public function handle()
     {
         try {
-            $client = new SoapClient(config('app.address_1c'), array("trace" => false, "exceptions" => true, 'cache_wsdl' => WSDL_CACHE_NONE));
-            $data = ['UniqueField' => $this->candidate->uncial_id];
-            $response = $client->GetStatus($data);
-            if($response->return !== null and $response->return !== 'На рассмотрении'){
-                $this->update(['status' => $response->return]);
-            }
-        } catch (Exception $e) {
-            Log::info('Error', [$e]);
-        } //для 1с
+            $client = new SoapClient(config('app.address_1c'),
+                array('connection_timeout' => 2, "trace" => false, "exceptions" => true));
+        } catch (\SoapFault $e) {
+            $this->fail();
+        } finally {
+            try {
+                $data = ['UniqueField' => $this->candidate->uncial_id];
+                $response = $client->GetStatus($data);
+                if ($response->return !== null and $response->return !== 'На рассмотрении') {
+                    $this->update(['status' => $response->return]);
+                }
+                $this->delete();
+            } catch (Exception $e) {
+                Log::info('Error', [$e]);
+                $this->fail();
+            } //для 1с
+        }
     }
 }

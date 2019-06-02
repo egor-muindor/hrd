@@ -15,25 +15,29 @@ use App\Models\EducationData;
 use App\Models\FamilyData;
 use App\Models\Invite;
 use App\Models\WorkData;
-
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Log;
-use SoapClient;
 use Storage;
 
 
 class RegistratorController extends Controller
 {
+    /**
+     * Возвращает страницу авторизации соискателя
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function auth()
     {
         return view('external.auth_candidate');
     }
 
     /**
+     * Разлогинивает соискателя
+     *
      * @param Request $request
      * @return RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -43,6 +47,8 @@ class RegistratorController extends Controller
     }
 
     /**
+     * Функция авторизации кандидата
+     *
      * @param Request $request
      * @return RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -64,6 +70,8 @@ class RegistratorController extends Controller
     }
 
     /**
+     * Обработка инвайт ссылки для регистрации соискателя
+     *
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -77,7 +85,14 @@ class RegistratorController extends Controller
         return view('external.register', compact('invite'));
     }
 
-    public function register(StoreCandidateRequest $request){
+    /**
+     * Функция создания учетной записи соискателя
+     *
+     * @param StoreCandidateRequest $request
+     * @return RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function register(StoreCandidateRequest $request)
+    {
         $invite = Invite::whereToken($request->input('token'))->get()
             ->firstWhere('email', '=', $request->input('email'));
         if ($invite === null) {
@@ -100,15 +115,27 @@ class RegistratorController extends Controller
         return back()->withInput()->withErrors('Ошибка сохранения');
     }
 
+    /**
+     * Возвращает главную страницу сайта
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         return view('external.main_page');
     }
 
+    /**
+     * Возвращает главную страницу личного кабинета соискателя
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function lk_candidate(Request $request)
     {
         $candidate = Candidate::whereRememberToken($request->cookie('candidate_token'))->first();
-        if($candidate->status === 'Отправлено в отдел кадров' or $candidate->status === 'На рассмотрении'){
+        if ($candidate->status === 'Направлено в отдел кадров' or $candidate->status === 'На рассмотрении') {
+//            dd($candidate);
             RefreshStatusJob::dispatch($candidate);
         }
         if ($request->input('success') === "1") {
@@ -118,39 +145,35 @@ class RegistratorController extends Controller
     }
 
     /**
-     * Возвращает окно заявки
+     * Возвращает окно заявки, если она ещё не подана
      *
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create(Request $request)
     {
-//        if (empty($request->cookie('candidate_token'))){
-//            return redirect(route('registration.auth'));
-//        } else if(empty(Candidate::whereRememberToken($request->cookie('candidate_token'))->first())){
-//            return redirect(route('registration.auth'));
-//        }
         $candidate = Candidate::whereRememberToken($request->cookie('candidate_token'))->first();
-        if($candidate->status === 'Не отправлено'){
+        if ($candidate->status === 'Не отправлено') {
             return view('external.newRegistrator');
         }
-        return redirect(route('registration.lk'));
+        return redirect(route('registration.lk'))->withErrors(['message' => 'Заявление уже отправлено в отдел кадров']);
     }
 
     /**
-     * Отправляет новую заявку в 1С
+     * Функция обработки заявки от соискателя
      *
      * @param StoreApplicationRequest $request
      * @return RedirectResponse
      */
     public function store(StoreApplicationRequest $request)
     {
-//        dd(__METHOD__, $request->input());
         $token = Candidate::whereRememberToken($request->cookie('candidate_token'))->first();
         if (empty($request->cookie('candidate_token'))) {
             return response()->json(['message' => 'Ошибка авторизации', 'code' => 500]);
         } else if (empty($token)) {
             return response()->json(['message' => 'Ошибка авторизации', 'code' => 500]);
+        } else if ($token->status !== 'Не отправлено') {
+            return response()->json(['message' => 'Заявление уже существует', 'code' => 500]);
         }
         $rawData = $request->input();
 
@@ -185,7 +208,6 @@ class RegistratorController extends Controller
             'avatar' => $avatar,
         ]);
         $candidate->save();
-//        dd($candidate->avatar);
         $id = $candidate->id;
         foreach ($rawData['DataEducation'] as $data) {
             $educationData = new EducationData([
@@ -240,8 +262,6 @@ class RegistratorController extends Controller
             ]);
             $familyData->save();
         }
-
-//        dd(__METHOD__);
         if (!empty($request->all(['files'])['files'])) {
             $files = $request->all(['files'])['files'];
             $titles = $request->input('title');
@@ -263,7 +283,6 @@ class RegistratorController extends Controller
                     return back()->withErrors(['msg' => 'Ошибка сохранения (#4)'])->withInput();
                 }
             }
-//            dd(__METHOD__, $candidate->addictions()->get());
         }
         $candidate->candidate()->update(['status' => 'Направлено в отдел кадров']);
         try {

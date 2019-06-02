@@ -17,7 +17,7 @@
             <div class="container">
                 <div class="card">
                     <div class="card-body">
-                        <h2>Личный кабинет кандидата</h2>
+                        <h2>Личный кабинет соискателя</h2>
 
                         <nav class="navbar">
                             @if($candidate->status === 'Не отправлено')
