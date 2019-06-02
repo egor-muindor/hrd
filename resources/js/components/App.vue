@@ -115,16 +115,16 @@
                                 </select>
                             </td>
                             <td>
-                                <input class="input" id="admission-year" type="number" min="1900" max="2099" step="1"
-                                       name="admission-year"
+                                <input class="input" id="admission-year" type="text" min="1900" max="2099" step="1"
+                                       name="admission-year" v-mask="'####'"
                                        maxlength="255" v-model="entry['admissionYear']" placeholder="2018" required>
                                 <div class="label-box">
                                     <label class="label" for="admission-year">Год поступления</label>
                                 </div>
                             </td>
                             <td>
-                                <input class="input" type="number" min="1900" max="2099" step="1" name="graduation-year"
-                                       maxlength="255" v-model="entry['graduationYear']" placeholder="2018" required>
+                                <input class="input" type="text" min="1900" max="2099" step="1" name="graduation-year"
+                                       maxlength="255" v-model="entry['graduationYear']" placeholder="2018" v-mask="'####'" required>
                                 <div class="label-box">
                                     <label class="label" for="graduation-year">Год окончания</label>
                                 </div>

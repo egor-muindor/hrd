@@ -134,7 +134,8 @@ class RegistratorController extends Controller
     public function lk_candidate(Request $request)
     {
         $candidate = Candidate::whereRememberToken($request->cookie('candidate_token'))->first();
-        if ($candidate->status === 'Направлено в отдел кадров' or $candidate->status === 'На рассмотрении') {
+        if (in_array($candidate->status, ['Направлено в отдел кадров',
+            'Отправлено в отдел кадров', 'На рассмотрении']) ) {
 //            dd($candidate);
             RefreshStatusJob::dispatch($candidate);
         }

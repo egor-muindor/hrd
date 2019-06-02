@@ -145,8 +145,10 @@ class ExportTo1C implements ShouldQueue
 
 //            dd(config('app.address_1c'));
             $response = $client->SendApplication($datas); // ответ от 1с
+            Log::info('[ERROR]', [$response]);
             if (!empty($response)) {
                 $this->application->candidate()->update(['uncial_id' => $response->return, 'status' => 'Отправлено в отдел кадров']); //Возвращает уникальную ссылку на запись
+                Storage::delete($this->application->avatar);
                 $addictions = $this->application->addictions()->get();
                 foreach ($addictions as $addiction) {
                     // тут можно обработать все приложения перед удалением
