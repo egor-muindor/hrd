@@ -584,6 +584,7 @@
         props: {
             csrf: String,
             route: String,
+            debug: Boolean,
         },
         data: function () {
             return {
@@ -597,7 +598,6 @@
                 tableFiles: [],
                 cropStatus: '',
                 cropFlag: false,
-                // sex: 'Муж',
                 formData: {
                     candidateSurname: '',
                     candidateName: '',
@@ -680,20 +680,17 @@
                         emulateJSON: true
                     })
                     .then(response => {
-                        // let resp = response['body'].json();
-                        if (response['body']['code'] == 200) {
+                        if (response['body']['code'] == 200 && !this.debug) {
                             window.location = '/candidate?success=1';
-
                         }
-                        // this.debugbody = response['body'];
+                        this.debugbody = (this.debug) ? response['body']:'';
 
                     }).catch(error => {
-                    let errors = [];
-                    for (let each in error['body']['errors']) {
-                        errors.push(error['body']['errors'][each][0])
-                    }
-                    console.error(errors);
-                    alert('Ошибки: \n' + errors.join('\n'))
+                        let errors = [];
+                        for (let each in error['body']['errors']) {
+                            errors.push(error['body']['errors'][each][0])
+                        }
+                        alert('Ошибки: \n' + errors.join('\n'))
                 })
             },
 
@@ -741,7 +738,7 @@
             }
         },
         mounted() {
-            return null;
+            // return null;
             // Тестовые данные!
             this.tableDataEducation = [
                 {

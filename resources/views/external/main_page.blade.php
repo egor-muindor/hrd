@@ -11,7 +11,7 @@
                                     руководителя</a>
                                 <hr>
                             @else
-                                <a class="btn btn-outline-primary" href="{{route('head.index')}}">Панель управления руководителя</a>
+                                <a class="btn btn-outline-primary" href="{{route('head.index')}}">Панель управления сотрудника</a>
                                 <hr>
                             @endguest
                             <a class="btn btn-outline-primary" href="{{route('registration.lk')}}">Личный кабинет кандидата</a>

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\StoreCandidateRequest;
 use App\Jobs\ExportTo1C;
-use App\Jobs\RefreshStatusJob;
 use App\Models\AbroadData;
 use App\Models\Addiction;
 use App\Models\Application;
@@ -134,11 +133,6 @@ class RegistratorController extends Controller
     public function lk_candidate(Request $request)
     {
         $candidate = Candidate::whereRememberToken($request->cookie('candidate_token'))->first();
-        if (in_array($candidate->status, ['Направлено в отдел кадров',
-            'Отправлено в отдел кадров', 'На рассмотрении']) ) {
-//            dd($candidate);
-            RefreshStatusJob::dispatch($candidate);
-        }
         if ($request->input('success') === "1") {
             return view('external.lk_candidate')->with(['success' => 'Заявка упешно отправлена', 'candidate' => $candidate]);
         }
@@ -285,7 +279,7 @@ class RegistratorController extends Controller
                 }
             }
         }
-        $candidate->candidate()->update(['status' => 'Направлено в отдел кадров']);
+        $candidate->candidate()->update(['status' => 'Отправлено в отдел кадров']);
         try {
             ExportTo1C::dispatch($candidate);
         } catch (Exception $error) {

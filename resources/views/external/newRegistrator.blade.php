@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <apps csrf="{{ csrf_token() }}" route="{{ route('registration.store') }}"></apps>
+    <apps debug="false" csrf="{{ csrf_token() }}" route="{{ route('registration.store') }}"></apps>
 @endsection
 
 <style media="screen">
