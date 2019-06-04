@@ -15,5 +15,6 @@ class CandidateApiController extends Controller
     public function updateStatus(CandidateStatusUpdateRequest $request){
         $candidate = Candidate::whereUncialId($request->input('id'))->firstOrFail();
         $candidate->update(['status' => $request->input('status')]);
+        return response('OK');
     }
 }

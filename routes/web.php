@@ -42,3 +42,11 @@ Route::get('/cp/candidate/invite-list', 'InviteController@index')->name('invites
 Route::post('/cp/candidate/invite/retry', 'InviteController@retry')->name('invites.retry')
     ->middleware(\App\Http\Middleware\Authenticate::class);
 
+Route::get('/cp/admin/create-user', 'HeadController@createUser')
+    ->middleware(\App\Http\Middleware\Admin::class)->name('admin.user.create');
+Route::post('/cp/admin/user/create', 'HeadController@storeUser')
+    ->middleware(\App\Http\Middleware\Admin::class)->name('admin.user.store');
+Route::get('/cp/admin/user', 'HeadController@indexUser')
+    ->middleware(\App\Http\Middleware\Admin::class)->name('admin.user.index');
+Route::delete('/cp/admin/user', 'HeadController@destroy')
+    ->middleware(\App\Http\Middleware\Admin::class)->name('admin.user.delete');

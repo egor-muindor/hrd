@@ -36,6 +36,18 @@
             </div>
         </div>
     </div>
+    @if($candidates->total() > $candidates->count())
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body">
+                        {{ $candidates->links() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
 @endsection
 

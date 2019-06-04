@@ -59,7 +59,7 @@ class RegistratorController extends Controller
             if ($hash) {
                 $token = Hash::make(Str::random());
                 $candidate->update(['remember_token' => $token]);
-                return redirect(route('registration.create'))->cookie('candidate_token', $token);
+                return redirect(route('registration.lk'))->cookie('candidate_token', $token);
             } else {
                 return back()->withInput()->withErrors('Неверная почта или пароль');
             }

@@ -8,7 +8,7 @@
                         <div class="text-center">
                             @guest
                                 <a class="btn btn-outline-primary" href="{{route('login')}}">Авторизация
-                                    руководителя</a>
+                                    сотрудника</a>
                                 <hr>
                             @else
                                 <a class="btn btn-outline-primary" href="{{route('head.index')}}">Панель управления сотрудника</a>

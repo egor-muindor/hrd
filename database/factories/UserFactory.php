@@ -21,5 +21,6 @@ $factory->define(User::class, function (Faker $faker) {
         'email_verified_at' => now(),
         'password' => '$2y$10$EnJoabyvLO8UGTuqrHxHPufOpg0ZPXSAFB22yKCd1aLGgGHMSE4sS', // password "12345678"
         'remember_token' => '4VscQNcXaSODzPHlL12XuQs05F0yJdFfNBspQenQGxe4hNp8IIc2dUBr9bb2',
+        'is_admin' => true,
     ];
 });

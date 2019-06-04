@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @push ('sctipts')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
 @endpush
 @section('content')
     <div class="row justify-content-center">

@@ -30,6 +30,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property boolean $is_admin
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereIsAdmin($value)
  */
 class User extends Authenticatable
 {
@@ -41,7 +43,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'is_admin'
     ];
 
     /**
@@ -61,4 +63,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Return admin
+     *
+     * @return bool
+     */
+    public function isAdmin() : bool {
+        return $this->is_admin;
+    }
 }
