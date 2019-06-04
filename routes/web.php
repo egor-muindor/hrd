@@ -33,6 +33,9 @@ Route::post('/candidate/add','RegistratorController@store')->name('registration.
 Route::get('/cp', 'HeadController@index')->name('head.index');
 Route::get('/cp/candidate', 'CandidateController@index' )->name('candidate.index');
 
+Route::get('/user/update-password', 'HeadController@updatePasswordForm')->name('user.update.password.form');
+Route::post('/user/update-password', 'HeadController@updatePassword')->name('user.update.password');
+
 Route::get('/cp/candidate/create', 'InviteController@create')->name('invites.create')
     ->middleware(\App\Http\Middleware\Authenticate::class);
 Route::post('/cp/candidate/invite', 'InviteController@store')->name('invites.store')

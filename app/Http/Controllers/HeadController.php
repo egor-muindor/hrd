@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreNewUserRequest;
+use App\Http\Requests\UserUpdatePasswordRequest;
 use App\Models\User;
 use Auth;
 use Carbon\Carbon;
@@ -61,8 +62,33 @@ class HeadController extends Controller
         return view('control_panel.admin.user_list', compact('users'));
     }
 
+    /**
+     * Сбрасывает пароль любого пользователя (из учетной записи администратора)
+     *
+     * @param Request $request
+     */
     public function resetPassword(Request $request){
         dd(__METHOD__, $request);
+    }
+
+    /**
+     * Возвращает форму смены пароля пользователя
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function updatePasswordForm(){
+        return view('control_panel.settings.change_password');
+    }
+    /**
+     * Изменение пароля для пользователя
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function updatePassword(UserUpdatePasswordRequest $request){
+        $user = Auth::user();
+        $user->update(['password' => Hash::make($request->input('password'))]);
+        return redirect(route('head.index'))->with(['success' => 'Пароль успешно изменен']);
     }
 
     /**
