@@ -1,13 +1,13 @@
 @extends('layouts.app')
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-6">
+        <div class="col-md-6">
             @include('layouts.message_block')
             <div class="container">
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-1">
+                            <div class="col-md-1">
                                 <a class="btn btn-secondary" href="{{ route('head.index') }}">Назад</a>
                             </div>
                             <div class="col text-center">
@@ -17,7 +17,7 @@
                     </div>
                     <div class="card-body">
 
-                        <form action="{{ route('admin.user.create') }}" method="post">
+                        <form action="{{ route('admin.user.store') }}" method="post">
                             @csrf
                             <div class="form-group">
                                 <label for="email" class="col-form-label">Электронная почта:</label>

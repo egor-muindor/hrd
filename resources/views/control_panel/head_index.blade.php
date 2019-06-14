@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-10">
+        <div class="col-md-10">
             <div class="container">
                 @include('layouts.message_block')
                 <div class="card">
@@ -22,20 +22,20 @@
                         <h4>Управление аккаунтами соискателей</h4>
 
                         <div class="form-group">
-                            <a class="btn btn-outline-primary" href="{{ route('invites.create') }}">Добавить нового
+                            <a class="btn btn-outline-primary mb-1" href="{{ route('invites.create') }}">Добавить нового
                                 соискателя</a>
-                            <a class="btn btn-outline-primary" href="{{ route('candidate.index') }}">Список
+                            <a class="btn btn-outline-primary mb-1" href="{{ route('candidate.index') }}">Список
                                 соискателей</a>
-                            <a class="btn btn-outline-primary" href="{{ route('invites.index') }}">Список
+                            <a class="btn btn-outline-primary mb-1" href="{{ route('invites.index') }}">Список
                                 приглашений</a>
                         </div>
                         <hr>
                         @if($user->isAdmin())
                             <h4>Управление аккаунтами сотрудников</h4>
                             <div class="form-group">
-                                <a class="btn btn-outline-primary" href="{{ route('admin.user.create') }}">Добавить нового
+                                <a class="btn btn-outline-primary mb-1" href="{{ route('admin.user.create') }}">Добавить нового
                                     сотрудника</a>
-                                <a class="btn btn-outline-primary" href="{{ route('admin.user.index') }}">Список
+                                <a class="btn btn-outline-primary mb-1" href="{{ route('admin.user.index') }}">Список
                                     сотрудников</a>
                             </div>
                         @endif

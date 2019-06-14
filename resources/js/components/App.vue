@@ -584,7 +584,6 @@
         props: {
             csrf: String,
             route: String,
-            debug: Boolean,
         },
         data: function () {
             return {
@@ -680,10 +679,10 @@
                         emulateJSON: true
                     })
                     .then(response => {
-                        if (response['body']['code'] == 200 && !this.debug) {
+                        if (response['body']['code'] == 200) {
                             window.location = '/candidate?success=1';
                         }
-                        this.debugbody = (this.debug) ? response['body']:'';
+                        // this.debugbody = (this.debug) ? response['body']:'';
 
                     }).catch(error => {
                         let errors = [];
@@ -738,7 +737,8 @@
             }
         },
         mounted() {
-            // return null;
+            return null;
+            //
             // Тестовые данные!
             this.tableDataEducation = [
                 {

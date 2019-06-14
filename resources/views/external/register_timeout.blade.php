@@ -1,9 +1,12 @@
 @extends('layouts.app')
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-6">
+        <div class="col-md-6">
             <div class="container">
                 <div class="card">
+                    <div class="card-header">
+                        <h2>Ошибка</h2>
+                    </div>
                     <div class="card-body">
                         <div class="text-center">
                             <h1>Ваша ссылка является недействительной</h1>

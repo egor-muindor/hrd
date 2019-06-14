@@ -4,18 +4,17 @@
 @endpush
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-10">
+        <div class="col-md-10">
             <div class="container">
                 <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <a class="btn btn-secondary" href="{{ route('head.index') }}">Назад</a>
-                            <div class="col text-center">
-                                <h2>Список отправленных приглашений</h2>
-                            </div>
+                    <div class="card-header">
+                        <a class="btn btn-secondary" href="{{ route('head.index') }}">Назад</a>
+                        <div class="col text-center">
+                            <h2>Список отправленных приглашений</h2>
                         </div>
-                        <hr>
-                        <table class="table table-hover">
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-hover table-responsive-sm">
                             <thead>
                             <th>#</th>
                             <th>Email</th>
@@ -48,7 +47,7 @@
     @if($invites->total() > $invites->count())
         <br>
         <div class="row justify-content-center">
-            <div class="col-3">
+            <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
                         {{ $invites->links() }}

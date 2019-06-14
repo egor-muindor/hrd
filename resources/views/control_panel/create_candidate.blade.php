@@ -1,18 +1,17 @@
 @extends('layouts.app')
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-6">
+        <div class="col-md-6">
             @include('layouts.message_block')
             <div class="container">
                 <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <a class="btn btn-secondary" href="{{ route('head.index') }}">Назад</a>
-                            <div class="col text-center">
-                                <h2>Добавить соискателя</h2>
-                            </div>
+                    <div class="card-header">
+                        <a class="btn btn-secondary" href="{{ route('head.index') }}">Назад</a>
+                        <div class="col text-center">
+                            <h2>Добавить соискателя</h2>
                         </div>
-                        <hr>
+                    </div>
+                    <div class="card-body">
                         <form action="{{ route('invites.store') }}" method="post">
                             @csrf
                             <p class="text-info">На электронную почту соискателя будет отправлено письмо, со ссылкой на регистрацию в системе</p>

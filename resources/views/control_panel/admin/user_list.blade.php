@@ -4,7 +4,7 @@
 @endpush
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-10">
+        <div class="col-md-10">
             <div class="container">
                 <div class="card">
                     <div class="card-header">
@@ -35,9 +35,9 @@
                                             <button type="button" class="btn btn-sm btn-danger"
                                                style="margin-bottom: 5px" onclick="delete_user({{ $user->id }})">Удалить</button>
                                         </div>
-                                        <div class="form-row justify-content-center">
-                                            <button type="button" class="btn btn-sm btn-warning">Сбросить пароль</button>
-                                        </div>
+{{--                                        <div class="form-row justify-content-center">--}}
+{{--                                            <button type="button" class="btn btn-sm btn-warning">Сбросить пароль</button>--}}
+{{--                                        </div>--}}
                                     </td>
                                 </tr>
                             @endforeach
