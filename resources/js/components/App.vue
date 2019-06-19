@@ -272,12 +272,12 @@
                         <tbody>
                         <tr v-for="(entry, index) in tableDataAbroad">
                             <td>
-                                <input class="input" type="month" name="work-activity__since-time"
+                                <input class="input" type="date" name="work-activity__since-time"
                                        v-model="entry['sinceTime']" min="1900-01" max="2100-01"
                                        maxlength="255" placeholder="С какого времени" required>
                             </td>
                             <td>
-                                <input class="input" type="month" name="work-activity__at-time"
+                                <input class="input" type="date" name="work-activity__at-time"
                                        v-model="entry['atTime']" min="1900-01" max="2100-01"
                                        maxlength="255" placeholder="По какое время" required>
                             </td>
