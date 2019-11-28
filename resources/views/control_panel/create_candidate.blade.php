@@ -6,15 +6,23 @@
             <div class="container">
                 <div class="card">
                     <div class="card-header">
-                        <a class="btn btn-secondary" href="{{ route('head.index') }}">Назад</a>
-                        <div class="col text-center">
-                            <h2>Добавить соискателя</h2>
+                        <div class="row">
+                            <div class="col-1">
+                                <a
+                                    role="button" tabindex="0" class="btn btn-secondary"
+                                    href="{{ route('head.index') }}"
+                                >Назад</a>
+                            </div>
+                            <div class="col">
+                                <h2 class="text-center">Добавить соискателя</h2>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('invites.store') }}" method="post">
                             @csrf
-                            <p class="text-info">На электронную почту соискателя будет отправлено письмо, со ссылкой на регистрацию в системе</p>
+                            <p class="text-info">На электронную почту соискателя будет отправлено письмо, со ссылкой на
+                                регистрацию в системе</p>
                             <div class="form-group">
                                 <label for="email" class="col-form-label">Введите электронную почту соискателя:</label>
                                 <input id="email" class="form-control" name="email" type="email" placeholder="Email">

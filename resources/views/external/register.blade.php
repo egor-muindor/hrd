@@ -14,13 +14,17 @@
                             <input hidden value="{{ $invite->token }}" name="token">
 
                             <div class="form-group row">
-                                <label for="email"
-                                       class="col-md-4 col-form-label text-md-right">{{ __('E-Mail адрес') }}</label>
+                                <label
+                                    for="email"
+                                    class="col-md-4 col-form-label text-md-right"
+                                >{{ __('E-Mail адрес') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email"
-                                           class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                                           name="email" readonly value="{{$invite->email}}">
+                                    <input
+                                        id="email" type="email"
+                                        class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                        name="email" readonly value="{{$invite->email}}"
+                                    >
 
                                     @if ($errors->has('email'))
                                         <span class="invalid-feedback" role="alert">
@@ -31,13 +35,17 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="password"
-                                       class="col-md-4 col-form-label text-md-right">{{ __('Пароль') }}</label>
+                                <label
+                                    for="password"
+                                    class="col-md-4 col-form-label text-md-right"
+                                >{{ __('Пароль') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="password" type="password"
-                                           class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                           name="password" required>
+                                    <input
+                                        id="password" type="password"
+                                        class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                        name="password" required
+                                    >
 
                                     @if ($errors->has('password'))
                                         <span class="invalid-feedback" role="alert">
@@ -48,20 +56,27 @@
                             </div>
 
                             <div class="form-group row">
-                                <label for="password-confirm"
-                                       class="col-md-4 col-form-label text-md-right">{{ __('Подтвердите пароль') }}</label>
+                                <label
+                                    for="password-confirm"
+                                    class="col-md-4 col-form-label text-md-right"
+                                >{{ __('Подтвердите пароль') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="password-confirm" type="password" class="form-control"
-                                           name="password_confirmation" required>
+                                    <input
+                                        id="password-confirm" type="password" class="form-control"
+                                        name="password_confirmation" required
+                                    >
                                 </div>
                             </div>
                             <div class="form-group row text-center justify-content-center">
                                 <div class="col-md-8 form-check">
-                                    <input class="form-check-input" id="rules" name="rules" required
-                                           type="checkbox">
+                                    <input
+                                        class="form-check-input" id="rules" name="rules" required
+                                        type="checkbox"
+                                    >
                                     <label class="form-check-label text-wrap" for="rules">Я ознакомился с
-                                        <a href="#" class="editor-link">политикой конфиденциальности </a>и принимаю их условия.
+                                        <a href="#" class="editor-link">политикой конфиденциальности </a>и принимаю их
+                                        условия.
                                     </label>
                                 </div>
                             </div>
